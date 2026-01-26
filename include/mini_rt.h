@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   mini_rt.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/26 13:25:10 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/26 14:57:24 by rgohrig          ###   ########.fr       */
+/*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
+/*   Updated: 2026/01/26 14:50:58 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#ifndef MINI_RT_H
+# define MINI_RT_H
+
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <math.h>
 
 
+# include "MLX42.h"
+# include "libft.h"
+# include "ft_printf.h"
 
-int main(void)
-{
+# define BLAKE 0x000000FF
+# define WHITE 0xFFFFFFFF
 
-	printf("test");
-	return (0);
-}
+
+// auto
+int			main(void);
+
+#endif
