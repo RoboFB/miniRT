@@ -6,7 +6,7 @@
 #    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/26 11:27:55 by rgohrig           #+#    #+#              #
-#    Updated: 2026/01/26 14:24:57 by rgohrig          ###   ########.fr        #
+#    Updated: 2026/01/26 15:28:41 by rgohrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ LIBS :=			$(LIBFT) $(LIBMLX) $(LIBMLX_FLAGS)
 # ----------------------------- NORMAL -----------------------------------------
 
 # default Rule
-all: $(LIBFT) $(LIBMLX) $(NAME)
+all: lazy_robin $(LIBFT) $(LIBMLX) $(NAME) #TODO: rm at end lazy_robin
 
 
 
@@ -101,6 +101,27 @@ re: fclean all
 debug: fclean
 debug: CFLAGS += $(DEBUG_FLAGS)
 debug: $(NAME)
+
+
+# ----------------------------- Lazy Robin --------------------------------------
+
+# temporary Rule to update the header file
+lazy_robin:
+	@awk '/ auto/ { exit } { print }' include/mini_rt.h > tmp-auto-header.h
+	@echo '// auto' >> tmp-auto-header.h
+	@awk '/^[a-zA-Z_][a-zA-Z0-9_ \*\t]*\([^\)]*\)[ \t]*$$/ { \
+			last=$$0; \
+			getline; \
+			if ($$0 ~ /^\s*\{/) { \
+					split(last, a, /[ \t]+/); \
+					if (a[1] == "int") sub(/[ \t]+/, "\t\t\t", last); \
+					else sub(/[ \t]+/, "\t\t", last); \
+					print last ";"; \
+			} \
+	}' $(shell find $(DIR_SRC) -type f -name '*.c') | grep -v static >> tmp-auto-header.h
+	@echo "\n#endif" >> tmp-auto-header.h
+	@cmp -s tmp-auto-header.h include/$(NAME).h || mv tmp-auto-header.h include/$(NAME).h
+	@rm -f tmp-auto-header.h
 
 # ----------------------------- Phony ------------------------------------------
 
