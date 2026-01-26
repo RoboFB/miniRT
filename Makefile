@@ -6,7 +6,7 @@
 #    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/26 11:27:55 by rgohrig           #+#    #+#              #
-#    Updated: 2026/01/26 15:28:41 by rgohrig          ###   ########.fr        #
+#    Updated: 2026/01/26 17:37:12 by rgohrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -120,7 +120,7 @@ lazy_robin:
 			} \
 	}' $(shell find $(DIR_SRC) -type f -name '*.c') | grep -v static >> tmp-auto-header.h
 	@echo "\n#endif" >> tmp-auto-header.h
-	@cmp -s tmp-auto-header.h include/$(NAME).h || mv tmp-auto-header.h include/$(NAME).h
+	@cmp -s tmp-auto-header.h include/mini_rt.h || mv tmp-auto-header.h include/mini_rt.h
 	@rm -f tmp-auto-header.h
 
 # ----------------------------- Phony ------------------------------------------
