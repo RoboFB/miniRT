@@ -6,7 +6,7 @@
 #    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/26 11:27:55 by rgohrig           #+#    #+#              #
-#    Updated: 2026/01/26 17:37:12 by rgohrig          ###   ########.fr        #
+#    Updated: 2026/01/27 12:27:33 by rgohrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,11 +21,12 @@
 NAME :=				miniRT
 
 COMPILER :=			cc
+
 DEBUG_FLAGS:=		-fsanitize=address,undefined
-FAST_FLAGS :=		-march=native -O3 # Ofast is mor extreme than O3 alters math stuff
-LINKER_FLAGS :=		-ffast-math -flto
-CFLAGS :=			-Wall -Werror -Wextra -Wdouble-promotion -Wpadded -g3 $(FAST_FLAGS)
-LIBMLX_FLAGS :=	-ldl -lglfw -pthread -lm
+FAST_FLAGS :=		-march=native -O3 # Ofast is more extreme than O3 alters math stuff
+CFLAGS :=			-Wall -Werror -Wextra -Wdouble-promotion -g3 $(FAST_FLAGS)
+LINKER_FLAGS :=		-ffast-math -flto -Wpadded # is Wpadded used here ?
+LIBMLX_FLAGS :=		-ldl -lglfw -pthread -lm
 
 # -ffast -flto ARE LINKER FLAGS
 
@@ -43,7 +44,7 @@ LIBMLX_DIR :=	./MLX42
 LIBMLX :=		$(LIBMLX_DIR)/build/libmlx42.a
 
 
-HEADERS :=		-I $(LIBFT)/include -I $(LIBMLX)/include/MLX42 -I ./include
+HEADERS :=		-I $(LIBFT_DIR)/include -I $(LIBMLX_DIR)/include/MLX42 -I ./include
 LIBS :=			$(LIBFT) $(LIBMLX) $(LIBMLX_FLAGS)
 
 
@@ -60,7 +61,8 @@ $(LIBFT):
 
 $(LIBMLX):
 	@git submodule update --init --recursive
-	@cmake -DDEBUG=1 $(LIBMLX_DIR) -B $(LIBMLX_DIR)/build > /dev/null && make -C $(LIBMLX_DIR)/build -j4 > /dev/null
+# 	@cmake -DDEBUG=1 $(LIBMLX_DIR) -B $(LIBMLX_DIR)/build > /dev/null && make -C $(LIBMLX_DIR)/build -j4 > /dev/null
+	@cmake -DDEBUG=1 $(LIBMLX_DIR) -B $(LIBMLX_DIR)/build && make -C $(LIBMLX_DIR)/build -j4 
 	@echo "   🛠️ 🛠️ 🛠️  MLX42 compiled"
 
 #  -DDEBUG=1 at cmake for debug infos # -DGLFW_FETCH=0 purpose ?
@@ -85,7 +87,7 @@ $(NAME): $(OBJ)
 clean:
 	@rm -rf $(OBJ)
 	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) clean
-	@rm -rf $(LIBMLX_DIR)/build
+# 	@rm -rf $(LIBMLX_DIR)/build
 	@echo 🧹 cleaned $(NAME) objects
 
 fclean: clean
@@ -100,7 +102,7 @@ re: fclean all
 
 debug: fclean
 debug: CFLAGS += $(DEBUG_FLAGS)
-debug: $(NAME)
+debug: all
 
 
 # ----------------------------- Lazy Robin --------------------------------------
