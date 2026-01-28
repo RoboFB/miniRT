@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 13:25:10 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/28 15:02:52 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/01/28 18:47:05 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void test(void)
 	
 	// t_vec3 directions[WIDTH_DEFAULT * HEIGHT_DEFAULT];
 	double scale = tan(cam->fov * (M_PI / 180.0) * 0.5);
-	printf("scale: %f\n", scale);
+	debug_decimal("scale", scale);
 	// ft_bzero(buffer_array, sizeof(t_vec3) * WIDTH_DEFAULT * HEIGHT_DEFAULT);
 	
 	double imageAspectRatio = (double)WIDTH_DEFAULT / (double)HEIGHT_DEFAULT; // assuming width > height
@@ -49,11 +49,10 @@ void test(void)
 	{
 		for (int x = 0; x < WIDTH_DEFAULT; x++)
 		{
-			// printf("Aspect Ratio: %f\n", imageAspectRatio);
 			t_vec3 direction;
 			direction.x = (-1.0 + (2.0 * ((x + 0.5) / (double)WIDTH_DEFAULT)) ) * scale * imageAspectRatio;
 			direction.y = ( 1.0 - (2.0 * ((y + 0.5) / (double)HEIGHT_DEFAULT))) * scale;
-			direction.z = 1.0;
+			direction.z = -1.0;
 			// directions[y * WIDTH_DEFAULT + x].x = (-1.0 + (2.0 * ((x + 0.5) / (double)WIDTH_DEFAULT)) ) * scale * imageAspectRatio;
 			// directions[y * WIDTH_DEFAULT + x].y = ( 1.0 - (2.0 * ((y + 0.5) / (double)HEIGHT_DEFAULT))) * scale;
 			// directions[y * WIDTH_DEFAULT + x].z = 1.0;
@@ -70,7 +69,7 @@ void test(void)
 
 			if ((x == 0 && y == 0) || (x == WIDTH_DEFAULT -1 && y == HEIGHT_DEFAULT -1))
 			{
-				print_vec3("directions", &direction);
+				debug_vec3("directions", &direction);
 			}
 		}
 	}
@@ -87,7 +86,7 @@ int	main(int argc, char const *argv[])
 	(void)argv;
 	// parser(argc, argv);
 	init_data(get_data());
-	// fr_add_hooks(gui);
+	add_hooks(gui);
 	
 	test();
 

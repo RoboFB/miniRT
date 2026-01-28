@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/28 15:08:04 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/01/28 18:22:47 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,35 @@
 // aka ray_color
 t_color_d	ray_to_color(const t_ray *ray)
 {
+	// debug_ray("ray", ray);
 	t_color_d color;
 
-	print_ray("ray", ray);
 
-	t_vec3 center = {0.0,0.0,-1.0};
-	if (hit_sphere(center, 0.5, ray))
+	t_vec3 center = {0.0, 0.0, -1.0};
+	double hit = hit_sphere(center, 0.5, ray);
+	// debug_decimal("hit", hit);
+	if (hit > 0.0)
+	// if (1)
 	{
-		color = (t_color_d){0.5, 0.5, 0.0};
+		printf("HIT SPHERE YES\n");
+		t_vec3 tmp = vec3_sub(ray_get_pos(ray, hit),(t_vec3){0,0,-1});
+		double length2 = sqrt(vec3_combine(vec3_square(tmp)));
+		t_vec3 tmp2 = vec3_div_one(tmp, length2);
+
+		
+
+		color = vec3_to_color_d(vec3_mul_one(vec3_add_one(tmp2, 1.0), 0.5));
 		return (color);
 	}
 
-	
-	print_vec3("direction    ", &ray->direction);
+	// debug_vec3("direction    ", &ray->direction);
 	double length = sqrt(vec3_combine(vec3_square(ray->direction)));
-	printf("length      %f", length);
+	// debug_decimal("length", length);
 	
 	t_vec3 unit_direction = vec3_div_one(ray->direction, length); //?
-	print_vec3("unit_direction", &unit_direction);
+	// debug_vec3("unit_direction", &unit_direction);
 	double a = 0.5*(unit_direction.y + 1.0);
 
-	printf("_num:_          %f\n\n", a);
 	color.r = (1.0 - a) *1.0 + (a * 0.5);
 	color.g = (1.0 - a) *1.0 + (a * 0.7);
 	color.b = (1.0 - a) *1.0 + (a * 1.0);

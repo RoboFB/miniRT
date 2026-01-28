@@ -6,12 +6,12 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/27 20:05:40 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/01/28 18:18:16 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STURCTS_H
-# define STURCTS_H
+#ifndef STRUCTS_H
+# define STRUCTS_H
 
 # include "MLX42.h"
 
@@ -47,7 +47,7 @@ typedef struct s_pixel
 
 
 
-typedef union
+typedef union u_color_256
 {
 	uint8_t		bytes[4];
 	uint32_t	value;

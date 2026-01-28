@@ -6,20 +6,20 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:06:59 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/28 14:54:23 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/01/28 15:37:27 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-void	print_vec3(const char *msg, const t_vec3 *v)
+void	debug_vec3(const char *msg, const t_vec3 *v)
 {
 	if (DEBUG_RT == 0)
 		return ;
 	printf("%s: (%f, %f, %f)\n", msg, v->x, v->y, v->z);
 }
 
-void	print_ray(const char *msg, const t_ray *ray)
+void	debug_ray(const char *msg, const t_ray *ray)
 {
 	if (DEBUG_RT == 0)
 		return ;
@@ -27,4 +27,11 @@ void	print_ray(const char *msg, const t_ray *ray)
 		msg, 
 		ray->origin.x, ray->origin.y, ray->origin.z, 
 		ray->direction.x, ray->direction.y, ray->direction.z);
+}
+
+void	debug_decimal(const char *msg, double d)
+{
+	if (DEBUG_RT == 0)
+		return ;
+	printf("%s: (%.3f)\n", msg, d);
 }
