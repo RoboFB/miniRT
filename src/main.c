@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 13:25:10 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/27 20:08:47 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/01/28 15:02:52 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,11 @@ void test(void)
 			// directions[y * WIDTH_DEFAULT + x].y = ( 1.0 - (2.0 * ((y + 0.5) / (double)HEIGHT_DEFAULT))) * scale;
 			// directions[y * WIDTH_DEFAULT + x].z = 1.0;
 
-			// t_ray ray ={direction, cam->position};
+			t_ray ray;
+			ray.origin = cam->position;
+			ray.direction = direction;
 
-			t_color_d color = direction_to_color(&direction);
+			t_color_d color = ray_to_color(&ray);
 
 
 

@@ -6,22 +6,32 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/27 20:54:36 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/01/28 15:08:04 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "mini_rt.h"
 
-t_color_d	direction_to_color(const t_vec3 *direction)
+// aka ray_color
+t_color_d	ray_to_color(const t_ray *ray)
 {
 	t_color_d color;
 
+	print_ray("ray", ray);
+
+	t_vec3 center = {0.0,0.0,-1.0};
+	if (hit_sphere(center, 0.5, ray))
+	{
+		color = (t_color_d){0.5, 0.5, 0.0};
+		return (color);
+	}
+
 	
-	print_vec3("direction    ", direction);
-	double length = sqrt(vec3_combine(vec3_square(*direction)));
+	print_vec3("direction    ", &ray->direction);
+	double length = sqrt(vec3_combine(vec3_square(ray->direction)));
 	printf("length      %f", length);
 	
-	t_vec3 unit_direction = vec3_div_one(*direction, length); //?
+	t_vec3 unit_direction = vec3_div_one(ray->direction, length); //?
 	print_vec3("unit_direction", &unit_direction);
 	double a = 0.5*(unit_direction.y + 1.0);
 

@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:18:52 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/27 20:52:50 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/01/28 15:00:21 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,28 @@ t_vec3	vec3_square(t_vec3 a)
 	return (a);
 }
 
+t_vec3 vec3_cross(const t_vec3 a, const t_vec3 b)
+{
+	t_vec3 result;
+
+	result.x = a.y * b.z - a.z * b.y;
+	result.y = a.z * b.x - a.x * b.z;
+	result.z = a.x * b.y - a.y * b.x;
+	return (result);
+}
+
 // x + y + z
 double	vec3_combine(t_vec3 a)
 {
 	return (a.x + a.y + a.z);
 }
+
+// dot product of a and b (x1*x2 + y1*y2 + z1*z2)
+double	vec3_dot(const t_vec3 a, const t_vec3 b)
+{
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
+}
+
 
 
 t_vec3 vec3_fabs(const t_vec3 *a)
