@@ -71,7 +71,7 @@ t_color_d		ray_to_color(const t_ray *ray);
 t_color_256		color_d_to_255(t_color_d color);
 t_color_256		get_color_from_vec3(t_vec3 *rayDirection);
 t_color_256		get_color_test(int x, int y);
-double		hit_sphere(t_vec3 start, double radius, const t_ray *ray);
+double		hit_sphere(t_vec3 center, double radius, const t_ray *ray);
 t_color_d		vec3_to_color_d(const t_vec3 v);
 void		add_hooks(t_gui *gui);
 void		hook_key(mlx_key_data_t key_data, t_gui *gui);

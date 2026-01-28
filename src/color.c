@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/28 18:22:47 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/01/28 19:05:30 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ t_color_d	ray_to_color(const t_ray *ray)
 	double hit = hit_sphere(center, 0.5, ray);
 	// debug_decimal("hit", hit);
 	if (hit > 0.0)
-	// if (1)
 	{
-		printf("HIT SPHERE YES\n");
+		// printf("HIT SPHERE YES\n");
 		t_vec3 tmp = vec3_sub(ray_get_pos(ray, hit),(t_vec3){0,0,-1});
 		double length2 = sqrt(vec3_combine(vec3_square(tmp)));
 		t_vec3 tmp2 = vec3_div_one(tmp, length2);
