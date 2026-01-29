@@ -6,19 +6,20 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/28 15:37:18 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/01/28 19:35:35 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINI_RT_H
 # define MINI_RT_H
 
+# define _USE_GNU
+
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <math.h>
 
-# define _USE_MATH_DEFINES
 
 # include "MLX42.h"
 # include "libft.h"
@@ -61,7 +62,7 @@ double		vec3_combine(t_vec3 a);
 double		vec3_dot(const t_vec3 a, const t_vec3 b);
 t_vec3		vec3_fabs(const t_vec3 *a);
 t_vec3		ray_get_pos(const t_ray *ray, double t);
-t_vec3		vec3_normalize(const t_vec3 *a);
+double		degrees_to_radians(double degrees);
 void		debug_vec3(const char *msg, const t_vec3 *v);
 void		debug_ray(const char *msg, const t_ray *ray);
 void		debug_decimal(const char *msg, double d);

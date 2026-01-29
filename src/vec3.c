@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:18:52 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/28 17:03:42 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/01/29 17:16:40 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,7 @@ t_vec3	vec3_inverse(t_vec3 a)
 // x*x + y*y + z*z
 t_vec3	vec3_square(t_vec3 a)
 {
-	a.x = a.x * a.x;
-	a.y = a.y * a.y;
-	a.z = a.z * a.z;
-	return (a);
+	return (vec3_mul(a, a));
 }
 
 t_vec3 vec3_cross(const t_vec3 a, const t_vec3 b)
@@ -138,35 +135,10 @@ t_vec3 vec3_fabs(const t_vec3 *a)
 // origin + direction * t
 t_vec3 ray_get_pos(const t_ray *ray, double t)
 {
-	t_vec3	result;
-	
-	result.x = ray->origin.x + ray->direction.x * t;
-	result.y = ray->origin.y + ray->direction.y * t;
-	result.z = ray->origin.z + ray->direction.z * t;
-	return (result);
+	return (vec3_add(ray->origin, vec3_mul_one(ray->direction, t)));
 }
 
-
-
-// broken ?
-t_vec3	vec3_normalize(const t_vec3 *a)
+double degrees_to_radians(double degrees)
 {
-	double	magnitude;
-	t_vec3	result;
-	
-	result = vec3_mul(*a, *a);
-	magnitude = sqrt(result.x + result.y + result.z);
-	if (magnitude == 0.0)
-	{
-		result.x = 0.0;
-		result.y = 0.0;
-		result.z = 0.0;
-	}
-	else
-	{
-		result.x = a->x / magnitude;
-		result.y = a->y / magnitude;
-		result.z = a->z / magnitude;
-	}
-	return (result);
+	return (degrees * (M_PI / 180.0));
 }

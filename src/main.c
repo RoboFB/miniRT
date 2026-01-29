@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 13:25:10 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/28 18:47:05 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/01/29 17:14:18 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void test(void)
 
 	
 	// t_vec3 directions[WIDTH_DEFAULT * HEIGHT_DEFAULT];
-	double scale = tan(cam->fov * (M_PI / 180.0) * 0.5);
+	double scale = tan(degrees_to_radians(cam->fov) * 0.5);
 	debug_decimal("scale", scale);
 	// ft_bzero(buffer_array, sizeof(t_vec3) * WIDTH_DEFAULT * HEIGHT_DEFAULT);
 	
@@ -53,17 +53,12 @@ void test(void)
 			direction.x = (-1.0 + (2.0 * ((x + 0.5) / (double)WIDTH_DEFAULT)) ) * scale * imageAspectRatio;
 			direction.y = ( 1.0 - (2.0 * ((y + 0.5) / (double)HEIGHT_DEFAULT))) * scale;
 			direction.z = -1.0;
-			// directions[y * WIDTH_DEFAULT + x].x = (-1.0 + (2.0 * ((x + 0.5) / (double)WIDTH_DEFAULT)) ) * scale * imageAspectRatio;
-			// directions[y * WIDTH_DEFAULT + x].y = ( 1.0 - (2.0 * ((y + 0.5) / (double)HEIGHT_DEFAULT))) * scale;
-			// directions[y * WIDTH_DEFAULT + x].z = 1.0;
 
 			t_ray ray;
 			ray.origin = cam->position;
 			ray.direction = direction;
 
 			t_color_d color = ray_to_color(&ray);
-
-
 
 			mlx_put_pixel(get_gui()->buffer_img, x, y, color_d_to_255(color).value);
 
