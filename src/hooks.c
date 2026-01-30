@@ -6,37 +6,40 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:03:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/28 18:43:51 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/01/30 14:11:04 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
 // Main hook function, called every frame
-// void	fr_hook_main(void *gui_void)
-// {
-	// t_data	*gui;
 
-	// gui = (t_data *)gui_void;
-	// gui->pixels_per_frame = 0;
-	// fr_draw_main(gui);
-	// return ;
-// }
+void	hook_main(void *gui_void)
+{
+	const t_gui	*gui = gui_void;
+
+	(void)gui;
+	// if (mlx_get_time() > 20.0)// run for 20 seconds max for testing
+	// 	mlx_close_window(gui->mlx);
+	return ;
+}
 
 // R: void or error_exit
 void	add_hooks(t_gui *gui)
 {
-	// if (!mlx_loop_hook(gui->mlx, fr_hook_main, gui))
-	// 	fr_error_exit(gui, "Storage: adding main loop as hook failed");
-	mlx_key_hook(gui->mlx, (mlx_keyfunc)hook_key, gui);
+	if (!mlx_loop_hook(gui->mlx, hook_main, gui))
+		msg_exit("mlx: adding main loop as hook failed");
+	mlx_key_hook(gui->mlx, hook_key, gui);
 	// mlx_scroll_hook(gui->mlx, fr_hook_scroll, gui);
 	// mlx_resize_hook(gui->mlx, fr_hook_resize, gui);
 	return ;
 }
 
 // Key hook function, called on key presses
-void	hook_key(mlx_key_data_t key_data, t_gui *gui)
+void	hook_key(mlx_key_data_t key_data, void *gui_void)
 {
+	const t_gui	*gui = gui_void;
+
 	if (key_data.action == MLX_PRESS)
 	{
 		if (key_data.key == MLX_KEY_ESCAPE)

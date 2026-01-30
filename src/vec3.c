@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:18:52 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/29 17:16:40 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/01/30 11:49:59 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,17 @@ double	vec3_dot(const t_vec3 a, const t_vec3 b)
 	return (vec3_combine(vec3_mul(a, b)));
 }
 
+// squared length of vector from 0,0,0 to a returns: (length * length)
+double vec3_length_squared(const t_vec3 a)
+{
+	return (vec3_combine(vec3_square(a)));
+}
 
+// length of vector from 0,0,0 to a
+double vec3_length(const t_vec3 a)
+{
+	return (sqrt(vec3_length_squared(a)));
+}
 
 t_vec3 vec3_fabs(const t_vec3 *a)
 {
@@ -130,12 +140,21 @@ t_vec3 vec3_fabs(const t_vec3 *a)
 	return (result);
 }
 
+// convert some vector form length x to length 1 useing imaginary 0,0,0 point
+t_vec3 vec3_normalize(t_vec3 a)
+{
+	double length;
 
+	length = vec3_length(a);
+	if (length == 0.0)
+		return (a);
+	return (vec3_div_one(a, length));
+}
 
 // origin + direction * t
-t_vec3 ray_get_pos(const t_ray *ray, double t)
+t_vec3 ray_get_pos(const t_ray *ray, double length)
 {
-	return (vec3_add(ray->origin, vec3_mul_one(ray->direction, t)));
+	return (vec3_add(ray->origin, vec3_mul_one(ray->direction, length)));
 }
 
 double degrees_to_radians(double degrees)

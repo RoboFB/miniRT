@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/28 19:35:35 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/01/30 11:48:03 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@
 
 # include "structs.h"
 
+#ifndef M_PI
+	# define M_PI		3.14159265358979323846	/* pi */
+#endif
+
+// colors         bgra
+# define BLUE   0xFF0000FF
 # define BLAKE 0x000000FF
 # define WHITE 0xFFFFFFFF
 
@@ -60,21 +66,25 @@ t_vec3		vec3_square(t_vec3 a);
 t_vec3		vec3_cross(const t_vec3 a, const t_vec3 b);
 double		vec3_combine(t_vec3 a);
 double		vec3_dot(const t_vec3 a, const t_vec3 b);
+double		vec3_length_squared(const t_vec3 a);
+double		vec3_length(const t_vec3 a);
 t_vec3		vec3_fabs(const t_vec3 *a);
-t_vec3		ray_get_pos(const t_ray *ray, double t);
+t_vec3		vec3_normalize(t_vec3 a);
+t_vec3		ray_get_pos(const t_ray *ray, double length);
 double		degrees_to_radians(double degrees);
 void		debug_vec3(const char *msg, const t_vec3 *v);
 void		debug_ray(const char *msg, const t_ray *ray);
 void		debug_decimal(const char *msg, double d);
 t_data		*get_data(void);
 t_gui		*get_gui(void);
+t_color_d		vec3_to_color_d(const t_vec3 v);
+void		hook_main(void *gui_void);
+void		add_hooks(t_gui *gui);
+void		hook_key(mlx_key_data_t key_data, void *gui_void);
 t_color_d		ray_to_color(const t_ray *ray);
 t_color_256		color_d_to_255(t_color_d color);
 t_color_256		get_color_from_vec3(t_vec3 *rayDirection);
 t_color_256		get_color_test(int x, int y);
-double		hit_sphere(t_vec3 center, double radius, const t_ray *ray);
-t_color_d		vec3_to_color_d(const t_vec3 v);
-void		add_hooks(t_gui *gui);
-void		hook_key(mlx_key_data_t key_data, t_gui *gui);
+bool		hit_sphere(const t_sphere *sph, const t_ray *ray, double ray_min, double ray_max, t_norm_ray *hit);
 
 #endif

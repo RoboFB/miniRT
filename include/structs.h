@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/28 18:18:16 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/01/30 14:36:49 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,11 @@ typedef struct s_color_d
 	double		b;
 }				t_color_d;
 
-
+typedef struct s_norm_ray
+{
+	t_ray		r;
+	double		length;// factor for ray length
+}				t_norm_ray;
 
 typedef struct s_ambient_light
 {
@@ -91,8 +95,8 @@ typedef struct s_light
 
 typedef struct s_sphere
 {
-	t_vec3		position;
-	double		diameter;
+	t_vec3		center;
+	double		radius;
 	t_color_256		color; // R G B 0-255 no alpha for bonus
 }				t_sphere;
 
