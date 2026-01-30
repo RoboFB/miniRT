@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/30 14:27:38 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/01/30 14:54:44 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,14 @@ t_color_d	ray_to_color(const t_ray *ray)
 
 	if (hit_sphere(&sphere, ray, 0.00001, 100000., &hit))
 	{
-		color = vec3_to_color_d(vec3_mul_one(vec3_add_one(hit.r.direction, 1), 0.5));
+		if (vec3_dot(ray->direction, hit.r.direction) > 0.0)
+		{// ray is inside the sphere
+			color = (t_color_d){1.0, 0.0, 1.0}; // magenta for inside
+		}
+		else
+		{// ray is outside the sphere
+			color = vec3_to_color_d(vec3_mul_one(vec3_add_one(hit.r.direction, 1), 0.5));
+		}
 	}
 	else
 	{

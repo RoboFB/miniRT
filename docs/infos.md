@@ -9,7 +9,13 @@ MinilibX library -> MLX42	(42 Graphics library)
 gettimeofday				(time)
 
 
+# Design decision:
+
+t_norm_ray (normal rays) ray out of a hit points outsiet the opject not insed other than the book is working with! beacous i want to lean and thaink and at the moment its easyer to decied on the coloring and i dont need to change the new t_norm_ray struct.
+
+
 [raytraccer book](https://raytracing.github.io/books/RayTracingInOneWeekend.html#addingasphere/creatingourfirstraytracedimage)
+
 
 
 
