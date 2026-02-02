@@ -14,6 +14,30 @@ gettimeofday				(time)
 t_norm_ray (normal rays) ray out of a hit points outsiet the opject not insed other than the book is working with! beacous i want to lean and thaink and at the moment its easyer to decied on the coloring and i dont need to change the new t_norm_ray struct.
 
 
+
+
+# Execution flow:
+
+init data
+init mlx
+parse file
+init scene
+render the image -> diplay
+
+
+keyboard change:
+change whats needed in the strucks and call render again
+
+
+on error: print error massage then close
+
+close:
+termainte mlx (cleans itself)
+free all
+
+
+
+
 [raytraccer book](https://raytracing.github.io/books/RayTracingInOneWeekend.html#addingasphere/creatingourfirstraytracedimage)
 
 

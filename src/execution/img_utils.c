@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:49:42 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/27 12:21:35 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/02 15:52:27 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,21 @@ void	img_copy(mlx_image_t *change, mlx_image_t *source)
 	return ;
 }
 
-// Updates the screen image with the current image
-void	update_screen(t_gui *gui)
+
+static void	swap_pointers(mlx_image_t** a, mlx_image_t** b)
 {
-	img_copy(gui->img, gui->buffer_img);
+	mlx_image_t*	tmp;
+	
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+
+// Updates the screen image with the current image
+void	swap_screen_imgs(t_gui *gui)
+{
+	gui->img->enabled = true;
+	gui->buffer_img->enabled = false;
+	swap_pointers(&gui->img, &gui->buffer_img);
 	return ;
 }

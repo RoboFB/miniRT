@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:51:34 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/27 18:51:41 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/02 13:33:29 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,17 @@
 
 t_data	*get_data(void)
 {
-	static t_data	gui;
+	static t_data	data;
 
-	return (&gui);
+	return (&data);
 }
 
 t_gui	*get_gui(void)
 {
 	return (&get_data()->gui);
+}
+
+t_scene	*get_scene(void)
+{
+	return (&get_data()->scene);
 }

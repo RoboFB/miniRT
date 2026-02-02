@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:03:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/30 14:11:04 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/02 16:34:53 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	hook_main(void *gui_void)
 void	add_hooks(t_gui *gui)
 {
 	if (!mlx_loop_hook(gui->mlx, hook_main, gui))
-		msg_exit("mlx: adding main loop as hook failed");
+		perror_mlx_exit("Adding main loop as hook failed");
 	mlx_key_hook(gui->mlx, hook_key, gui);
 	// mlx_scroll_hook(gui->mlx, fr_hook_scroll, gui);
-	// mlx_resize_hook(gui->mlx, fr_hook_resize, gui);
+	mlx_resize_hook(gui->mlx, hook_resize, gui);
 	return ;
 }
 
@@ -78,21 +78,25 @@ void	hook_key(mlx_key_data_t key_data, void *gui_void)
 // 	return ;
 // }
 
-// // Resize hook function, called on window resize
-// void	fr_hook_resize(int32_t width, int32_t height, void *gui_void)
-// {
-// 	t_data		*gui;
+// Resize hook function, called on window resize
+void	hook_resize(int32_t width, int32_t height, void *gui_void)
+{
+	t_gui		*gui;
 
-// 	gui = (t_data *)gui_void;
-// 	if ((width != (int)gui->img->width || height != (int)gui->img->height)
-// 		&& width >= 30 && height >= 30
-// 		&& width * height < MAX_CIR_QUEUE_SIZE)
-// 	{
-// 		if (!mlx_resize_image(gui->img, width, height))
-// 			fr_error_exit(gui, "Resize image failed");
-// 		if (!mlx_resize_image(gui->screen_img, width, height))
-// 			fr_error_exit(gui, "Resize image failed");
-// 	}
-// 	fr_reset_moved(gui);
-// 	return ;
-// }
+	gui = gui_void;
+	if ((width == (int32_t)gui->img->width && height == (int32_t)gui->img->height)
+		|| width < 1 || height < 1)//TODO: check if i need to guard for with < hight
+		return ;
+	if (!mlx_resize_image(gui->img, width, height))
+		perror_mlx_exit("Resize image failed");
+	if (!mlx_resize_image(gui->buffer_img, width, height))
+		perror_mlx_exit("Resize image failed");
+
+	// todo: abstract later
+
+	free(get_scene()->all_rays);
+	get_scene()->all_rays = ft_calloc(gui->img->width * gui->img->height, sizeof(t_ray));
+
+	render();
+	return ;
+}
