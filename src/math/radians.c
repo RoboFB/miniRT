@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert.c                                          :+:      :+:    :+:   */
+/*   radians.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/28 16:41:17 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/28 16:52:13 by rgohrig          ###   ########.fr       */
+/*   Created: 2026/02/02 11:05:46 by rgohrig           #+#    #+#             */
+/*   Updated: 2026/02/02 11:06:27 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mini_rt.h"
+# include "mini_rt.h"
 
-t_color_d vec3_to_color_d(const t_vec3 v)
+double degrees_to_radians(double degrees)
 {
-	t_color_d color;
-
-	color.r = v.x;
-	color.g = v.y;
-	color.b = v.z;
-	return (color);
+	return (degrees * (M_PI / 180.0));
 }

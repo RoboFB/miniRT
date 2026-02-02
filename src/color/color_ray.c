@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color.c                                            :+:      :+:    :+:   */
+/*   color_ray.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/30 14:54:44 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/02 11:11:59 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,42 +46,5 @@ t_color_d	ray_to_color(const t_ray *ray)
 	return (color);
 }
 
-t_color_256 color_d_to_255(t_color_d color)
-{
-	t_color_256 result;
 
 
-	result.r = (uint8_t)(color.r * 255);
-	result.g = (uint8_t)(color.g * 255);
-	result.b = (uint8_t)(color.b * 255);
-	result.a = 0xFF;
-
-	return (result);
-}
-
-
-// broken
-t_color_256 get_color_from_vec3(t_vec3 *rayDirection)
-{
-	t_color_256 color;
-
-	color.r = (uint8_t)((rayDirection->x) * 0.5 * 255);
-	color.g = (uint8_t)((rayDirection->y) * 0.5 * 255);
-	color.b = (uint8_t)((rayDirection->z) * 0.5 * 255);
-	color.a = 0xFF;
-
-	return (color);
-}
-
-// broken
-t_color_256 get_color_test(int x, int y)
-{
-	t_color_256 color;
-
-	color.r = (uint8_t)x;
-	color.g = (uint8_t)y;
-	color.b = 0x00;
-	color.a = 0xFF;
-
-	return (color);
-}
