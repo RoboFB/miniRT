@@ -6,14 +6,12 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/02 12:27:08 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/03 13:32:55 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINI_RT_H
 # define MINI_RT_H
-
-# define _USE_GNU
 
 # include <stdlib.h>
 # include <stdio.h>
@@ -32,10 +30,11 @@
 	# define M_PI		3.14159265358979323846	/* pi */
 #endif
 
-// colors         bgra
-# define BLUE   0xFF0000FF
-# define BLAKE 0x000000FF
-# define WHITE 0xFFFFFFFF
+
+// colors         rgba in memory
+# define BLUE  ((t_color_256){.value = 0xFFFF0000})
+# define BLAKE ((t_color_256){.a = 255})
+# define WHITE ((t_color_256){.r = 255, .g = 255, .b = 255, .a = 255})
 
 # define BPP 4 // bytes per pixel
 # define WIDTH_DEFAULT 800
@@ -73,9 +72,6 @@ t_vec3		vec3_fabs(const t_vec3 *a);
 t_vec3		vec3_normalize(t_vec3 a);
 t_vec3		ray_get_pos(const t_ray *ray, double length);
 bool		hit_sphere(const t_sphere *sph, const t_ray *ray, double ray_min, double ray_max, t_norm_ray *hit);
-uint32_t		fr_get_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
-bool		fr_color_cmp(uint8_t *pixel_color, uint32_t check_color);
-bool		fr_pixel_cmp(mlx_image_t *img, t_pixel *pix, uint32_t check_color);
 t_color_d		ray_to_color(const t_ray *ray);
 t_color_d		vec3_to_color_d(const t_vec3 v);
 t_color_256		color_d_to_256(t_color_d color);
@@ -88,8 +84,8 @@ void		hook_main(void *gui_void);
 void		add_hooks(t_gui *gui);
 void		hook_key(mlx_key_data_t key_data, void *gui_void);
 void		hook_resize(int32_t width, int32_t height, void *gui_void);
-void		init_gui(t_gui *gui);
-void		img_fill_color(mlx_image_t *img, uint32_t color);
+void		img_draw_256(uint8_t* pixel, t_color_256 color);
+void		img_fill_256(mlx_image_t *img, t_color_256 color);
 void		img_copy(mlx_image_t *change, mlx_image_t *source);
 void		swap_screen_imgs(t_gui *gui);
 t_data		*get_data(void);
@@ -100,6 +96,7 @@ void		free_scene(t_scene *scene);
 void		free_data(void);
 int			init_scene(t_scene *scene, int argc, char const *argv[]);
 t_camera		*init_camera(void);
+void		init_gui(t_gui *gui);
 void		init_frames(void);
 void		render(void);
 void		debug_vec3(const char *msg, const t_vec3 *v);

@@ -6,25 +6,28 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:49:42 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/02 15:52:27 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/02 17:41:10 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-// Fills the image pixels with the color
-void	img_fill_color(mlx_image_t *img, uint32_t color)
-{
-	uint32_t	x;
-	uint32_t	y;
 
-	y = 0;
-	while (y < img->height)
+void	img_draw_256(uint8_t* pixel, t_color_256 color)
+{
+	*(uint32_t*)pixel = color.value;
+}
+
+// Fills the image pixels with the color
+void	img_fill_256(mlx_image_t *img, t_color_256 color)
+{
+	uint32_t	pos;
+
+	pos = 0;
+	while (pos < img->height * img->width)
 	{
-		x = 0;
-		while (x < img->width)
-			mlx_put_pixel(img, x++, y, color);
-		y++;
+		img_draw_256(&img->pixels[pos * 4], color);
+		pos++;
 	}
 	return ;
 }

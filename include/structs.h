@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/02 12:28:38 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/02 18:25:34 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,17 @@ typedef struct s_pixel
 	uint32_t		y;
 }					t_pixel;
 
-
-// raw: 0 to 255 (rgba) in memory as abgr at this system
+// use img_draw_256 to draw this
+// raw: 0 to 255 (rgba) in memory as rgba dont use mlx_put_pixel
 typedef union u_color_256
 {
 	uint8_t			bytes[4];
 	uint32_t		value;
 	struct {
-		uint8_t		a;
-		uint8_t		b;
-		uint8_t		g;
 		uint8_t		r;
+		uint8_t		g;
+		uint8_t		b;
+		uint8_t		a;
 	};
 }			t_color_256;
 
@@ -124,7 +124,7 @@ typedef struct s_scene
 	t_light			*light;
 	// t_ambient_light	*ambient_light;
 
-	// t_sphere		*all_spheres;
+	t_dynamic_array		spheres;
 	// t_plane			*all_planes;
 	// t_cylinder		*all_cylinders;
 

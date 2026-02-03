@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 12:20:24 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/02 16:45:01 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/02 18:20:04 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,12 @@ void render(void)
 		}
 	}
 
-	for (uint32_t y = 0; y < img->height; y++)
+
+	for (uint32_t i = 0; i < img->height * img->width; i++)
 	{
-		for (uint32_t x = 0; x < img->width; x++)
-		{
-			t_color_d color = ray_to_color(&all[x + y * img->width]);
-			mlx_put_pixel(get_gui()->img, x, y, color_d_to_256(color).value);
-		}
+		t_color_d color = ray_to_color(&all[i]);
+		img_draw_256(&img->pixels[i * 4], color_d_to_256(color));
 	}
-
-
 	swap_screen_imgs(get_gui());
 }
 
