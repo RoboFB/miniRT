@@ -10,6 +10,9 @@
 # Robin
 *_R_*
 
+# Obj directory
+obj/
+
 # Executables
 *.out
 *.a

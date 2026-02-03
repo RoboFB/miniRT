@@ -6,7 +6,7 @@
 #    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/26 11:27:55 by rgohrig           #+#    #+#              #
-#    Updated: 2026/01/27 12:27:33 by rgohrig          ###   ########.fr        #
+#    Updated: 2026/02/03 13:35:39 by rgohrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ DEBUG_FLAGS:=		-fsanitize=address,undefined
 FAST_FLAGS :=		-march=native -O3 # Ofast is more extreme than O3 alters math stuff
 CFLAGS :=			-Wall -Werror -Wextra -Wdouble-promotion -g3 $(FAST_FLAGS)
 LINKER_FLAGS :=		-ffast-math -flto -Wpadded # is Wpadded used here ?
+COMPILE_FLAGS :=	-MMD -MP # MMD & MD for dependencies
 LIBMLX_FLAGS :=		-ldl -lglfw -pthread -lm
 
 # -ffast -flto ARE LINKER FLAGS
@@ -46,6 +47,9 @@ LIBMLX :=		$(LIBMLX_DIR)/build/libmlx42.a
 
 HEADERS :=		-I $(LIBFT_DIR)/include -I $(LIBMLX_DIR)/include/MLX42 -I ./include
 LIBS :=			$(LIBFT) $(LIBMLX) $(LIBMLX_FLAGS)
+
+
+DEPENDENCIES := $(OBJ:.o=.d)
 
 
 # ----------------------------- NORMAL -----------------------------------------
@@ -71,9 +75,10 @@ $(LIBMLX):
 $(DIR_OBJ):
 	@mkdir $(DIR_OBJ)
 
+# Compilation
 $(DIR_OBJ)/%.o : $(DIR_SRC)/%.c | $(DIR_OBJ)
 	@mkdir -p $(dir $@)
-	@$(COMPILER) $(CFLAGS) $(HEADERS) -o $@ -c $<
+	@$(COMPILER) $(CFLAGS) $(COMPILE_FLAGS) $(HEADERS) -o $@ -c $<
 	@echo 🎇 $@
 
 # Linking
@@ -81,10 +86,13 @@ $(NAME): $(OBJ)
 	@$(COMPILER) $(CFLAGS) $(LINKER_FLAGS) -o $@ $^ $(LIBS)
 	@echo "\n   🎇🎇🎇 $@   ($(CFLAGS))\n"
 
+# ----------------------------- Dependencies -----------------------------------
+-include $(DEPENDENCIES)
 
 # ----------------------------- Clean ------------------------------------------
 
 clean:
+	@rm -rf $(DEPENDENCIES)
 	@rm -rf $(OBJ)
 	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) clean
 # 	@rm -rf $(LIBMLX_DIR)/build
@@ -105,7 +113,7 @@ debug: CFLAGS += $(DEBUG_FLAGS)
 debug: all
 
 
-# ----------------------------- Lazy Robin --------------------------------------
+# ----------------------------- Lazy Robin -------------------------------------
 
 # temporary Rule to update the header file
 lazy_robin:
