@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 13:25:10 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/02 12:25:03 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/04 15:28:20 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,51 @@ int	main(int argc, char const *argv[])
 
 
 
+// dirty testing for random number generator
+void test_random(void)
+{
+	double	result;
 
+	int testing[10] = {0};
 
+	for (int i = 0; i < 1000000; i++)
+	{
+		result = get_random();
+		printf("random: %f\n", result);
+		if (result >= 0.0 && result < 0.1)
+			testing[0]++;
+		else if (result >= 0.1 && result < 0.2)
+			testing[1]++;
+		else if (result >= 0.2 && result < 0.3)
+			testing[2]++;
+		else if (result >= 0.3 && result < 0.4)
+			testing[3]++;
+		else if (result >= 0.4 && result < 0.5)
+			testing[4]++;
+		else if (result >= 0.5 && result < 0.6)
+			testing[5]++;
+		else if (result >= 0.6 && result < 0.7)
+			testing[6]++;
+		else if (result >= 0.7 && result < 0.8)
+			testing[7]++;
+		else if (result >= 0.8 && result < 0.9)
+			testing[8]++;
+		else if (result >= 0.9 && result < 1.0)
+			testing[9]++;
+		else
+		{
+			printf("Error: random number out of bounds: %f\n", result);
+			exit(1);
+		}
+	}
+	printf("Results after 1,000,000 iterations:\n");
+	for (int i = 0; i < 10; i++)
+	{
+		printf("Range %i: %d\n", i, testing[i]);
+	}
+}
 
-void test_dynamic_array()
+void test_dynamic_array(void)
 {
 	t_dynamic_array ar;
 
@@ -106,6 +147,11 @@ int test_caller(int argc, char const *argv[])
 			if (ft_strncmp(argv[2], "dynamic_array", 15) == 0)
 			{
 				test_dynamic_array();
+				return (1);
+			}
+			if (ft_strncmp(argv[2], "random", 7) == 0)
+			{
+				test_random();
 				return (1);
 			}
 		}
