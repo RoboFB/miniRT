@@ -6,7 +6,7 @@
 #    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/26 11:27:55 by rgohrig           #+#    #+#              #
-#    Updated: 2026/02/03 13:35:39 by rgohrig          ###   ########.fr        #
+#    Updated: 2026/02/03 15:50:02 by rgohrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -108,10 +108,16 @@ re: fclean all
 
 # ----------------------------- Debug ------------------------------------------
 
-debug: fclean
-debug: CFLAGS += $(DEBUG_FLAGS)
-debug: all
+# debug: fclean
+# debug: CFLAGS += $(DEBUG_FLAGS)
+# debug: all
 
+debug: CFLAGS += $(DEBUG_FLAGS)
+debug: CFLAGS := $(filter-out $(FAST_FLAGS),$(CFLAGS))
+debug:
+	@$(COMPILER) $(CFLAGS) $(HEADERS) -o $(NAME) $(addprefix $(DIR_SRC)/,$(SRC)) $(LIBS)
+	@echo "\n   🐞🐞🐞 DEBUG $(NAME)   ($(CFLAGS))\n"
+	@./miniRT
 
 # ----------------------------- Lazy Robin -------------------------------------
 
