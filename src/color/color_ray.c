@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/02 11:11:59 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/03 14:53:01 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,31 @@
 t_color_d	ray_to_color(const t_ray *ray)
 {
 	t_color_d	color;
-	t_sphere	sphere;
+	t_sphere	*sphere;
 	t_norm_ray	hit;
 	
-	sphere.center = (t_vec3){0.0, 0.0, -1.0};
-	sphere.radius = 0.5;
 
-	if (hit_sphere(&sphere, ray, 0.00001, 100000., &hit))
+	t_interval ray_boarder = {.min = 0.0, .max = HUGE_VAL};
+	sphere = get_scene()->spheres.first;
+	
+	while (sphere != get_scene()->spheres.last)
 	{
-		if (vec3_dot(ray->direction, hit.r.direction) > 0.0)
-		{// ray is inside the sphere
-			color = (t_color_d){1.0, 0.0, 1.0}; // magenta for inside
+		if (hit_sphere(sphere, ray, ray_boarder, &hit)) // hit
+		{
+			ray_boarder.max = hit.length; // update ray boarder to closest hit
+			if (vec3_dot(ray->direction, hit.r.direction) > 0.0)
+			{// ray is inside the sphere
+				color = (t_color_d){1.0, 0.0, 0.0}; // red for inside
+			}
+			else
+			{// ray is outside the sphere
+				color = vec3_to_color_d(vec3_mul_one(vec3_add_one(hit.r.direction, 1), 0.5));
+			}
 		}
-		else
-		{// ray is outside the sphere
-			color = vec3_to_color_d(vec3_mul_one(vec3_add_one(hit.r.direction, 1), 0.5));
-		}
+		sphere++;
 	}
-	else
+
+	if (ray_boarder.max == HUGE_VAL) //no hit
 	{
 		// BACKGROUND COLORING (not hitting any sphere)
 		t_vec3 norm_direction = vec3_normalize(ray->direction);

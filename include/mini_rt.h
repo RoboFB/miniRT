@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/03 13:32:55 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/03 16:04:10 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <math.h>
-
+# include <limits.h>
+# include <sys/time.h>
 
 # include "MLX42.h"
 # include "libft.h"
@@ -43,9 +44,6 @@
 # define DEBUG_RT 1 // 0 = off, 1 = on
 
 // auto
-int			main(int argc, char const *argv[]);
-void		test_dynamic_array();
-int			test_caller(int argc, char const *argv[]);
 t_dynamic_array		dynamic_array_init(size_t element_size);
 void		dynamic_array_add_back(t_dynamic_array *array, const void *item);
 void		*dynamic_array_get(t_dynamic_array *array, size_t idx);
@@ -71,10 +69,13 @@ t_vec3		vec3_cross(const t_vec3 a, const t_vec3 b);
 t_vec3		vec3_fabs(const t_vec3 *a);
 t_vec3		vec3_normalize(t_vec3 a);
 t_vec3		ray_get_pos(const t_ray *ray, double length);
-bool		hit_sphere(const t_sphere *sph, const t_ray *ray, double ray_min, double ray_max, t_norm_ray *hit);
+bool		hit_sphere(const t_sphere *sph, const t_ray *ray, t_interval ray_boarder, t_norm_ray *hit);
+double		get_random();
 t_color_d		ray_to_color(const t_ray *ray);
 t_color_d		vec3_to_color_d(const t_vec3 v);
-t_color_256		color_d_to_256(t_color_d color);
+t_color_256		color_d_to_256(const t_color_d color);
+t_color_d		color_add(t_color_d a, t_color_d b);
+t_color_d		color_div_one(t_color_d a, double b);
 int			fr_atof(char const *str, double *num);
 void		program_exit(int exit_code);
 void		perror_exit(const char *msg);
@@ -84,8 +85,9 @@ void		hook_main(void *gui_void);
 void		add_hooks(t_gui *gui);
 void		hook_key(mlx_key_data_t key_data, void *gui_void);
 void		hook_resize(int32_t width, int32_t height, void *gui_void);
-void		img_draw_256(uint8_t* pixel, t_color_256 color);
-void		img_fill_256(mlx_image_t *img, t_color_256 color);
+void		img_draw_d(uint8_t* pixel, const t_color_d *color);
+void		img_draw_256(uint8_t* pixel, const t_color_256 *color);
+void		img_fill_256(mlx_image_t *img, const t_color_256 *color);
 void		img_copy(mlx_image_t *change, mlx_image_t *source);
 void		swap_screen_imgs(t_gui *gui);
 t_data		*get_data(void);
@@ -95,12 +97,17 @@ void		free_gui(t_gui *gui);
 void		free_scene(t_scene *scene);
 void		free_data(void);
 int			init_scene(t_scene *scene, int argc, char const *argv[]);
-t_camera		*init_camera(void);
+t_camera		*init_camera(mlx_image_t *img);
 void		init_gui(t_gui *gui);
-void		init_frames(void);
+void		fill_rays(mlx_image_t *img, t_camera *camera, t_ray *all);
 void		render(void);
+t_color_d		anti_alias(t_ray ray, uint32_t size, t_camera *camera);
 void		debug_vec3(const char *msg, const t_vec3 *v);
 void		debug_ray(const char *msg, const t_ray *ray);
 void		debug_decimal(const char *msg, double d);
+int			main(int argc, char const *argv[]);
+void		test_random(void);
+void		test_dynamic_array(void);
+int			test_caller(int argc, char const *argv[]);
 
 #endif
