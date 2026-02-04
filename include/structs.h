@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/02 18:25:34 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/03 18:43:58 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ typedef struct s_ray
 	t_vec3			origin;
 	t_vec3			direction;
 }					t_ray;
+
+typedef struct s_interval
+{
+	double			min;
+	double			max;
+}					t_interval;
 
 typedef struct s_pixel
 {
@@ -68,11 +74,16 @@ typedef struct s_ambient_light
 	t_color_256		color; // R G B 0-255 no alpha
 }					t_ambient_light;
 
+// there is only one camera in the scene
 typedef struct s_camera
 {
 	t_vec3			position;
 	t_vec3			orientation; // normalized vector (-1 to 1)
-	double			fov; 		// between 0 and 180 for horizontal FOV
+	double			fov; 		 // between 0 and 180 for horizontal FOV
+	double			focal_length; // 1.0
+	double 			delta_x;
+	double			delta_y;
+	t_vec3			corner_upper_left;
 }					t_camera;
 
 typedef struct s_light

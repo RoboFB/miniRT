@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:02:59 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/30 14:33:45 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/03 14:53:36 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 
 
-bool	hit_sphere(const t_sphere *sph, const t_ray *ray, double ray_min, double ray_max, t_norm_ray *hit)
+// r: if true hit 
+bool	hit_sphere(const t_sphere *sph, const t_ray *ray, t_interval ray_boarder, t_norm_ray *hit)
 {
 	t_vec3 oc = vec3_sub(sph->center, ray->origin);
 	double a = vec3_length_squared(ray->direction);
@@ -31,10 +32,10 @@ bool	hit_sphere(const t_sphere *sph, const t_ray *ray, double ray_min, double ra
 	
 
 	double root = (h - discriminant) / a;
-	if (root <= ray_min || ray_max <= root)
+	if (root <= ray_boarder.min || ray_boarder.max <= root)
 	{
 		root = (h + discriminant) / a;
-		if (root <= ray_min || ray_max <= root)
+		if (root <= ray_boarder.min || ray_boarder.max <= root)
 			return false;
 	}
 
