@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:56:59 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/03 18:56:21 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/05 11:49:25 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ t_camera	*init_camera(mlx_image_t *img)
 	camera->orientation = (t_vec3){0.0, 0.0, 0.0};
 	camera->fov = 90.0;
 	camera->focal_length = 1.0;
-
+	camera->max_deep_rays = 8;
+	
 	// double scale = tan(degrees_to_radians(camera->fov) * 0.5); //TODO: implment FOV
 
 	double viewport_height = 2.0;

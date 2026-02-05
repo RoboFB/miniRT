@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 16:01:22 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/04 15:27:10 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/05 11:08:50 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,31 @@ double get_random()
 	{
 		gettimeofday(&first_seed, NULL);
 		seed = first_seed.tv_sec%100000 * first_seed.tv_usec%100000;
-		printf("_test_%u\n",seed);
 	}
 	seed = (a * seed + c) % m;
 	return ((seed % 1000000) / 1000000.0);
+}
+
+// x,y,z -> -0.999998 to 0.999998
+t_vec3 get_random_vec3()
+{
+	t_vec3 new;
+
+	new.x = (0.5 - get_random()) * 2;
+	new.y = (0.5 - get_random()) * 2;
+	new.z = (0.5 - get_random()) * 2;
+	return (new);
+}
+
+t_vec3 get_random_unit_vector()
+{
+	t_vec3 new;
+
+	while (true)
+	{
+		new = get_random_vec3();
+		double length_squared = vec3_length_squared(new);
+		if (interval_is_in((t_interval){1e-160, 1.0}, length_squared))
+			return (vec3_div_one(new , sqrt(length_squared)));
+	}
 }

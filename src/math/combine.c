@@ -6,14 +6,14 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:04:46 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/02 11:05:13 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/05 11:18:00 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
 // x + y + z
-double	vec3_combine(t_vec3 a)
+double	vec3_combine(const t_vec3 a)
 {
 	return (a.x + a.y + a.z);
 }

@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/03 18:43:58 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/05 11:43:55 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_camera
 	double 			delta_x;
 	double			delta_y;
 	t_vec3			corner_upper_left;
+	int32_t			max_deep_rays;
 }					t_camera;
 
 typedef struct s_light

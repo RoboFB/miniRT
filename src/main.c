@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 13:25:10 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/04 15:28:20 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/05 11:04:39 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,17 @@ int	main(int argc, char const *argv[])
 
 
 
-
+// dirty testing for random number generator
+void test_r3(void)
+{
+	for (int i = 0; i < 10000000; i++)
+	{
+		t_vec3 v3 = get_random_unit_vector();
+		// debug_vec3("r3", &v3);
+		printf("_lengt:_%f\n", vec3_length(v3));
+		(void)v3;
+	}
+}
 
 
 
@@ -152,6 +162,11 @@ int test_caller(int argc, char const *argv[])
 			if (ft_strncmp(argv[2], "random", 7) == 0)
 			{
 				test_random();
+				return (1);
+			}
+			if (ft_strncmp(argv[2], "r3", 3) == 0)
+			{
+				test_r3();
 				return (1);
 			}
 		}
