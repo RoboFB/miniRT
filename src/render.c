@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 12:20:24 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/05 11:44:27 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/06 13:42:22 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	render(void)
 {
 	t_scene		*scene;
 	mlx_image_t	*img;
-	t_color_d	color;
+	t_vec3		color;
 	uint32_t	pos;
 
 	scene = get_scene();
@@ -55,45 +55,107 @@ void	render(void)
 	pos = 0;
 	while (pos < img->height * img->width)
 	{
-		color = anti_alias(&scene->all_rays[pos], 64, scene->camera);
-		img_draw_d(&img->pixels[pos * 4], &color);
+		color = anti_alias(&scene->all_rays[pos], scene->camera->anti_aliasing_samples, scene->camera);
+		img_draw_vec3(&img->pixels[pos * 4], &color);
 		pos++;
 	}
 	swap_screen_imgs(get_gui());
 }
 
-// supersampling anti-aliasing but its math incorectly dont useses thr correct pixed divion pos for sampling 9 points
+// supersampling random
 t_ray offset_ray(t_ray *ray, t_camera *camera)
 {
 	t_ray	new;
 
 	new = *ray;
-	new.direction.x += camera->delta_x * (0.5 - get_random());
-	new.direction.y += camera->delta_y * (0.5 - get_random());
+	new.direction.x += camera->delta_x * (0.5 - (get_random()));
+	new.direction.y += camera->delta_y * (0.5 - (get_random()));
 	// printf(" offset_x:%f offset_y:%f\n", offset_x/camera->delta_x, offset_y/camera->delta_y);
 	return (new);
 }
 
 
-
-
-t_color_d anti_alias(t_ray *ray, uint32_t total, t_camera *camera)
+t_vec3 anti_alias(t_ray *ray, uint32_t total, t_camera *camera)
 {
 	uint32_t	count;
-	t_color_d	color;
+	t_vec3		color;
 	t_ray		tmp_ray;
 
 	
-	color = (t_color_d){0.0, 0.0, 0.0};
+	color = (t_vec3){0.0, 0.0, 0.0};
 	count = 0;
 	while (count < total)
 	{
 		tmp_ray = offset_ray(ray, camera);
-		color = color_add(color, ray_to_color(&tmp_ray, camera->max_deep_rays));
+		color = vec3_add(color, ray_to_color(&tmp_ray, camera->max_deep_rays));
 		count++;
 	}
-	color = color_div_one(color, total);
+	color = vec3_div_one(color, total);
 	return (color);
 }
+
+
+// tries early brake
+// t_vec3 anti_alias(t_ray *ray, uint32_t total, t_camera *camera)
+// {
+// 	uint32_t	count;
+// 	t_vec3		color;
+// 	t_vec3		last_color;
+// 	t_ray		tmp_ray;
+
+	
+// 	color = (t_vec3){0.0, 0.0, 0.0};
+// 	count = 0;
+// 	while (count < total)
+// 	{
+// 		tmp_ray = offset_ray(ray, camera);
+// 		color = vec3_add(color, ray_to_color(&tmp_ray, camera->max_deep_rays));
+// 		if (interval_is_in((t_interval){-0.0001, 0.0001}, vec3_length_squared(vec3_div_one(color, count)) - vec3_length_squared(last_color)))
+// 			break;
+// 		last_color = color;
+// 		count++;
+// 	}
+// 	color = vec3_div_one(color, total);
+// 	return (color);
+// }
+
+
+// tries to find the color in the center but its worse than the average at the moment
+// t_vec3 anti_alias(t_ray *ray, uint32_t total, t_camera *camera)
+// {
+// 	uint32_t	count;
+// 	t_vec3		color;
+// 	t_vec3		min = {0.0,0.0,0.0};
+// 	t_vec3		max = {1.0,1.0,1.0};
+// 	t_ray		tmp_ray;
+
+	
+// 	tmp_ray = offset_ray(ray, camera);
+// 	min = ray_to_color(&tmp_ray, camera->max_deep_rays);
+// 	tmp_ray = offset_ray(ray, camera);
+// 	max = ray_to_color(&tmp_ray, camera->max_deep_rays);
+// 	count = 0;
+// 	while (count < total - 1)
+// 	{
+// 		tmp_ray = offset_ray(ray, camera);
+// 		color = vec3_add(color, ray_to_color(&tmp_ray, camera->max_deep_rays));
+
+// 		if (vec3_interval_is_in(color, min, max))
+// 		{
+// 			t_vec3 diff_min = vec3_sub(color, min);
+// 			t_vec3 diff_max = vec3_sub(max, color);
+
+// 			if (vec3_is_bigger(diff_min, diff_max))
+// 				min = color;
+// 			else 
+// 				max = color;
+
+// 		}
+
+// 		count++;
+// 	}
+// 	color = vec3_div_one(vec3_add(max, min), 2);
+// 	return (color);
+// }
 
 

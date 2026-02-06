@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/05 11:43:55 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/06 15:24:49 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,6 @@ typedef union u_color_256
 	};
 }			t_color_256;
 
-// 0 to 1.0
-typedef struct s_color_d
-{
-	double			r;
-	double			g;
-	double			b;
-}					t_color_d;
-
 typedef struct s_norm_ray
 {
 	t_ray			r;
@@ -85,6 +77,7 @@ typedef struct s_camera
 	double			delta_y;
 	t_vec3			corner_upper_left;
 	int32_t			max_deep_rays;
+	int32_t			anti_aliasing_samples;
 }					t_camera;
 
 typedef struct s_light

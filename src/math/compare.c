@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   intervals.c                                        :+:      :+:    :+:   */
+/*   compare.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/03 14:18:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/06 13:08:03 by rgohrig          ###   ########.fr       */
+/*   Created: 2026/02/06 13:04:03 by rgohrig           #+#    #+#             */
+/*   Updated: 2026/02/06 13:11:58 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-
-// double	interval_size(t_interval interval)
-// {
-// 	return (interval.max - interval.min);
-// }
+// a > b uses length squared to compare
+bool	vec3_is_bigger(const t_vec3 val, const t_vec3 against)
+{
+	return (vec3_length_squared(val) > vec3_length_squared(against));
+}
 
 // is in or on the each (min <= x <= max)
-bool	interval_is_in(const t_interval interval, const double value)
+bool	vec3_interval_is_in(const t_vec3 value, const t_vec3 min, const t_vec3 max)
 {
-	// if (value >= interval.min && value <= interval.max)
-	return (value >= interval.min && value <= interval.max);
+	if (vec3_is_bigger(value, max))
+		return (false);
+	if (vec3_is_bigger(min, value))
+		return (false);
+	else
+		return (true);
 }
-// double	interval_is_outside(t_interval interval, double value)
-// {
-// 	return (value < interval.min || value > interval.max);
-// }

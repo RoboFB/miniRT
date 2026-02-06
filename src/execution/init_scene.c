@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:56:59 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/05 11:49:25 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/06 13:31:46 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ t_camera	*init_camera(mlx_image_t *img)
 	camera->fov = 90.0;
 	camera->focal_length = 1.0;
 	camera->max_deep_rays = 8;
+	camera->anti_aliasing_samples = 64;
 	
 	// double scale = tan(degrees_to_radians(camera->fov) * 0.5); //TODO: implment FOV
 

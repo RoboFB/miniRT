@@ -6,25 +6,11 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:49:42 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/04 15:48:33 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/06 12:47:23 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
-
-void	img_draw_d(uint8_t* pixel, const t_color_d *color)
-{
-	pixel[0] = (uint8_t)(color->r * 255);
-	pixel[1] = (uint8_t)(color->g * 255);
-	pixel[2] = (uint8_t)(color->b * 255);
-	pixel[3] = 0xFF;
-}
-
-// only use if necessary, use img_draw_d if possible
-void	img_draw_256(uint8_t* pixel, const t_color_256 *color)
-{
-	*(t_color_256*)pixel = *color;
-}
 
 
 // Fills the image pixels with the color
