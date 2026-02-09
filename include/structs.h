@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/06 17:00:38 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/09 19:06:04 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,20 @@ typedef struct s_light
 	t_color_256		color; // R G B 0-255 no alpha for bonus
 }					t_light;
 
+typedef enum e_material_type
+{
+	MATERIAL_NONE			= 0b00000000,
+	MATERIAL_LAMBERTIAN		= 0b00000001,
+	MATERIAL_METAL			= 0b00000010,
+	MATERIAL_ALL			= 0b11111111,
+}					t_material_type;
 
 typedef struct s_material
 {
+	t_material_type		type;
 	t_vec3			color; // R G B 0.0 to 1.0
+	t_vec3			albedo_color; // R G B 0.0 to 1.0
+	
 }					t_material;
 
 typedef struct s_sphere

@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/09 18:04:07 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/09 19:59:05 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 t_vec3	ray_to_color(const t_ray *ray, int depth)
 {
 	t_vec3		color;
-	t_sphere	*sphere;
+	t_sphere	*sphere_loop;
+	t_sphere	*sphere_hit;
 	t_norm_ray	hit = {0};
 	
 	
@@ -25,18 +26,19 @@ t_vec3	ray_to_color(const t_ray *ray, int depth)
 		return ((t_vec3){0.0, 0.0, 0.0});
 	
 	t_interval ray_boarder = {.min = 0.001, .max = HUGE_VAL};
-	sphere = get_scene()->spheres.first;
-	
-	while (sphere != get_scene()->spheres.last)
+	sphere_loop = get_scene()->spheres.first;
+	sphere_hit = NULL;
+	while (sphere_loop != get_scene()->spheres.last)
 	{
-		if (is_hit_sphere(sphere, ray, ray_boarder, &hit)) // hit
+		if (is_hit_sphere(sphere_loop, ray, ray_boarder, &hit)) // hit
 		{
 			ray_boarder.max = hit.length; // update ray boarder to closest hit
+			sphere_hit = sphere_loop;
 		}
-		sphere++;
+		sphere_loop++;
 	}
-	
-	if (hit.length == 0.0)
+
+	if (sphere_hit == NULL)
 	{
 		// BACKGROUND COLORING (not hitting any sphere)
 		t_vec3 norm_direction = normalize_vec3(ray->direction);
@@ -51,13 +53,23 @@ t_vec3	ray_to_color(const t_ray *ray, int depth)
 		color = (t_vec3){0.0, 0.0, 0.0}; // black for inside
 	}
 	else
-	{// ray is outside the sphere
+	{// ray is outside the sphere and hits the sphere
 		
-		t_vec3 direction = add_vec3(hit.r.direction, get_random_on_hemisphere(&hit.r.direction));
-		color = mul_vec3_one(ray_to_color(&(t_ray){hit.r.origin, direction}, depth), 0.1);
-		
-		
-		// color = vec3_to_color_d(mul_vec3_one(add_vec3_one(hit.r.direction, 1), 0.5));
+		t_ray scattered = {0};
+		if (sphere_hit->material.type == MATERIAL_LAMBERTIAN)
+		{
+			scatter_lambertian(&hit, &scattered);
+			color = mul_vec3(ray_to_color(&scattered, depth), sphere_hit->material.albedo_color);
+		}
+		else if (sphere_hit->material.type == MATERIAL_METAL)
+		{
+			scatter_metal(ray, &hit, &scattered);
+			color = mul_vec3(ray_to_color(&scattered, depth), sphere_hit->material.albedo_color);
+		}
+		else
+		{
+			color = (t_vec3){0.0, 0.0, 0.0}; // black for no material
+		}
 	}
 	
 	return (color);

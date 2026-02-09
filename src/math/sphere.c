@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:02:59 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/09 18:04:07 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/09 18:29:47 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,3 +60,5 @@ t_vec3 get_random_on_hemisphere(const t_vec3 *hit_direction_normal)
 	else
 		return (inverse_vec3(new));
 }
+
+

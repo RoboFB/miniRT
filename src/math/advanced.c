@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:18:52 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/09 18:03:29 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/09 18:30:56 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,9 @@ t_vec3 normalize_vec3(const t_vec3 a)
 t_vec3 get_pos_on_ray(const t_ray *ray, const double length)
 {
 	return (add_vec3(ray->origin, mul_vec3_one(ray->direction, length)));
+}
+
+t_vec3 reflect_vec3(const t_vec3 vector, const t_vec3 normal)
+{
+	return sub_vec3(vector, mul_vec3_one(normal, 2 * dot_vec3(vector, normal)));
 }

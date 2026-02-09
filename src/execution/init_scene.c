@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:56:59 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/06 13:31:46 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/09 19:46:48 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,32 @@ int init_scene(t_scene *scene, int argc, char const *argv[])
 
 	scene->spheres = dynamic_array_init(sizeof(t_sphere));
 
-	dynamic_array_add_back(&scene->spheres, &(t_sphere){
-		.center = (t_vec3){0.0, 0.0, -1.0},
+	dynamic_array_add_back(&scene->spheres, &(t_sphere){ // left
+		.center = (t_vec3){-0.5, 0.0, -1.0},
 		.radius = 0.5,
+		.material = (t_material){
+			.type = MATERIAL_LAMBERTIAN,
+			.color = (t_vec3){0.1, 0.1, 0.1},
+			.albedo_color = (t_vec3){0.8, 0.2, 0.8},
+		},
 	});
-	dynamic_array_add_back(&scene->spheres, &(t_sphere){
+	dynamic_array_add_back(&scene->spheres, &(t_sphere){ // right
+		.center = (t_vec3){0.5, 0.0, -1.0},
+		.radius = 0.5,
+		.material = (t_material){
+			.type = MATERIAL_METAL,
+			.color = (t_vec3){0.1, 0.1, 0.1},
+			.albedo_color = (t_vec3){0.8, 0.2, 0.8},
+		},
+	});
+	dynamic_array_add_back(&scene->spheres, &(t_sphere){ // ground
 		.center = (t_vec3){0.0, -100.5, -1.0},
 		.radius = 100.0,
+		.material = (t_material){
+			.type = MATERIAL_METAL,
+			.color = (t_vec3){0.8, 0.8, 0.8},
+			.albedo_color = (t_vec3){0.9, 0.9, 0.9},
+		},
 	});
 
 	
