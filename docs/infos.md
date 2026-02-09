@@ -14,6 +14,13 @@ gettimeofday				(time)
 t_norm_ray (normal rays) ray out of a hit points outsiet the opject not insed other than the book is working with! beacous i want to lean and thaink and at the moment its easyer to decied on the coloring and i dont need to change the new t_norm_ray struct.
 
 
+# function naming
+is_ -> return bool for if/else statments
+get_ -> return a (new/or pointer) obj/data
+
+_vec3 -> type at the end
+
+x_to_y -> convert x to y
 
 
 # Execution flow:
