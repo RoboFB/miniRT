@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:03:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/03 18:21:48 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/09 18:07:00 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	hook_main(void *gui_void)
 }
 
 // R: void or error_exit
-void	add_hooks(t_gui *gui)
+void	init_hooks(t_gui *gui)
 {
 	if (!mlx_loop_hook(gui->mlx, hook_main, gui))
 		perror_mlx_exit("Adding main loop as hook failed");

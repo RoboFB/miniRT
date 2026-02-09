@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 12:20:24 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/06 13:42:22 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/09 18:05:03 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,10 @@ t_vec3 anti_alias(t_ray *ray, uint32_t total, t_camera *camera)
 	while (count < total)
 	{
 		tmp_ray = offset_ray(ray, camera);
-		color = vec3_add(color, ray_to_color(&tmp_ray, camera->max_deep_rays));
+		color = add_vec3(color, ray_to_color(&tmp_ray, camera->max_deep_rays));
 		count++;
 	}
-	color = vec3_div_one(color, total);
+	color = div_vec3_one(color, total);
 	return (color);
 }
 
@@ -109,8 +109,8 @@ t_vec3 anti_alias(t_ray *ray, uint32_t total, t_camera *camera)
 // 	while (count < total)
 // 	{
 // 		tmp_ray = offset_ray(ray, camera);
-// 		color = vec3_add(color, ray_to_color(&tmp_ray, camera->max_deep_rays));
-// 		if (interval_is_in((t_interval){-0.0001, 0.0001}, vec3_length_squared(vec3_div_one(color, count)) - vec3_length_squared(last_color)))
+// 		color = add_vec3(color, ray_to_color(&tmp_ray, camera->max_deep_rays));
+// 		if (is_interval_in((t_interval){-0.0001, 0.0001}, length_squared_vec3(vec3_div_one(color, count)) - length_squared_vec3(last_color)))
 // 			break;
 // 		last_color = color;
 // 		count++;
@@ -138,14 +138,14 @@ t_vec3 anti_alias(t_ray *ray, uint32_t total, t_camera *camera)
 // 	while (count < total - 1)
 // 	{
 // 		tmp_ray = offset_ray(ray, camera);
-// 		color = vec3_add(color, ray_to_color(&tmp_ray, camera->max_deep_rays));
+// 		color = add_vec3(color, ray_to_color(&tmp_ray, camera->max_deep_rays));
 
-// 		if (vec3_interval_is_in(color, min, max))
+// 		if (is_interval_in_vec3(color, min, max))
 // 		{
-// 			t_vec3 diff_min = vec3_sub(color, min);
-// 			t_vec3 diff_max = vec3_sub(max, color);
+// 			t_vec3 diff_min = sub_vec3(color, min);
+// 			t_vec3 diff_max = sub_vec3(max, color);
 
-// 			if (vec3_is_bigger(diff_min, diff_max))
+// 			if (is_bigger_vec3(diff_min, diff_max))
 // 				min = color;
 // 			else 
 // 				max = color;
@@ -154,7 +154,7 @@ t_vec3 anti_alias(t_ray *ray, uint32_t total, t_camera *camera)
 
 // 		count++;
 // 	}
-// 	color = vec3_div_one(vec3_add(max, min), 2);
+// 	color = vec3_div_one(add_vec3(max, min), 2);
 // 	return (color);
 // }
 

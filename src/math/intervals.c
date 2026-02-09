@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:18:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/06 13:08:03 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/09 18:04:19 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 // }
 
 // is in or on the each (min <= x <= max)
-bool	interval_is_in(const t_interval interval, const double value)
+bool	is_interval_in(const t_interval interval, const double value)
 {
 	// if (value >= interval.min && value <= interval.max)
 	return (value >= interval.min && value <= interval.max);

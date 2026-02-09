@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 13:25:10 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/05 11:04:39 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/09 18:01:59 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void test_r3(void)
 	{
 		t_vec3 v3 = get_random_unit_vector();
 		// debug_vec3("r3", &v3);
-		printf("_lengt:_%f\n", vec3_length(v3));
+		printf("_lengt:_%f\n", length_vec3(v3));
 		(void)v3;
 	}
 }

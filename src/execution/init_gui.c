@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 11:52:51 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/04 15:39:36 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/09 18:07:00 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	init_gui(t_gui *gui)
 	if (mlx_image_to_window(gui->mlx, gui->buffer_img, 0, 0) < 0)
 		perror_mlx_exit("Graphics: Image to Window failed");
 
-	add_hooks(gui);
+	init_hooks(gui);
 	return ;
 }
 

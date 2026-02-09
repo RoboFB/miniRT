@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/06 15:24:49 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/06 17:00:38 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,38 +80,40 @@ typedef struct s_camera
 	int32_t			anti_aliasing_samples;
 }					t_camera;
 
+
 typedef struct s_light
 {
 	t_vec3			position;
 	double			ratio; // between 0.0 and 1.0
 	t_color_256		color; // R G B 0-255 no alpha for bonus
-}				t_light;
+}					t_light;
+
+
+typedef struct s_material
+{
+	t_vec3			color; // R G B 0.0 to 1.0
+}					t_material;
 
 typedef struct s_sphere
 {
 	t_vec3			center;
 	double			radius; // needs to be positive
-	t_color_256		color; // R G B 0-255 no alpha for bonus
-}				t_sphere;
+	t_material		material;
+}					t_sphere;
 
 typedef struct s_plane
 {
 	t_vec3			position;
 	t_vec3			orientation;
-	t_color_256		color; // R G B 0-255 no alpha for bonus
+	t_material		material;
 }					t_plane;
 
 typedef struct s_cylinder
 {
-	t_vec3			position;
-	t_vec3			orientation;
-	double			diameter;
-	double			height;
-	t_color_256		color; // R G B 0-255 no alpha for bonus
+	t_norm_ray		cylinder;
+	double			radius;  // needs to be positive
+	t_material		material;
 }					t_cylinder;
-
-
-
 
 
 // stores gui and scene pointer

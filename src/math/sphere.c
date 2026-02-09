@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:02:59 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/05 11:53:16 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/09 18:04:07 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 
 // r: if true hit     only update hit if in range of boarder
-bool	hit_sphere(const t_sphere *sph, const t_ray *ray, const t_interval ray_boarder, t_norm_ray *hit)
+bool	is_hit_sphere(const t_sphere *sph, const t_ray *ray, const t_interval ray_boarder, t_norm_ray *hit)
 {
-	t_vec3 oc = vec3_sub(sph->center, ray->origin);
-	double a = vec3_length_squared(ray->direction);
-	double h = vec3_dot(ray->direction, oc);
-	double c = vec3_length_squared(oc) - sph->radius*sph->radius;
+	t_vec3 oc = sub_vec3(sph->center, ray->origin);
+	double a = length_squared_vec3(ray->direction);
+	double h = dot_vec3(ray->direction, oc);
+	double c = length_squared_vec3(oc) - sph->radius*sph->radius;
 	double discriminant_squad = (h*h) - (a*c);
 	// printf("discriminant: %f, a;%f, b;%f, c;%f\n", discriminant, a, b, c);	
 	// debug_decimal("22 discriminant", discriminant);
@@ -40,9 +40,9 @@ bool	hit_sphere(const t_sphere *sph, const t_ray *ray, const t_interval ray_boar
 	}
 
 	hit->length = root;// is length factor of a norm ray
-	hit->r.origin = ray_get_pos(ray, hit->length);
-	hit->r.direction = vec3_div_one(vec3_sub(hit->r.origin, sph->center), sph->radius);
-	// printf("l:%.3f,", vec3_length(hit->r.direction));
+	hit->r.origin = get_pos_on_ray(ray, hit->length);// hit point rec.p
+	hit->r.direction = div_vec3_one(sub_vec3(hit->r.origin, sph->center), sph->radius);// rec.normal
+	// printf("l:%.3f,", length_vec3(hit->r.direction));
 	// printf("%.3f\n",hit->length);
 
 	return (true);
@@ -50,13 +50,13 @@ bool	hit_sphere(const t_sphere *sph, const t_ray *ray, const t_interval ray_boar
 
 
 
-t_vec3 random_on_hemisphere(const t_vec3 *hit_direction_normal)
+t_vec3 get_random_on_hemisphere(const t_vec3 *hit_direction_normal)
 {
 	t_vec3 new;
 	
 	new = get_random_unit_vector();
-	if (vec3_dot(new, *hit_direction_normal) > 0.0) // In the same hemisphere as the normal
+	if (dot_vec3(new, *hit_direction_normal) > 0.0) // In the same hemisphere as the normal
 		return (new);
 	else
-		return (vec3_inverse(new));
+		return (inverse_vec3(new));
 }

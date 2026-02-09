@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/03 16:04:10 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/09 18:07:00 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,33 +50,33 @@ void		*dynamic_array_get(t_dynamic_array *array, size_t idx);
 void		dynamic_array_free(t_dynamic_array *array);
 void		ft_realloc(void **change_ptr, size_t old, size_t new, size_t size);
 void		ft_realloc_2(void **change_first, void **change_last, size_t *elements_count, size_t size);
-t_vec3		vec3_add(t_vec3 a, const t_vec3 b);
-t_vec3		vec3_sub(t_vec3 a, const t_vec3 b);
-t_vec3		vec3_mul(t_vec3 a, const t_vec3 b);
-t_vec3		vec3_div(t_vec3 a, const t_vec3 b);
-t_vec3		vec3_add_one(t_vec3 a, const double add);
-t_vec3		vec3_sub_one(t_vec3 a, const double subtract);
-t_vec3		vec3_mul_one(t_vec3 a, const double multiply);
-t_vec3		vec3_div_one(t_vec3 a, const double divide);
-double		vec3_combine(const t_vec3 a);
-double		vec3_dot(const t_vec3 a, const t_vec3 b);
-double		vec3_length_squared(const t_vec3 a);
-double		vec3_length(const t_vec3 a);
+t_vec3		add_vec3(t_vec3 a, const t_vec3 b);
+t_vec3		sub_vec3(t_vec3 a, const t_vec3 b);
+t_vec3		mul_vec3(t_vec3 a, const t_vec3 b);
+t_vec3		div_vec3(t_vec3 a, const t_vec3 b);
+t_vec3		add_vec3_one(t_vec3 a, const double add);
+t_vec3		sub_vec3_one(t_vec3 a, const double subtract);
+t_vec3		mul_vec3_one(t_vec3 a, const double multiply);
+t_vec3		div_vec3_one(t_vec3 a, const double divide);
+double		combine_vec3(const t_vec3 a);
+double		dot_vec3(const t_vec3 a, const t_vec3 b);
+double		length_squared_vec3(const t_vec3 a);
+double		length_vec3(const t_vec3 a);
 double		degrees_to_radians(const double degrees);
-t_vec3		vec3_inverse(const t_vec3 a);
-t_vec3		vec3_square(const t_vec3 a);
-t_vec3		vec3_cross(const t_vec3 a, const t_vec3 b);
-t_vec3		vec3_fabs(const t_vec3 *a);
-t_vec3		vec3_normalize(const t_vec3 a);
-t_vec3		ray_get_pos(const t_ray *ray, const double length);
-bool		hit_sphere(const t_sphere *sph, const t_ray *ray, const t_interval ray_boarder, t_norm_ray *hit);
-t_vec3		random_on_hemisphere(const t_vec3 *hit_direction_normal);
-bool		interval_is_in(const t_interval interval, const double value);
+t_vec3		inverse_vec3(const t_vec3 a);
+t_vec3		square_vec3(const t_vec3 a);
+t_vec3		cross_vec3(const t_vec3 a, const t_vec3 b);
+t_vec3		fabs_vec3(const t_vec3 *a);
+t_vec3		normalize_vec3(const t_vec3 a);
+t_vec3		get_pos_on_ray(const t_ray *ray, const double length);
+bool		is_hit_sphere(const t_sphere *sph, const t_ray *ray, const t_interval ray_boarder, t_norm_ray *hit);
+t_vec3		get_random_on_hemisphere(const t_vec3 *hit_direction_normal);
+bool		is_interval_in(const t_interval interval, const double value);
 double		get_random();
 t_vec3		get_random_vec3();
 t_vec3		get_random_unit_vector();
-bool		vec3_is_bigger(const t_vec3 val, const t_vec3 against);
-bool		vec3_interval_is_in(const t_vec3 value, const t_vec3 min, const t_vec3 max);
+bool		is_bigger_vec3(const t_vec3 val, const t_vec3 against);
+bool		is_interval_in_vec3(const t_vec3 value, const t_vec3 min, const t_vec3 max);
 t_vec3		ray_to_color(const t_ray *ray, int depth);
 void		img_fill_256(mlx_image_t *img, const t_color_256 *color);
 void		img_copy(mlx_image_t *change, mlx_image_t *source);
@@ -90,7 +90,7 @@ void		perror_exit(const char *msg);
 void		msg_exit(const char *msg);
 void		perror_mlx_exit(const char *msg);
 void		hook_main(void *gui_void);
-void		add_hooks(t_gui *gui);
+void		init_hooks(t_gui *gui);
 void		hook_key(mlx_key_data_t key_data, void *gui_void);
 void		hook_resize(int32_t width, int32_t height, void *gui_void);
 t_data		*get_data(void);

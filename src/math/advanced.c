@@ -6,25 +6,25 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:18:52 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/05 11:17:30 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/09 18:03:29 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
 // a * -1
-t_vec3	vec3_inverse(const t_vec3 a)
+t_vec3	inverse_vec3(const t_vec3 a)
 {
-	return (vec3_mul_one(a, -1));
+	return (mul_vec3_one(a, -1));
 }
 
 // x*x + y*y + z*z
-t_vec3	vec3_square(const t_vec3 a)
+t_vec3	square_vec3(const t_vec3 a)
 {
-	return (vec3_mul(a, a));
+	return (mul_vec3(a, a));
 }
 
-t_vec3 vec3_cross(const t_vec3 a, const t_vec3 b)
+t_vec3 cross_vec3(const t_vec3 a, const t_vec3 b)
 {
 	t_vec3 result;
 
@@ -34,7 +34,7 @@ t_vec3 vec3_cross(const t_vec3 a, const t_vec3 b)
 	return (result);
 }
 
-t_vec3 vec3_fabs(const t_vec3 *a)
+t_vec3 fabs_vec3(const t_vec3 *a)
 {
 	t_vec3 result;
 
@@ -45,18 +45,18 @@ t_vec3 vec3_fabs(const t_vec3 *a)
 }
 
 // convert some vector form length x to length 1 useing imaginary 0,0,0 point
-t_vec3 vec3_normalize(const t_vec3 a)
+t_vec3 normalize_vec3(const t_vec3 a)
 {
 	double length;
 
-	length = vec3_length(a);
+	length = length_vec3(a);
 	if (length == 0.0)
 		return (a);
-	return (vec3_div_one(a, length));
+	return (div_vec3_one(a, length));
 }
 
 // origin + direction * t
-t_vec3 ray_get_pos(const t_ray *ray, const double length)
+t_vec3 get_pos_on_ray(const t_ray *ray, const double length)
 {
-	return (vec3_add(ray->origin, vec3_mul_one(ray->direction, length)));
+	return (add_vec3(ray->origin, mul_vec3_one(ray->direction, length)));
 }
