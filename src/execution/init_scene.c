@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:56:59 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/09 19:46:48 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/10 15:31:40 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,16 @@ int init_scene(t_scene *scene, int argc, char const *argv[])
 		.material = (t_material){
 			.type = MATERIAL_LAMBERTIAN,
 			.color = (t_vec3){0.1, 0.1, 0.1},
-			.albedo_color = (t_vec3){0.8, 0.2, 0.8},
+			.albedo_color = (t_vec3){0.1, 0.000001, 0.1},
 		},
 	});
 	dynamic_array_add_back(&scene->spheres, &(t_sphere){ // right
-		.center = (t_vec3){0.5, 0.0, -1.0},
+		.center = (t_vec3){0.7, 0.2, -1.0},
 		.radius = 0.5,
 		.material = (t_material){
 			.type = MATERIAL_METAL,
 			.color = (t_vec3){0.1, 0.1, 0.1},
-			.albedo_color = (t_vec3){0.8, 0.2, 0.8},
+			.albedo_color = (t_vec3){0.1, 0.3, 0.1},
 		},
 	});
 	dynamic_array_add_back(&scene->spheres, &(t_sphere){ // ground
@@ -51,7 +51,7 @@ int init_scene(t_scene *scene, int argc, char const *argv[])
 		.material = (t_material){
 			.type = MATERIAL_METAL,
 			.color = (t_vec3){0.8, 0.8, 0.8},
-			.albedo_color = (t_vec3){0.9, 0.9, 0.9},
+			.albedo_color = (t_vec3){0.99, 0.99, 0.99},
 		},
 	});
 
@@ -69,7 +69,7 @@ t_camera	*init_camera(mlx_image_t *img)
 	camera->orientation = (t_vec3){0.0, 0.0, 0.0};
 	camera->fov = 90.0;
 	camera->focal_length = 1.0;
-	camera->max_deep_rays = 8;
+	camera->max_deep_rays = 12;
 	camera->anti_aliasing_samples = 64;
 	
 	// double scale = tan(degrees_to_radians(camera->fov) * 0.5); //TODO: implment FOV
