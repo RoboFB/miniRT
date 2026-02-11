@@ -71,6 +71,7 @@ void		free_scene(t_scene *scene);
 void		free_data(void);
 int			init_scene(t_scene *scene, int argc, char const *argv[]);
 void		init_sphere(t_scene *scene);
+void		test_fov(t_scene *scene);
 t_camera		*init_camera(mlx_image_t *img);
 void		init_gui(t_gui *gui);
 int			main(int argc, char const *argv[]);

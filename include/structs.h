@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/11 15:17:32 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/11 17:17:38 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,8 @@ typedef struct s_ambient_light
 // there is only one camera in the scene
 typedef struct s_camera
 {
-	t_vec3			position;
-	t_vec3			orientation; // normalized vector (-1 to 1)
+	t_norm_ray		ray; // r.origin random point, r.direction normalized vector (-1 to 1) length = focal_length; // 1.0
 	double			fov; 		 // between 0 and 180 for horizontal FOV
-	double			focal_length; // 1.0
 	double 			delta_x;
 	double			delta_y;
 	t_vec3			corner_upper_left;

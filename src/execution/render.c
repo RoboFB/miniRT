@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 12:20:24 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/11 15:14:44 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/11 17:42:10 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	get_ray_pix_center(mlx_image_t *img, t_camera *camera, uint32_t x, uint32_t
 {
 	all[x + y * img->width].direction.x = camera->corner_upper_left.x + x * camera->delta_x;
 	all[x + y * img->width].direction.y = camera->corner_upper_left.y - y * camera->delta_y;
-	all[x + y * img->width].direction.z = -camera->focal_length;
-	all[x + y * img->width].origin = camera->position;
+	all[x + y * img->width].direction.z = -camera->ray.length;
+	all[x + y * img->width].origin = camera->ray.r.origin;
 }
 
 
