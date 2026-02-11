@@ -47,7 +47,7 @@ free all
 
 [raytraccer book](https://raytracing.github.io/books/RayTracingInOneWeekend.html#addingasphere/creatingourfirstraytracedimage)
 
-
+[math.h](https://cplusplus.com/reference/cmath/)
 
 
 
