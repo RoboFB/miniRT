@@ -6,7 +6,7 @@
 #    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/26 11:27:55 by rgohrig           #+#    #+#              #
-#    Updated: 2026/02/03 15:50:02 by rgohrig          ###   ########.fr        #
+#    Updated: 2026/02/11 14:40:19 by rgohrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ DEPENDENCIES := $(OBJ:.o=.d)
 # ----------------------------- NORMAL -----------------------------------------
 
 # default Rule
-all: lazy_robin $(LIBFT) $(LIBMLX) $(NAME) #TODO: rm at end lazy_robin
+all: lazy_robin stop $(LIBFT) $(LIBMLX) $(NAME) #TODO: rm at end lazy_robin
 
 
 
@@ -90,6 +90,9 @@ $(NAME): $(OBJ)
 -include $(DEPENDENCIES)
 
 # ----------------------------- Clean ------------------------------------------
+
+stop:
+	@pkill -x $(NAME) > /dev/null 2>&1 && echo "🛑 stopped $(NAME)" || true
 
 clean:
 	@rm -rf $(DEPENDENCIES)
@@ -141,4 +144,4 @@ lazy_robin:
 
 # ----------------------------- Phony ------------------------------------------
 
-.PHONY: all clean fclean re debug
+.PHONY: all clean fclean re debug stop
