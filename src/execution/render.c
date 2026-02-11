@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 12:20:24 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/09 18:05:03 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/11 15:14:44 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_vec3 anti_alias(t_ray *ray, uint32_t total, t_camera *camera)
 	t_ray		tmp_ray;
 
 	
-	color = (t_vec3){0.0, 0.0, 0.0};
+	color = BLACK_VEC3;
 	count = 0;
 	while (count < total)
 	{
@@ -104,7 +104,7 @@ t_vec3 anti_alias(t_ray *ray, uint32_t total, t_camera *camera)
 // 	t_ray		tmp_ray;
 
 	
-// 	color = (t_vec3){0.0, 0.0, 0.0};
+// 	color = BLACK_VEC3;
 // 	count = 0;
 // 	while (count < total)
 // 	{

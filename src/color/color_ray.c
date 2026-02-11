@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/09 19:59:05 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/11 15:20:28 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ t_vec3	ray_to_color(const t_ray *ray, int depth)
 	t_norm_ray	hit = {0};
 	
 	
-	
+	color = BLACK_VEC3; // black for default
 	if (depth-- == 0)
-		return ((t_vec3){0.0, 0.0, 0.0});
+		return (color);
 	
 	t_interval ray_boarder = {.min = 0.001, .max = HUGE_VAL};
 	sphere_loop = get_scene()->spheres.first;
@@ -47,28 +47,39 @@ t_vec3	ray_to_color(const t_ray *ray, int depth)
 		color.x = (1.0 - a) *1.0 + (a * 0.5);
 		color.y = (1.0 - a) *1.0 + (a * 0.7);
 		color.z = (1.0 - a) *1.0 + (a * 1.0);
+		return color;
 	}
-	else if (dot_vec3(ray->direction, hit.r.direction) > 0.0)
+
+	t_ray scattered = {0};
+	
+	if (dot_vec3(ray->direction, hit.r.direction) > 0.0)
 	{// ray is inside the sphere
-		color = (t_vec3){0.0, 0.0, 0.0}; // black for inside
+		hit.r.direction = inverse_vec3(hit.r.direction);
+
+		if (sphere_hit->material.type == MATERIAL_DIELECTRIC)
+		{
+			double ri = sphere_hit->material.refraction_index;
+			if (scatter_dielectric(ray, &hit, &scattered, ri))
+				color = mul_vec3(ray_to_color(&scattered, depth), WHITE_VEC3);
+		}
 	}
 	else
 	{// ray is outside the sphere and hits the sphere
-		
-		t_ray scattered = {0};
 		if (sphere_hit->material.type == MATERIAL_LAMBERTIAN)
 		{
-			scatter_lambertian(&hit, &scattered);
-			color = mul_vec3(ray_to_color(&scattered, depth), sphere_hit->material.albedo_color);
+			if (scatter_lambertian(&hit, &scattered))
+				color = mul_vec3(ray_to_color(&scattered, depth), sphere_hit->material.color);
 		}
 		else if (sphere_hit->material.type == MATERIAL_METAL)
 		{
-			scatter_metal(ray, &hit, &scattered);
-			color = mul_vec3(ray_to_color(&scattered, depth), sphere_hit->material.albedo_color);
+			if (scatter_metal(ray, &hit, &scattered, &sphere_hit->material))
+				color = mul_vec3(ray_to_color(&scattered, depth), sphere_hit->material.color);
 		}
-		else
+		else if (sphere_hit->material.type == MATERIAL_DIELECTRIC)
 		{
-			color = (t_vec3){0.0, 0.0, 0.0}; // black for no material
+			double ri = (1.0/sphere_hit->material.refraction_index);
+			if (scatter_dielectric(ray, &hit, &scattered, ri))
+				color = mul_vec3(ray_to_color(&scattered, depth), WHITE_VEC3);
 		}
 	}
 	

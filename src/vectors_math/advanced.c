@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:18:52 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/09 18:30:56 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/10 18:06:29 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,12 @@ t_vec3 get_pos_on_ray(const t_ray *ray, const double length)
 t_vec3 reflect_vec3(const t_vec3 vector, const t_vec3 normal)
 {
 	return sub_vec3(vector, mul_vec3_one(normal, 2 * dot_vec3(vector, normal)));
+}
+
+t_vec3 refract_vec3(const t_vec3* unit_vector, const t_vec3 *normal, double etai_over_etat)
+{
+	double cos_theta = fmin(dot_vec3(inverse_vec3(*unit_vector), *normal), 1.0);
+	t_vec3 r_out_perp =  mul_vec3_one(add_vec3(*unit_vector, mul_vec3_one(*normal, cos_theta)), etai_over_etat);
+	t_vec3 r_out_parallel = mul_vec3_one(*normal, -sqrt(fabs(1.0 - length_squared_vec3(r_out_perp))));
+	return add_vec3(r_out_perp, r_out_parallel);
 }

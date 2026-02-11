@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:03:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/09 18:07:00 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/10 17:38:21 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	hook_main(void *gui_void)
 	const t_gui	*gui = gui_void;
 
 	(void)gui;
+	get_scene()->camera->anti_aliasing_samples *= 2;
+	render();
 	// if (mlx_get_time() > 20.0)// run for 20 seconds max for testing
 	// 	mlx_close_window(gui->mlx);
 	return ;
