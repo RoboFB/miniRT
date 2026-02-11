@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:56:59 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/11 15:16:34 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/11 16:18:25 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,35 +27,92 @@ int init_scene(t_scene *scene, int argc, char const *argv[])
 
 	scene->spheres = dynamic_array_init(sizeof(t_sphere));
 
-	dynamic_array_add_back(&scene->spheres, &(t_sphere){ // left
-		.center = (t_vec3){-0.5, 0.0, -1.0},
-		.radius = 0.5,
-		.material = (t_material){
-			.type = MATERIAL_LAMBERTIAN,
-			.color = (t_vec3){0.1, 0.000001, 0.1},
-		},
-	});
-	dynamic_array_add_back(&scene->spheres, &(t_sphere){ // ground
-		.center = (t_vec3){0.0, -100.5, -1.0},
-		.radius = 100.0,
-		.material = (t_material){
-			.type = MATERIAL_LAMBERTIAN,
-			.color = (t_vec3){0.7, 0.7, 0.7},
-			.fuzz = 0.01,
-		},
-	});
-	dynamic_array_add_back(&scene->spheres, &(t_sphere){ // glass
-		.center = (t_vec3){0.5, 0.2, -1.0},
-		.radius = 0.5,
-		.material = (t_material){
-			.type = MATERIAL_DIELECTRIC,
-			.color = (t_vec3){0.7, 0.7, 0.7},
-			.refraction_index = 1.5,
-		},
-	});
+	init_sphere(scene);
+	// dynamic_array_add_back(&scene->spheres, &(t_sphere){ // left
+	// 	.center = (t_vec3){-0.5, 0.0, -1.0},
+	// 	.radius = 0.5,
+	// 	.material = (t_material){
+	// 		.type = MATERIAL_LAMBERTIAN,
+	// 		.color = (t_vec3){0.1, 0.000001, 0.1},
+	// 	},
+	// });
+	// dynamic_array_add_back(&scene->spheres, &(t_sphere){ // ground
+	// 	.center = (t_vec3){0.0, -100.5, -1.0},
+	// 	.radius = 100.0,
+	// 	.material = (t_material){
+	// 		.type = MATERIAL_LAMBERTIAN,
+	// 		.color = (t_vec3){0.7, 0.7, 0.7},
+	// 		.fuzz = 0.01,
+	// 	},
+	// });
+	// dynamic_array_add_back(&scene->spheres, &(t_sphere){ // in 0.4r 1.5
+	// 	.center = (t_vec3){0.5, 0.2, -1.0},
+	// 	.radius = 0.4,
+	// 	.material = (t_material){
+	// 		.type = MATERIAL_DIELECTRIC,
+	// 		.color = (t_vec3){0.7, 0.7, 0.7},
+	// 		.refraction_index = 1.0/1.5,
+	// 	},
+	// });
+	// dynamic_array_add_back(&scene->spheres, &(t_sphere){ // out 0.5r 1.0
+	// 	.center = (t_vec3){0.5, 0.2, -1.0},
+	// 	.radius = 0.5,
+	// 	.material = (t_material){
+	// 		.type = MATERIAL_DIELECTRIC,
+	// 		.color = (t_vec3){0.7, 0.7, 0.7},
+	// 		.refraction_index = 1.0,
+	// 	},
+	// });
 
 	
 	return (0);
+}
+
+void init_sphere(t_scene *scene)
+{
+dynamic_array_add_back(&scene->spheres, &(t_sphere){
+	.center = (t_vec3){0.0, -100.5, -1.0},
+	.radius = 100.0,
+	.material = (t_material){
+		.type = MATERIAL_LAMBERTIAN,
+		.color = (t_vec3){0.8, 0.8, 0.0},
+	},
+});
+dynamic_array_add_back(&scene->spheres, &(t_sphere){
+	.center = (t_vec3){0.0, 0.0, -1.2},
+	.radius = 0.5,
+	.material = (t_material){
+		.type = MATERIAL_LAMBERTIAN,
+		.color = (t_vec3){0.1, 0.2, 0.5},
+	},
+});
+dynamic_array_add_back(&scene->spheres, &(t_sphere){
+	.center = (t_vec3){-1.0, 0.0, -1.0},
+	.radius = 0.5,
+	.material = (t_material){
+		.type = MATERIAL_DIELECTRIC,
+		.refraction_index = 1.50,
+	},
+});
+dynamic_array_add_back(&scene->spheres, &(t_sphere){
+	.center = (t_vec3){-1.0, 0.0, -1.0},
+	.radius = 0.4,
+	.material = (t_material){
+		.type = MATERIAL_DIELECTRIC,
+		.refraction_index = 1.0 / 1.50,
+	},
+});
+dynamic_array_add_back(&scene->spheres, &(t_sphere){
+	.center = (t_vec3){1.0, 0.0, -1.0},
+	.radius = 0.5,
+	.material = (t_material){
+		.type = MATERIAL_METAL,
+		.color = (t_vec3){0.8, 0.6, 0.2},
+		.fuzz = 1,
+	},
+});
+	
+	
 }
 
 
