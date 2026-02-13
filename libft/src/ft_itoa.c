@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 16:53:04 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/03/31 14:24:32 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/13 18:53:47 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,17 @@ char	*ft_itoa(int n)
 	str = ft_calloc(len + 1, sizeof(char));
 	if (!str)
 		return (NULL);
+	ft_insert_revers(str, n, len);
+	return (str);
+}
+
+// R: returns a static string reference only, read it overwrite in the next call!
+const char	*ft_itoa_static(int n)
+{
+	int			len;
+	static char	str[12];
+
+	len = ft_get_len(n);
 	ft_insert_revers(str, n, len);
 	return (str);
 }

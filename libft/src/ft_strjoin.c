@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 16:53:27 by rgohrig           #+#    #+#             */
-/*   Updated: 2025/03/31 14:06:12 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/13 20:23:41 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,49 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strlcpy(joined_str, s1, total_size);
 	ft_strlcpy(joined_str + len_s1, s2, total_size - len_s1);
 	return (joined_str);
+}
+
+char	*ft_strjoin_3(char const *s1, char const *s2, char const *s3)
+{
+	char	*join;
+	size_t	s1_len;
+	size_t	s2_len;
+	size_t	s3_len;
+
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	s3_len = ft_strlen(s3);
+	if (s1_len > SIZE_MAX - s2_len - s3_len)
+		return (NULL);
+	join = ft_calloc(s1_len + s2_len + s3_len + 1, sizeof(char));
+	if (join == NULL)
+		return (NULL);
+	ft_memcpy(join, s1, s1_len);
+	ft_memcpy(join + s1_len, s2, s2_len);
+	ft_memcpy(join + s1_len + s2_len, s3, s3_len);
+	return (join);
+}
+
+char	*ft_strjoin_4(char const *s1, char const *s2, char const *s3, char const *s4)
+{
+	char	*join;
+	size_t	s1_len;
+	size_t	s2_len;
+	size_t	s3_len;
+	size_t	s4_len;
+
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	s3_len = ft_strlen(s3);
+	s4_len = ft_strlen(s4);
+	if (s1_len > SIZE_MAX - s2_len - s3_len - s4_len)
+		return (NULL);
+	join = ft_calloc(s1_len + s2_len + s3_len + s4_len + 1, sizeof(char));
+	if (join == NULL)
+		return (NULL);
+	ft_memcpy(join, s1, s1_len);
+	ft_memcpy(join + s1_len, s2, s2_len);
+	ft_memcpy(join + s1_len + s2_len, s3, s3_len);
+	ft_memcpy(join + s1_len + s2_len + s3_len, s4, s4_len);
+	return (join);
 }

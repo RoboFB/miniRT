@@ -50,6 +50,7 @@
 t_vec3		ray_to_color(const t_ray *ray, int depth);
 void		img_fill_256(mlx_image_t *img, const t_color_256 *color);
 void		img_copy(mlx_image_t *change, mlx_image_t *source);
+void		img_white_to_black(mlx_image_t *change);
 void		swap_screen_imgs(t_gui *gui);
 void		img_draw_vec3(uint8_t* pixel, const t_vec3 *color_linear);
 void		img_draw_256(uint8_t* pixel, const t_color_256 *color);
@@ -88,6 +89,9 @@ void		loop_rays(mlx_image_t *img, t_camera *camera);
 void		sample_rays(uint32_t x, uint32_t y, mlx_image_t *img, t_camera *camera);
 t_vec3		get_pix_pos_base(t_camera *camera, uint32_t x, uint32_t y);
 t_ray		final_ray(const t_vec3 *base, t_camera *camera);
+int			get_time_ms(struct timeval *anchor);
+long		get_time_us(struct timeval *anchor);
+void		bench_time(int state, mlx_t *mlx, t_camera *camera, mlx_image_t *img);
 t_vec3		add_vec3(t_vec3 a, const t_vec3 b);
 t_vec3		sub_vec3(t_vec3 a, const t_vec3 b);
 t_vec3		mul_vec3(t_vec3 a, const t_vec3 b);

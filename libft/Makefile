@@ -6,7 +6,7 @@
 #    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 10:21:00 by rgohrig           #+#    #+#              #
-#    Updated: 2026/01/26 13:42:59 by rgohrig          ###   ########.fr        #
+#    Updated: 2026/02/13 20:04:57 by rgohrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,9 @@ fclean : clean
 	@rm -f $(NAME)
 	@echo 🧹🧹🧹 cleaned $(NAME)
 
-re : fclean all
+re :
+	@$(MAKE) fclean
+	@$(MAKE) all
+
 
 .PHONY : all clean fclean re

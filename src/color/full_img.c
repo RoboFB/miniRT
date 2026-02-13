@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   img_utils.c                                        :+:      :+:    :+:   */
+/*   full_img.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:49:42 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/06 12:47:23 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/13 19:46:32 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,25 @@ void	img_copy(mlx_image_t *change, mlx_image_t *source)
 		return ;
 	ft_memcpy(change->pixels, source->pixels,
 		(change->height * change->width * BPP));
+	return ;
+}
+
+// convert whit to black
+void	img_white_to_black(mlx_image_t *change)
+{
+	uint32_t	pos;
+	t_color_256	*pixel_buffer;
+	
+	pixel_buffer = (t_color_256 *)change->pixels;
+	pos = 0;
+	while (pos < change->height * change->width)
+	{
+		if (pixel_buffer[pos].value == WHITE_256.value)
+		{
+			img_draw_256(pixel_buffer[pos].bytes, &BLAKE_256);
+		}
+		pos++;
+	}
 	return ;
 }
 

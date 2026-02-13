@@ -6,7 +6,7 @@
 #    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/26 11:27:55 by rgohrig           #+#    #+#              #
-#    Updated: 2026/02/11 14:40:19 by rgohrig          ###   ########.fr        #
+#    Updated: 2026/02/13 20:08:13 by rgohrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,7 +107,9 @@ fclean: clean
 # 	@rm -rf $(LIBMLX_DIR)/build > /dev/null
 	@echo 🧹🧹🧹 cleaned $(NAME)
 
-re: fclean all
+re:
+	@$(MAKE) --no-print-directory fclean
+	@$(MAKE) --no-print-directory all
 
 # ----------------------------- Debug ------------------------------------------
 
