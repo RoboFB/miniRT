@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/11 17:17:38 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/12 12:31:58 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ typedef struct s_camera
 {
 	t_norm_ray		ray; // r.origin random point, r.direction normalized vector (-1 to 1) length = focal_length; // 1.0
 	double			fov; 		 // between 0 and 180 for horizontal FOV
-	double 			delta_x;
-	double			delta_y;
+	t_vec3 			delta_u;
+	t_vec3			delta_v;
 	t_vec3			corner_upper_left;
 	int32_t			max_deep_rays;
-	int32_t			anti_aliasing_samples;
+	uint32_t		anti_aliasing_samples;
 }					t_camera;
 
 

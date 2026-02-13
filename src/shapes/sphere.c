@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:02:59 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/09 18:29:47 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/12 12:14:30 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ bool	is_hit_sphere(const t_sphere *sph, const t_ray *ray, const t_interval ray_b
 
 	hit->length = root;// is length factor of a norm ray
 	hit->r.origin = get_pos_on_ray(ray, hit->length);// hit point rec.p
-	hit->r.direction = div_vec3_one(sub_vec3(hit->r.origin, sph->center), sph->radius);// rec.normal
+	hit->r.direction = div_one_vec3(sub_vec3(hit->r.origin, sph->center), sph->radius);// rec.normal
 	// printf("l:%.3f,", length_vec3(hit->r.direction));
 	// printf("%.3f\n",hit->length);
 

@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 17:56:22 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/11 15:53:47 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/12 12:14:21 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ bool	scatter_metal(const t_ray* r_in, const t_norm_ray* hit, t_ray *scattered, c
 
 	t_vec3 reflected = reflect_vec3(r_in->direction, hit->r.direction);
 	reflected = normalize_vec3(reflected);
-	reflected = add_vec3(reflected, mul_vec3_one(get_random_unit_vector(), material->fuzz));
+	reflected = add_vec3(reflected, mul_one_vec3(get_random_unit_vector(), material->fuzz));
 	*scattered = (t_ray){hit->r.origin, reflected};
 
 	return (dot_vec3(scattered->direction, hit->r.direction) > 0);

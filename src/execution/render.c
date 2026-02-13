@@ -6,23 +6,25 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 12:20:24 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/11 17:42:10 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/13 13:55:54 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-
-void	get_ray_pix_center(mlx_image_t *img, t_camera *camera, uint32_t x, uint32_t y, t_ray *all)
+// render function(gets called once after all params are set up)
+void	render(void)
 {
-	all[x + y * img->width].direction.x = camera->corner_upper_left.x + x * camera->delta_x;
-	all[x + y * img->width].direction.y = camera->corner_upper_left.y - y * camera->delta_y;
-	all[x + y * img->width].direction.z = -camera->ray.length;
-	all[x + y * img->width].origin = camera->ray.r.origin;
+	t_scene		*scene;
+	mlx_image_t	*img;
+
+	scene = get_scene();
+	img = get_gui()->img;
+	loop_rays(img, scene->camera);
+	swap_screen_imgs(get_gui());
 }
 
-
-void	fill_rays(mlx_image_t *img, t_camera *camera, t_ray *all)
+void	loop_rays(mlx_image_t *img, t_camera *camera)
 {
 	uint32_t	x;
 	uint32_t	y;
@@ -33,66 +35,71 @@ void	fill_rays(mlx_image_t *img, t_camera *camera, t_ray *all)
 		x = 0;
 		while (x < img->width)
 		{
-			get_ray_pix_center(img, camera, x, y, all);
+			sample_rays(x, y, img, camera);
 			x++;
 		}
 		y++;
 	}
 }
 
-
-// render function(gets called once after all params are set up)
-void	render(void)
+void sample_rays(uint32_t x, uint32_t y, mlx_image_t *img, t_camera *camera)
 {
-	t_scene		*scene;
-	mlx_image_t	*img;
+	t_ray		tmp_ray;
 	t_vec3		color;
-	uint32_t	pos;
+	uint32_t	count;
 
-	scene = get_scene();
-	img = get_gui()->img;
-	fill_rays(img, scene->camera, scene->all_rays);
-	pos = 0;
-	while (pos < img->height * img->width)
+	color = BLACK_VEC3;
+	count = 0;
+
+
+	t_vec3 pixel_pos = get_pix_pos_base(camera, x, y);
+	// add camera ?
+
+	while (count < camera->anti_aliasing_samples)
 	{
-		color = anti_alias(&scene->all_rays[pos], scene->camera->anti_aliasing_samples, scene->camera);
-		img_draw_vec3(&img->pixels[pos * 4], &color);
-		pos++;
+
+		tmp_ray = final_ray(&pixel_pos, camera);
+		// tmp_ray = center_ray;
+		add_vec3_p(&color, ray_to_color(&tmp_ray, camera->max_deep_rays));
+		count++;
 	}
-	swap_screen_imgs(get_gui());
+	div_one_vec3_p(&color, camera->anti_aliasing_samples);
+	img_draw_vec3(&img->pixels[(x + y*img->width) * 4], &color);
+	return ;
+}
+
+
+
+t_vec3	get_pix_pos_base(t_camera *camera, uint32_t x, uint32_t y)
+{
+	t_vec3 pixel_pos;
+
+	pixel_pos = sub_vec3(camera->corner_upper_left, mul_one_vec3(camera->delta_u, (double)x));
+	sub_vec3_p(&pixel_pos, mul_one_vec3(camera->delta_v, (double)y));
+	
+	if (x == 0 && y == 0)
+		debug_vec3("top left    ", &pixel_pos);
+	if (x == WIDTH_DEFAULT -1 && y == HEIGHT_DEFAULT-1)
+		debug_vec3("bottom right", &pixel_pos);
+
+	return pixel_pos;
 }
 
 // supersampling random
-t_ray offset_ray(t_ray *ray, t_camera *camera)
+t_ray	final_ray(const t_vec3 *base, t_camera *camera)
 {
 	t_ray	new;
 
-	new = *ray;
-	new.direction.x += camera->delta_x * (0.5 - (get_random()));
-	new.direction.y += camera->delta_y * (0.5 - (get_random()));
-	// printf(" offset_x:%f offset_y:%f\n", offset_x/camera->delta_x, offset_y/camera->delta_y);
+	new.direction = *base;
+	sub_vec3_p(&new.direction, camera->ray.r.origin);
+	sub_vec3_p(&new.direction, mul_one_vec3(camera->delta_u, (get_random())));
+	sub_vec3_p(&new.direction, mul_one_vec3(camera->delta_v, (get_random())));
+
+	new.origin = camera->ray.r.origin;
 	return (new);
 }
 
 
-t_vec3 anti_alias(t_ray *ray, uint32_t total, t_camera *camera)
-{
-	uint32_t	count;
-	t_vec3		color;
-	t_ray		tmp_ray;
-
-	
-	color = BLACK_VEC3;
-	count = 0;
-	while (count < total)
-	{
-		tmp_ray = offset_ray(ray, camera);
-		color = add_vec3(color, ray_to_color(&tmp_ray, camera->max_deep_rays));
-		count++;
-	}
-	color = div_vec3_one(color, total);
-	return (color);
-}
 
 
 // tries early brake

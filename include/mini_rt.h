@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/10 18:42:00 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/12 12:17:48 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void		free_gui(t_gui *gui);
 void		free_scene(t_scene *scene);
 void		free_data(void);
 int			init_scene(t_scene *scene, int argc, char const *argv[]);
+void		puple_spheres(t_scene *scene);
 void		init_sphere(t_scene *scene);
 void		test_fov(t_scene *scene);
 t_camera		*init_camera(mlx_image_t *img);
@@ -82,19 +83,19 @@ int			test_caller(int argc, char const *argv[]);
 void		debug_vec3(const char *msg, const t_vec3 *v);
 void		debug_ray(const char *msg, const t_ray *ray);
 void		debug_decimal(const char *msg, double d);
-void		get_ray_pix_center(mlx_image_t *img, t_camera *camera, uint32_t x, uint32_t y, t_ray *all);
-void		fill_rays(mlx_image_t *img, t_camera *camera, t_ray *all);
 void		render(void);
-t_ray		offset_ray(t_ray *ray, t_camera *camera);
-t_vec3		anti_alias(t_ray *ray, uint32_t total, t_camera *camera);
+void		loop_rays(mlx_image_t *img, t_camera *camera);
+void		sample_rays(uint32_t x, uint32_t y, mlx_image_t *img, t_camera *camera);
+t_vec3		get_pix_pos_base(t_camera *camera, uint32_t x, uint32_t y);
+t_ray		final_ray(const t_vec3 *base, t_camera *camera);
 t_vec3		add_vec3(t_vec3 a, const t_vec3 b);
 t_vec3		sub_vec3(t_vec3 a, const t_vec3 b);
 t_vec3		mul_vec3(t_vec3 a, const t_vec3 b);
 t_vec3		div_vec3(t_vec3 a, const t_vec3 b);
-t_vec3		add_vec3_one(t_vec3 a, const double add);
-t_vec3		sub_vec3_one(t_vec3 a, const double subtract);
-t_vec3		mul_vec3_one(t_vec3 a, const double multiply);
-t_vec3		div_vec3_one(t_vec3 a, const double divide);
+t_vec3		add_one_vec3(t_vec3 a, const double add);
+t_vec3		sub_one_vec3(t_vec3 a, const double subtract);
+t_vec3		mul_one_vec3(t_vec3 a, const double multiply);
+t_vec3		div_one_vec3(t_vec3 a, const double divide);
 double		combine_vec3(const t_vec3 a);
 double		dot_vec3(const t_vec3 a, const t_vec3 b);
 double		length_squared_vec3(const t_vec3 a);
@@ -114,6 +115,14 @@ bool		is_near_zero(const double value);
 bool		is_near_zero_vec3(const t_vec3 a);
 double		degrees_to_radians(const double degrees);
 double		linear_to_gamma(const double linear_color_part);
+void		add_vec3_p(t_vec3 *a, const t_vec3 b);
+void		sub_vec3_p(t_vec3 *a, const t_vec3 b);
+void		mul_vec3_p(t_vec3 *a, const t_vec3 b);
+void		div_vec3_p(t_vec3 *a, const t_vec3 b);
+void		add_one_vec3_p(t_vec3 *a, const double add);
+void		sub_one_vec3_p(t_vec3 *a, const double subtract);
+void		mul_one_vec3_p(t_vec3 *a, const double multiply);
+void		div_one_vec3_p(t_vec3 *a, const double divide);
 bool		is_hit_sphere(const t_sphere *sph, const t_ray *ray, const t_interval ray_boarder, t_norm_ray *hit);
 t_vec3		get_random_on_hemisphere(const t_vec3 *hit_direction_normal);
 t_dynamic_array		dynamic_array_init(size_t element_size);

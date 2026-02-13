@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 16:01:22 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/09 18:04:19 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/12 12:14:30 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,6 @@ t_vec3 get_random_unit_vector()
 		new = get_random_vec3();
 		double length_squared = length_squared_vec3(new);
 		if (is_interval_in((t_interval){1e-160, 1.0}, length_squared))
-			return (div_vec3_one(new , sqrt(length_squared)));
+			return (div_one_vec3(new , sqrt(length_squared)));
 	}
 }
