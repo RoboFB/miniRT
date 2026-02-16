@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/12 12:31:58 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/16 10:57:40 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,12 +126,34 @@ typedef struct s_cylinder
 }					t_cylinder;
 
 
+typedef enum e_stats_type
+{
+	STATS_RAYS_SEC,
+	STATS_NONE,
+
+	STATS_MAX,
+
+}					t_stats_type;
+
+typedef struct s_statistics
+{
+	t_stats_type	type;
+	struct timeval	time_before_render;
+	int				rays_rendered;
+	mlx_image_t		*str_img;
+	mlx_image_t		*background_img;
+
+}					t_statistics;
+
 // stores gui and scene pointer
 typedef struct s_gui
 {
 	mlx_t			*mlx;
 	mlx_image_t		*img;
 	mlx_image_t		*buffer_img;// the image on the screen to modify the normal img.
+
+	t_statistics	statistics;
+
 }					t_gui;
 
 // scene related (objects, setting, etc)

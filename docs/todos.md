@@ -5,17 +5,17 @@
 
 ### graphics framework:
 
-- [ ] window mangment fluied
-  - [ ] switching
-  - [ ] minimizing
-  - [ ] closing
-  - [ ] rescaling?
+- [~] window mangment fluied
+  - [~] switching
+  - [~] minimizing
+  - [~] closing
+  - [~] rescaling?
 
-- [ ] close window and quit clean:
-  - [ ] ESC
-  - [ ] red cross
+- [~] close window and quit clean:
+  - [~] ESC
+  - [~] red cross
 
-- [ ] use images of library.
+- [~] use images of library.
 
 
 ### docs: 
@@ -27,9 +27,9 @@
 
 - [ ] Shapes
   - [ ] plane, 
-  - [ ] sphere, 
+  - [~] sphere, 
   - [ ] cylinder
-- [ ] 
+
 - [ ] possible intersections and object insides handled correctly
 
 - [ ] objects: translation and rotation transformations
@@ -42,6 +42,8 @@
   - [ ] ambinet lighting (objs not completly dark)
   - [ ] diffuse lighting
 
+### optimizations
+- [ ] Bounding Volume Hierarchies (BVM) (grouping objs)
 
 ### Parsing:
 - [ ] Gabriel: if no arg read form stdin

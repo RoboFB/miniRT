@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/12 12:17:48 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/16 11:14:53 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void		free_gui(t_gui *gui);
 void		free_scene(t_scene *scene);
 void		free_data(void);
 int			init_scene(t_scene *scene, int argc, char const *argv[]);
-void		puple_spheres(t_scene *scene);
+void		purple_spheres(t_scene *scene);
 void		init_sphere(t_scene *scene);
 void		test_fov(t_scene *scene);
 t_camera		*init_camera(mlx_image_t *img);
@@ -91,7 +91,10 @@ t_vec3		get_pix_pos_base(t_camera *camera, uint32_t x, uint32_t y);
 t_ray		final_ray(const t_vec3 *base, t_camera *camera);
 int			get_time_ms(struct timeval *anchor);
 long		get_time_us(struct timeval *anchor);
-void		bench_time(int state, mlx_t *mlx, t_camera *camera, mlx_image_t *img);
+double		get_time_s(struct timeval *anchor);
+void		reset_render_time(t_gui *gui);
+void		draw_stats(const char *string, t_gui *gui);
+void		update_stats(t_gui *gui, t_camera *camera);
 t_vec3		add_vec3(t_vec3 a, const t_vec3 b);
 t_vec3		sub_vec3(t_vec3 a, const t_vec3 b);
 t_vec3		mul_vec3(t_vec3 a, const t_vec3 b);

@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 12:20:24 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/13 19:02:14 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/16 11:09:05 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ void	render(void)
 	scene = get_scene();
 	img = get_gui()->img;
 	
-	bench_time(0, get_gui()->mlx, scene->camera, img);
+	reset_render_time(get_gui());
 
 	loop_rays(img, scene->camera);
 	swap_screen_imgs(get_gui());
 
-	bench_time(1, get_gui()->mlx, scene->camera, img);
+	update_stats(get_gui(), scene->camera);
 }
 
 void	loop_rays(mlx_image_t *img, t_camera *camera)

@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:03:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/10 17:38:21 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/16 11:12:03 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	hook_main(void *gui_void)
 	const t_gui	*gui = gui_void;
 
 	(void)gui;
-	get_scene()->camera->anti_aliasing_samples *= 2;
+	// get_scene()->camera->anti_aliasing_samples *= 2;
 	render();
 	// if (mlx_get_time() > 20.0)// run for 20 seconds max for testing
 	// 	mlx_close_window(gui->mlx);
@@ -40,12 +40,18 @@ void	init_hooks(t_gui *gui)
 // Key hook function, called on key presses
 void	hook_key(mlx_key_data_t key_data, void *gui_void)
 {
-	const t_gui	*gui = gui_void;
+	t_gui	*gui = gui_void;
 
 	if (key_data.action == MLX_PRESS)
 	{
 		if (key_data.key == MLX_KEY_ESCAPE)
 			mlx_close_window(gui->mlx);
+		if (key_data.key == MLX_KEY_SPACE)
+		{
+			gui->statistics.type++;
+			if (gui->statistics.type >= STATS_MAX)
+				gui->statistics.type = STATS_RAYS_SEC;
+		}
 	}
 	return ;
 }
