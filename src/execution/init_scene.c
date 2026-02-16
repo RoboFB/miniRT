@@ -6,20 +6,117 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:56:59 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/16 11:18:14 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/16 17:41:42 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "mini_rt.h"
 
+// R; 0 = success, else error (-1)
+int get_cordinate(char **line_pos, t_vec3 *result)
+{
+	t_vec3	result;
+	
+	while (ft_isspace(**line_pos))
+		(*line_pos)++;
+	int len = ft_atof(*line_pos, &result->x);
+	if (len == -1)
+		return (-1);
+	*line_pos += len;
+	if (**line_pos != ',')
+		return (-1);
+	(*line_pos)++;
+	
+	len = ft_atof(*line_pos, &result->y);
+	if (len == -1)
+		return (-1);
+	*line_pos += len;
+	if (**line_pos != ',')
+		return (-1);
+	(*line_pos)++;
+	
+	len = ft_atof(*line_pos, &result->z);
+	if (len == -1)
+		return (-1);
+	*line_pos += len;
+	
+	/* 
+	WEITETRAMCHEN MIT PARSIING HIER WEIETR MACEN EVT SOLIETERN ANSATZ VON ANFANG AN
+	maby immer poiter poitern pos mitgeben und am ender poitern auf null oder nachste mogliche zahl
+	sicherstellen das , am ende kommt und error sauber uber retur zuruckgeben
+	*/
 
+	
+
+	return (result);
+}
+
+
+// returns 0 on success, else -1 error
+int parsed_line(t_scene *scene, char *line)
+{
+	static const char names[6][3] = {"A", "C", "L", "sp", "pl", "cy"};
+	static const void *functions[6] = {&init_ambient_light, &init_camera, &init_light, &init_sphere, &init_plane, &init_cylinder};
+
+	int pos = 0;
+	if (line == NULL)
+		return (-1);
+	if (line[0] == '\n' || line[0] == '#')
+	{
+		return (0);
+	}
+	while (pos <= 6)
+	{
+		if (ft_strncmp(line, names[pos], ft_strlen(names[pos])) == 0)
+		{
+			// functions[pos]();
+
+			return (0);
+		}
+		pos++;
+	}
+	return (0);
+}
 
 // R: 0 = success, else error
 int init_scene(t_scene *scene, int argc, char const *argv[])
 {
 	// TODO: implement parsing here.
-	(void)argc;
-	(void)argv;
+	int file_fd;
+	if (argc == 1)
+	{
+		file_fd = STDIN_FILENO;
+	}
+	else if (argc == 2)
+	{
+		char *filename = (char *)argv[1];
+		size_t len = ft_strlen(filename);
+		if (len < 3 || ft_strncmp(filename + len - 3, ".rt", 4) != 0)
+			msg_2_exit(filename, "Invalid file name. needs to end with .rt");
+
+		file_fd = open(filename, O_RDONLY);
+		if (file_fd < 0)
+			perror_exit(filename);
+	}
+	else
+	{
+		msg_exit("Too many arguments, expected only the scene file");
+	}
+
+	while (true)
+	{
+		char *line = get_next_line(file_fd);
+		if (!parsed_line(scene, line) == -1)
+		{
+			free(line);
+			break;
+		}
+
+
+		free(line);
+	}
+	close(file_fd);
+
 
 	scene->camera = init_camera(get_gui()->img);
 

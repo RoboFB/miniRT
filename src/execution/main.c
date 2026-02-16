@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 13:25:10 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/09 18:01:59 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/16 15:04:50 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ int	main(int argc, char const *argv[])
 	if (test_caller(argc, argv))
 		return (0);
 
-	gui = &get_data()->gui;
+	gui = get_gui();
 	init_gui(gui);
 
-	scene = &get_data()->scene;
-	
+	scene = get_scene();
+
 	if (init_scene(scene, argc, argv) != 0)
 		msg_exit("Parsing error occurred");
 	render();

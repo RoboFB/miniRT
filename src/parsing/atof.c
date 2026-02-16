@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 15:28:53 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/26 17:56:22 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/16 17:32:08 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,22 +100,24 @@ static double	h_get_exp(char const **pp_pos)
 
 // convert string to double, should be safe, but not completely strict at end
 // Input: str | Output: num | R: 0(OK) -1(Error)
-int	fr_atof(char const *str, double *num)
+int	ft_atof(char const *str, double *num)
 {
+	char const	*start_save;
 	double		negative;
 
+	start_save = str;
 	*num = 0.0;
 	h_skip_space(&str);
 	negative = h_get_negative(&str);
 	if (h_get_base_num(&str, num) < 0)
 		return (-1);
 	if (*num == 0.0)
-		return (0);
+		return (str - start_save);
 	*num *= pow(10.0, h_get_exp(&str));
 	if (!isfinite(*num) || *num == 0.0)
 		return (-1);
 	*num *= negative;
-	return (0);
+	return (str - start_save);
 }
 
 /*

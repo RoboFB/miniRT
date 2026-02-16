@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/16 11:14:53 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/16 16:30:54 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@
 # include <math.h>
 # include <limits.h>
 # include <sys/time.h>
+# include <fcntl.h>
 
 # include "MLX42.h"
 # include "libft.h"
 # include "ft_printf.h"
+# include "get_next_line.h"
 
 #include "dynamic_array.h"
 # include "structs.h"
@@ -58,10 +60,11 @@ bool		scatter_lambertian(const t_norm_ray* hit, t_ray *scattered);
 bool		scatter_metal(const t_ray* r_in, const t_norm_ray* hit, t_ray *scattered, const t_material *material);
 double		reflectance(double cosine, double refraction_idx);
 bool		scatter_dielectric(const t_ray* r_in, const t_norm_ray *hit, t_ray *scattered, double ri);
-int			fr_atof(char const *str, double *num);
+int			ft_atof(char const *str, double *num);
 void		program_exit(int exit_code);
 void		perror_exit(const char *msg);
 void		msg_exit(const char *msg);
+void		msg_2_exit(const char *msg, const char *msg2);
 void		perror_mlx_exit(const char *msg);
 void		hook_main(void *gui_void);
 void		init_hooks(t_gui *gui);
@@ -70,12 +73,13 @@ void		hook_resize(int32_t width, int32_t height, void *gui_void);
 void		free_gui(t_gui *gui);
 void		free_scene(t_scene *scene);
 void		free_data(void);
+t_vec3		get_cordinate(char **line);
+int			parsed_line(t_scene *scene, char *line);
 int			init_scene(t_scene *scene, int argc, char const *argv[]);
 void		purple_spheres(t_scene *scene);
 void		init_sphere(t_scene *scene);
 void		test_fov(t_scene *scene);
 t_camera		*init_camera(mlx_image_t *img);
-void		init_gui(t_gui *gui);
 int			main(int argc, char const *argv[]);
 void		test_r3(void);
 void		test_random(void);
@@ -95,6 +99,7 @@ double		get_time_s(struct timeval *anchor);
 void		reset_render_time(t_gui *gui);
 void		draw_stats(const char *string, t_gui *gui);
 void		update_stats(t_gui *gui, t_camera *camera);
+void		init_gui(t_gui *gui);
 t_vec3		add_vec3(t_vec3 a, const t_vec3 b);
 t_vec3		sub_vec3(t_vec3 a, const t_vec3 b);
 t_vec3		mul_vec3(t_vec3 a, const t_vec3 b);
