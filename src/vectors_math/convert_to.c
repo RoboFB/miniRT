@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:05:46 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/10 16:59:21 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/17 14:25:56 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,13 @@ double linear_to_gamma(const double linear_color_part)
 		return sqrt(linear_color_part);
 
 	return 0;
+}
+
+void color_256_to_vec3(t_color_256 *in, t_vec3 *out)
+{
+	out->x = (double)in->r / 255.0;
+	out->y = (double)in->g / 255.0;
+	out->z = (double)in->b / 255.0;
+	(void)in;
+	return ;
 }

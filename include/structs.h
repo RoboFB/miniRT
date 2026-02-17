@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/16 10:57:40 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/17 14:49:04 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,31 @@ typedef union u_color_256
 {
 	uint8_t			bytes[4];
 	uint32_t		value;
-	struct {
+	struct
+	{
 		uint8_t		r;
 		uint8_t		g;
 		uint8_t		b;
 		uint8_t		a;
 	};
-}			t_color_256;
+}					t_color_256;
 
 typedef struct s_norm_ray
 {
 	t_ray			r;
 	double			length;// factor for ray length
 }					t_norm_ray;
+
+
+typedef struct s_scene t_scene; // forward declaration for parser function pointer
+typedef struct s_parser_entry
+{
+	char			name[3];
+	bool			(*func)(t_scene *scene, const char *line);
+}					t_parser_entry;
+
+
+
 
 typedef struct s_ambient_light
 {
@@ -101,7 +113,7 @@ typedef struct s_material
 	t_vec3			color; // R G B 0.0 to 1.0
 	double			fuzz; // between 0.0 and 1.0 for metal
 	double			refraction_index; // for dielectric
-	
+
 }					t_material;
 
 typedef struct s_sphere

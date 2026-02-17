@@ -6,86 +6,144 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:56:59 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/16 17:41:42 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/17 16:18:40 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "mini_rt.h"
 
-// R; 0 = success, else error (-1)
-int get_cordinate(char **line_pos, t_vec3 *result)
+
+
+// R; true = success, error = false
+bool pars_coordinate_converted(const char **line_pos, t_vec3 *result)
 {
-	t_vec3	result;
-	
-	while (ft_isspace(**line_pos))
-		(*line_pos)++;
-	int len = ft_atof(*line_pos, &result->x);
-	if (len == -1)
-		return (-1);
-	*line_pos += len;
-	if (**line_pos != ',')
-		return (-1);
-	(*line_pos)++;
-	
-	len = ft_atof(*line_pos, &result->y);
-	if (len == -1)
-		return (-1);
-	*line_pos += len;
-	if (**line_pos != ',')
-		return (-1);
-	(*line_pos)++;
-	
-	len = ft_atof(*line_pos, &result->z);
-	if (len == -1)
-		return (-1);
-	*line_pos += len;
-	
-	/* 
-	WEITETRAMCHEN MIT PARSIING HIER WEIETR MACEN EVT SOLIETERN ANSATZ VON ANFANG AN
-	maby immer poiter poitern pos mitgeben und am ender poitern auf null oder nachste mogliche zahl
-	sicherstellen das , am ende kommt und error sauber uber retur zuruckgeben
-	*/
+	if (!pars_atof_converted(line_pos, &result->x))
+		return (false);
+	if (!pars_comma_skipped(line_pos))
+		return (false);
+	if (!pars_atof_converted(line_pos, &result->y))
+		return (false);
+	if (!pars_comma_skipped(line_pos))
+		return (false);
+	if (!pars_atof_converted(line_pos, &result->z))
+		return (false);
+	return (true);
+}
 
-	
+// R; true = success, error = false
+bool pars_coordinate_interval_converted(const char **line_pos, t_vec3 *result, t_interval range)
+{
+	if (!pars_double_in_range_converted(line_pos, &result->x, range))
+		return (false);
+	if (!pars_comma_skipped(line_pos))
+		return (false);
+	if (!pars_double_in_range_converted(line_pos, &result->y, range))
+		return (false);
+	if (!pars_comma_skipped(line_pos))
+		return (false);
+	if (!pars_double_in_range_converted(line_pos, &result->z, range))
+		return (false);
+	return (true);
+}
 
-	return (result);
+// R; true = success, error = false
+bool pars_double_in_range_converted(const char **line_pos, double *result, t_interval range)
+{
+	if (!pars_atof_converted(line_pos, result))
+		return (false);
+	
+	if (!is_interval_in(range, *result))
+		return (false);
+	
+	return (true);
+}
+
+// R; true = success, error = false
+bool pars_int8_in_range_converted(const char **line_pos, uint8_t *result)
+{
+	int tmp;
+	if (!pars_atoi_converted(line_pos, &tmp))
+		return (false);
+	
+	if (tmp < 0 || tmp > 255)
+		return (false);
+	*result = tmp;
+	return (true);
 }
 
 
-// returns 0 on success, else -1 error
-int parsed_line(t_scene *scene, char *line)
+// R; true = success, error = false
+bool pars_color_256_converted(const char **line_pos, t_color_256 *result_color)
 {
-	static const char names[6][3] = {"A", "C", "L", "sp", "pl", "cy"};
-	static const void *functions[6] = {&init_ambient_light, &init_camera, &init_light, &init_sphere, &init_plane, &init_cylinder};
+	printf("_str:_%s\n", *line_pos);
+	if (!pars_int8_in_range_converted(line_pos, &result_color->r))
+	return (false);
+	printf("_str:_%s\n", *line_pos);
+	if (!pars_comma_skipped(line_pos))
+	return (false);
+	printf("_str:_%s\n", *line_pos);
+	if (!pars_int8_in_range_converted(line_pos, &result_color->g))
+		return (false);
+	if (!pars_comma_skipped(line_pos))
+		return (false);
+	if (!pars_int8_in_range_converted(line_pos, &result_color->b))
+		return (false);
+	result_color->a = 255; // default alpha to fully opaque
+	return (true);
+}
+
+// R; true = success, error = false
+bool pars_color_vec3_converted(const char **line_pos, t_vec3 *result_color)
+{
+	t_color_256 temp_color;
+
+	if (!pars_color_256_converted(line_pos, &temp_color))
+		return (false);
+	color_256_to_vec3(&temp_color, result_color);
+	return (true);
+}
+
+// returns (true) on success/saved line, (false) on error/parsed line
+bool parse_line(t_scene *scene, char *line)
+{
+	static const t_parser_entry parser_entries[6] = {
+		{"A", &pars_ambient_light},
+		{"C", &pars_camera},
+		{"L", &pars_light},
+		{"sp", &pars_sphere},
+		{"pl", &pars_plane},
+		{"cy", &pars_cylinder}
+	};
 
 	int pos = 0;
 	if (line == NULL)
-		return (-1);
+		return (false);
 	if (line[0] == '\n' || line[0] == '#')
 	{
-		return (0);
+		return (false);
 	}
-	while (pos <= 6)
+	while (pos < 6)
 	{
-		if (ft_strncmp(line, names[pos], ft_strlen(names[pos])) == 0)
+		if (ft_strncmp(line, parser_entries[pos].name, ft_strlen(parser_entries[pos].name)) == 0)
 		{
-			// functions[pos]();
-
-			return (0);
+			line += ft_strlen(parser_entries[pos].name) + 1;
+			return (parser_entries[pos].func(scene, line));
 		}
 		pos++;
 	}
-	return (0);
+	return (false);
 }
 
 // R: 0 = success, else error
 int init_scene(t_scene *scene, int argc, char const *argv[])
 {
-	// TODO: implement parsing here.
 	int file_fd;
+
+	file_fd = -1;
 	if (argc == 1)
 	{
 		file_fd = STDIN_FILENO;
+		ft_printf("Reading scene from standard input. Press Ctrl+D to finish.\n");
 	}
 	else if (argc == 2)
 	{
@@ -103,32 +161,31 @@ int init_scene(t_scene *scene, int argc, char const *argv[])
 		msg_exit("Too many arguments, expected only the scene file");
 	}
 
+	scene->spheres = dynamic_array_init(sizeof(t_sphere));
+	scene->camera = ft_calloc(1, sizeof(t_camera));// todo: implement null check
+	init_camera(get_gui()->img, scene->camera);
+
+	// call all parsing line convrting fuctions dont exit becose of the open file!
 	while (true)
 	{
 		char *line = get_next_line(file_fd);
-		if (!parsed_line(scene, line) == -1)
-		{
-			free(line);
+		if (line == NULL)
 			break;
-		}
-
-
+		(void)parse_line(scene, line);
 		free(line);
 	}
 	close(file_fd);
 
 
-	scene->camera = init_camera(get_gui()->img);
 
-	scene->all_rays = ft_calloc(get_gui()->img->width * get_gui()->img->height, sizeof(t_ray));// todo: implement null check
+	// scene->all_rays = ft_calloc(get_gui()->img->width * get_gui()->img->height, sizeof(t_ray));// todo: implement null check
 
-	scene->spheres = dynamic_array_init(sizeof(t_sphere));
 
-	init_sphere(scene);
+	// init_sphere(scene);
 	// test_fov(scene);
 	// purple_spheres(scene);
 
-	
+	debug_sphere(scene->spheres.first);
 	return (0);
 }
 
@@ -240,13 +297,11 @@ void test_fov(t_scene *scene)
 }
 
 
-t_camera	*init_camera(mlx_image_t *img)
+t_camera	*init_camera(mlx_image_t *img, t_camera *camera)
 {
-	t_camera	*camera;
 
-	camera = ft_calloc(1, sizeof(t_camera));// todo: implement null check
-	camera->ray.r.origin = (t_vec3){-2.0, 2.0, 1.0};
-	camera->ray.r.direction = (t_vec3){1.0, -1.0,-1.0};
+	camera->ray.r.origin = (t_vec3){0, 0, 0.0};
+	camera->ray.r.direction = (t_vec3){0.0, 0.0,-1.0};
 	camera->ray.length = 1.0; // focal length
 	camera->fov = 90.0;
 	camera->max_deep_rays = 16;

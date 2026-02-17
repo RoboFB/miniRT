@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 15:28:53 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/16 17:32:08 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/17 15:29:27 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,25 +99,37 @@ static double	h_get_exp(char const **pp_pos)
 }
 
 // convert string to double, should be safe, but not completely strict at end
-// Input: str | Output: num | R: 0(OK) -1(Error)
-int	ft_atof(char const *str, double *num)
+// Input: str | Output: num | R: true(OK) false(Error)
+bool	pars_atof_converted(char const **str_pos, double *num)
 {
-	char const	*start_save;
 	double		negative;
 
-	start_save = str;
 	*num = 0.0;
-	h_skip_space(&str);
-	negative = h_get_negative(&str);
-	if (h_get_base_num(&str, num) < 0)
-		return (-1);
+	h_skip_space(str_pos);
+	negative = h_get_negative(str_pos);
+	if (h_get_base_num(str_pos, num) < 0)
+		return (false);
 	if (*num == 0.0)
-		return (str - start_save);
-	*num *= pow(10.0, h_get_exp(&str));
+		return (true);
+	*num *= pow(10.0, h_get_exp(str_pos));
 	if (!isfinite(*num) || *num == 0.0)
-		return (-1);
+		return (false);
 	*num *= negative;
-	return (str - start_save);
+	return (true);
+}
+
+// convert and skip comma
+bool	pars_comma_skipped(char const **str_pos)
+{
+	if (**str_pos == ',')
+	{
+		(*str_pos)++;
+		return (true);
+	}
+	else
+	{
+		return (false);
+	}
 }
 
 /*
@@ -129,3 +141,32 @@ x10		Base
 -		Sine of exponent
 33		Exponent
 */
+
+// R: true(OK) false(Error)
+bool	pars_atoi_converted(const char **str_pos, int *result)
+{
+	long int	num;
+	int			negative;
+
+	num = 0;
+	negative = 1;
+	if (!str_pos || !*str_pos || !**str_pos)
+		return (false);
+	h_skip_space(str_pos);
+	if (**str_pos == '-')
+	{
+		negative = -1;
+		(*str_pos)++;
+	}
+	if (!ft_isdigit(**str_pos))
+		return (false);
+	while (ft_isdigit(**str_pos))
+	{
+		num = num * 10 + (**str_pos - '0') * negative;
+		if (num < INT_MIN || num > INT_MAX)
+			return (false);
+		(*str_pos)++;
+	}
+	*result = (int)num;
+	return (true);
+}

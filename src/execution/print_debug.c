@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:06:59 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/13 13:38:23 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/17 15:51:35 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,35 @@ void	debug_decimal(const char *msg, double d)
 	if (DEBUG_RT == 0)
 		return ;
 	printf("%s: (%.3f)\n", msg, d);
+}
+
+void debug_material(const t_material *material)
+{
+	if (DEBUG_RT == 0)
+		return ;
+	if (material->type == MATERIAL_NONE)
+		printf("Material: NONE\n");
+	else if (material->type == MATERIAL_LAMBERTIAN)
+		printf("Material: LAMBERTIAN\n");
+	else if (material->type == MATERIAL_METAL)
+		printf("Material: METAL\n");
+	else if (material->type == MATERIAL_DIELECTRIC)
+		printf("Material: DIELECTRIC\n");
+	else if (material->type == MATERIAL_ALL)
+		printf("Material: ALL\n");
+	else
+		printf("Material: UNKNOWN\n");
+	debug_vec3("color", &material->color);
+	debug_decimal("fuzz", material->fuzz);
+	debug_decimal("refraction_index", material->refraction_index);
+}
+
+void debug_sphere(const t_sphere *sph)
+{
+	if (DEBUG_RT == 0)
+		return ;
+	printf("Sphere:\n");
+	debug_vec3("center", &sph->center);
+	debug_decimal("radius", sph->radius);
+	debug_material(&sph->material);
 }
