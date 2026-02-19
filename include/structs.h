@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/17 14:49:04 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/18 15:45:19 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_scene t_scene; // forward declaration for parser function point
 typedef struct s_parser_entry
 {
 	char			name[3];
-	bool			(*func)(t_scene *scene, const char *line);
+	bool			(*func)(t_scene *scene, const char **line);
 }					t_parser_entry;
 
 

@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:56:59 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/17 16:18:40 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/02/18 18:57:19 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,10 @@ bool pars_int8_in_range_converted(const char **line_pos, uint8_t *result)
 // R; true = success, error = false
 bool pars_color_256_converted(const char **line_pos, t_color_256 *result_color)
 {
-	printf("_str:_%s\n", *line_pos);
 	if (!pars_int8_in_range_converted(line_pos, &result_color->r))
-	return (false);
-	printf("_str:_%s\n", *line_pos);
+		return (false);
 	if (!pars_comma_skipped(line_pos))
-	return (false);
-	printf("_str:_%s\n", *line_pos);
+		return (false);
 	if (!pars_int8_in_range_converted(line_pos, &result_color->g))
 		return (false);
 	if (!pars_comma_skipped(line_pos))
@@ -104,7 +101,7 @@ bool pars_color_vec3_converted(const char **line_pos, t_vec3 *result_color)
 }
 
 // returns (true) on success/saved line, (false) on error/parsed line
-bool parse_line(t_scene *scene, char *line)
+bool parse_line(t_scene *scene, const char **line_pos)
 {
 	static const t_parser_entry parser_entries[6] = {
 		{"A", &pars_ambient_light},
@@ -116,18 +113,18 @@ bool parse_line(t_scene *scene, char *line)
 	};
 
 	int pos = 0;
-	if (line == NULL)
+	if (line_pos == NULL || *line_pos == NULL)
 		return (false);
-	if (line[0] == '\n' || line[0] == '#')
+	if (*line_pos[0] == '\n' || *line_pos[0] == '#')
 	{
-		return (false);
+		return (true);
 	}
 	while (pos < 6)
 	{
-		if (ft_strncmp(line, parser_entries[pos].name, ft_strlen(parser_entries[pos].name)) == 0)
+		if (ft_strncmp(*line_pos, parser_entries[pos].name, ft_strlen(parser_entries[pos].name)) == 0)
 		{
-			line += ft_strlen(parser_entries[pos].name) + 1;
-			return (parser_entries[pos].func(scene, line));
+			*line_pos += ft_strlen(parser_entries[pos].name) + 1;
+			return (parser_entries[pos].func(scene, line_pos));
 		}
 		pos++;
 	}
@@ -138,6 +135,7 @@ bool parse_line(t_scene *scene, char *line)
 int init_scene(t_scene *scene, int argc, char const *argv[])
 {
 	int file_fd;
+	char *filename = NULL;
 
 	file_fd = -1;
 	if (argc == 1)
@@ -147,7 +145,7 @@ int init_scene(t_scene *scene, int argc, char const *argv[])
 	}
 	else if (argc == 2)
 	{
-		char *filename = (char *)argv[1];
+		filename = (char *)argv[1];
 		size_t len = ft_strlen(filename);
 		if (len < 3 || ft_strncmp(filename + len - 3, ".rt", 4) != 0)
 			msg_2_exit(filename, "Invalid file name. needs to end with .rt");
@@ -163,20 +161,30 @@ int init_scene(t_scene *scene, int argc, char const *argv[])
 
 	scene->spheres = dynamic_array_init(sizeof(t_sphere));
 	scene->camera = ft_calloc(1, sizeof(t_camera));// todo: implement null check
-	init_camera(get_gui()->img, scene->camera);
 
 	// call all parsing line convrting fuctions dont exit becose of the open file!
-	while (true)
+	bool run = true;
+	int line_count = 0;
+	while (run)
 	{
+		line_count++;
 		char *line = get_next_line(file_fd);
 		if (line == NULL)
 			break;
-		(void)parse_line(scene, line);
+		const char *line_pos = line;
+		if (!parse_line(scene, &line_pos))
+		{
+			ft_printf("%s:%d:%d: parsing error at: '%c' in line: %s\n", filename, line_count, line_pos-line, *line_pos, line);
+			// run = false; // for ignore parsing errors activate at the end
+		}
 		free(line);
 	}
 	close(file_fd);
+	if (run == false)
+		program_exit(EXIT_FAILURE);
 
-
+	init_camera(get_gui()->img, scene->camera);
+	
 
 	// scene->all_rays = ft_calloc(get_gui()->img->width * get_gui()->img->height, sizeof(t_ray));// todo: implement null check
 
@@ -297,13 +305,13 @@ void test_fov(t_scene *scene)
 }
 
 
-t_camera	*init_camera(mlx_image_t *img, t_camera *camera)
+void init_camera(mlx_image_t *img, t_camera *camera)
 {
 
-	camera->ray.r.origin = (t_vec3){0, 0, 0.0};
-	camera->ray.r.direction = (t_vec3){0.0, 0.0,-1.0};
+	// camera->ray.r.origin = (t_vec3){0, 0, 0.0};
+	// camera->ray.r.direction = (t_vec3){0.0, 0.0,-1.0};
 	camera->ray.length = 1.0; // focal length
-	camera->fov = 90.0;
+	// camera->fov = 90.0;
 	camera->max_deep_rays = 16;
 	camera->anti_aliasing_samples = 16; // no *2 in main hock
 
@@ -342,6 +350,6 @@ t_camera	*init_camera(mlx_image_t *img, t_camera *camera)
 	// debug_vec3("u", &u);
 	// debug_vec3("v", &v);
 	
-	return (camera);
+	return ;
 }
 
