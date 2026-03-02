@@ -6,7 +6,7 @@
 #    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/26 11:27:55 by rgohrig           #+#    #+#              #
-#    Updated: 2026/02/13 20:08:13 by rgohrig          ###   ########.fr        #
+#    Updated: 2026/03/02 17:13:27 by rgohrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,16 @@ LIBMLX_FLAGS :=		-ldl -lglfw -pthread -lm
 # -ffast -flto ARE LINKER FLAGS
 
 DIR_SRC :=		src
-SRC :=			$(patsubst $(DIR_SRC)/%,%,$(shell find $(DIR_SRC) -type f -name "*.c")) # TODO: at end fix
-
+SRC :=			color/color_ray.c color/draw_pixel.c color/full_img.c \
+				color/materials.c data_structs/dynamic_array.c data_structs/globals.c \
+				data_structs/random.c data_structs/realloc.c execution/error.c \
+				execution/file_handeling.c execution/free_data.c execution/hooks.c \
+				execution/init_gui.c execution/init_scene.c execution/main.c \
+				execution/print_debug.c execution/render.c execution/statistics.c \
+				execution/time.c parsing/atof.c parsing/line_handers.c shapes/sphere.c \
+				vectors_math/advanced.c vectors_math/basic.c vectors_math/basic_pointer.c \
+				vectors_math/combine.c vectors_math/compare.c vectors_math/convert_to.c \
+				vectors_math/intervals.c
 
 DIR_OBJ :=		obj
 OBJ :=			$(SRC:%.c=$(DIR_OBJ)/%.o)
@@ -55,7 +63,7 @@ DEPENDENCIES := $(OBJ:.o=.d)
 # ----------------------------- NORMAL -----------------------------------------
 
 # default Rule
-all: lazy_robin stop $(LIBFT) $(LIBMLX) $(NAME) #TODO: rm at end lazy_robin
+all: stop rust-helper-for-c $(LIBFT) $(LIBMLX) $(NAME) #TODO: rm at end rust-helper-for-c
 
 
 
@@ -127,23 +135,9 @@ debug:
 # ----------------------------- Lazy Robin -------------------------------------
 
 # temporary Rule to update the header file
-lazy_robin:
-	@awk '/ auto/ { exit } { print }' include/mini_rt.h > tmp-auto-header.h
-	@echo '// auto' >> tmp-auto-header.h
-	@awk '/^[a-zA-Z_][a-zA-Z0-9_ \*\t]*\([^\)]*\)[ \t]*$$/ { \
-			last=$$0; \
-			getline; \
-			if ($$0 ~ /^\s*\{/) { \
-					split(last, a, /[ \t]+/); \
-					if (a[1] == "int") sub(/[ \t]+/, "\t\t\t", last); \
-					else sub(/[ \t]+/, "\t\t", last); \
-					print last ";"; \
-			} \
-	}' $(shell find $(DIR_SRC) -type f -name '*.c') | grep -v static >> tmp-auto-header.h
-	@echo "\n#endif" >> tmp-auto-header.h
-	@cmp -s tmp-auto-header.h include/mini_rt.h || mv tmp-auto-header.h include/mini_rt.h
-	@rm -f tmp-auto-header.h
+rust-helper-for-c:
+	@rust-helper-for-c || echo "Error: rust-helper-for-c -> skipped, ask robin about it"
 
 # ----------------------------- Phony ------------------------------------------
 
-.PHONY: all clean fclean re debug stop
+.PHONY: all clean fclean re debug stop rust-helper-for-c
