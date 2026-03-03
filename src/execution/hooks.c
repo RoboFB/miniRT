@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:03:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/17 16:19:50 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/03 13:49:32 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,7 @@ void	hook_resize(int32_t width, int32_t height, void *gui_void)
 
 	// todo: abstract later
 
-	free(get_scene()->all_rays);
-	get_scene()->all_rays = ft_calloc(gui->img->width * gui->img->height, sizeof(t_ray));
-	init_camera(gui->img, get_scene()->camera);
+	calculate_camera(gui->img, get_scene()->camera);
 
 	render();
 	return ;

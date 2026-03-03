@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/02 16:49:37 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/03 19:55:02 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@
 	# define M_PI		3.14159265358979323846	/* pi */
 #endif
 
+#ifndef BIG_DOUBLE
+	# define BIG_DOUBLE	1e300	
+#endif
 
 // colors         rgba in memory
 # define BLUE_256  ((t_color_256){.value = 0xFFFF0000})

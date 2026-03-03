@@ -6,13 +6,13 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 11:52:51 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/10 18:43:50 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/03 17:56:26 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "mini_rt.h"
 
-void	init_gui(t_gui *gui)
+void	init_gui_exit(t_gui *gui)
 {
 	gui->mlx = mlx_init(WIDTH_DEFAULT, HEIGHT_DEFAULT, "miniRT", true);
 	if (!gui->mlx)
@@ -38,8 +38,3 @@ void	init_gui(t_gui *gui)
 	return ;
 }
 
-// not used becous i wnat scean and gui init separately
-// void	init_data(t_data *data)
-// {
-// 	init_gui(&data->gui);
-// }

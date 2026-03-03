@@ -6,13 +6,13 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 15:28:53 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/17 15:29:27 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/03 19:08:20 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-static void	h_skip_space(char const **pp_pos)
+void	pars_skip_space(char const **pp_pos)
 {
 	char const	*position;
 
@@ -105,7 +105,7 @@ bool	pars_atof_converted(char const **str_pos, double *num)
 	double		negative;
 
 	*num = 0.0;
-	h_skip_space(str_pos);
+	pars_skip_space(str_pos);
 	negative = h_get_negative(str_pos);
 	if (h_get_base_num(str_pos, num) < 0)
 		return (false);
@@ -152,7 +152,7 @@ bool	pars_atoi_converted(const char **str_pos, int *result)
 	negative = 1;
 	if (!str_pos || !*str_pos || !**str_pos)
 		return (false);
-	h_skip_space(str_pos);
+	pars_skip_space(str_pos);
 	if (**str_pos == '-')
 	{
 		negative = -1;

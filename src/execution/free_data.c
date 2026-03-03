@@ -6,11 +6,24 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 12:06:53 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/02 12:17:39 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/03 18:24:21 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
+
+void free_helper(void *address_of_pointer_to_free)
+{
+	void 	**cast_pointer;
+
+	cast_pointer = (void **)address_of_pointer_to_free;
+	if (cast_pointer 
+		&& *cast_pointer)
+	{
+		free(*cast_pointer);
+		*cast_pointer = NULL;
+	}
+}
 
 void	free_gui(t_gui *gui)
 {
@@ -21,23 +34,16 @@ void	free_gui(t_gui *gui)
 
 void	free_scene(t_scene *scene)
 {
-	free(scene->camera);
-	scene->camera = NULL;
-	free(scene->light);
-	scene->light = NULL;
-	free(scene->all_rays);
-	scene->all_rays = NULL;
-
+	free_helper(&scene->camera);
+	free_helper(&scene->ambient_light);
+	dynamic_array_free(&scene->lights);
+	dynamic_array_free(&scene->spheres);
+	dynamic_array_free(&scene->planes);
+	dynamic_array_free(&scene->cylinders);
 }
 
 void	free_data(void)
 {
-	t_scene *scene;
-	t_gui *gui;
-
-	gui = &get_data()->gui;
-	scene = &get_data()->scene;
-
-	free_gui(gui);
-	free_scene(scene);
+	free_gui(&get_data()->gui);
+	free_scene(&get_data()->scene);
 }

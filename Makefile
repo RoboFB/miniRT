@@ -33,15 +33,16 @@ LIBMLX_FLAGS :=		-ldl -lglfw -pthread -lm
 
 DIR_SRC :=		src
 SRC :=			color/color_ray.c color/draw_pixel.c color/full_img.c \
-				color/materials.c data_structs/dynamic_array.c data_structs/globals.c \
-				data_structs/random.c data_structs/realloc.c execution/error.c \
+				color/materials.c data_structs/allocs.c data_structs/dynamic_array.c \
+				data_structs/globals.c data_structs/random.c execution/error.c \
 				execution/file_handeling.c execution/free_data.c execution/hooks.c \
 				execution/init_gui.c execution/init_scene.c execution/main.c \
 				execution/print_debug.c execution/render.c execution/statistics.c \
-				execution/time.c parsing/atof.c parsing/line_handers.c shapes/sphere.c \
-				vectors_math/advanced.c vectors_math/basic.c vectors_math/basic_pointer.c \
-				vectors_math/combine.c vectors_math/compare.c vectors_math/convert_to.c \
-				vectors_math/intervals.c
+				execution/time.c parsing/atof.c parsing/example_spheres.c \
+				parsing/line_handers.c parsing/parsing_main.c parsing/smal_steps.c \
+				shapes/sphere.c testing/testing.c vectors_math/advanced.c \
+				vectors_math/basic.c vectors_math/basic_pointer.c vectors_math/combine.c \
+				vectors_math/compare.c vectors_math/convert_to.c vectors_math/intervals.c
 
 DIR_OBJ :=		obj
 OBJ :=			$(SRC:%.c=$(DIR_OBJ)/%.o)

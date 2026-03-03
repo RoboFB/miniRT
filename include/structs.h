@@ -6,14 +6,14 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/18 15:45:19 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/03 20:10:27 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-# include "MLX42.h"
+// # include "MLX42.h"
 
 typedef struct s_vec3
 {
@@ -75,7 +75,7 @@ typedef struct s_parser_entry
 typedef struct s_ambient_light
 {
 	double			ratio; // between 0.0 and 1.0
-	t_color_256		color; // R G B 0-255 no alpha
+	t_vec3			color; // R G B 0-255 no alpha
 }					t_ambient_light;
 
 // there is only one camera in the scene
@@ -95,7 +95,7 @@ typedef struct s_light
 {
 	t_vec3			position;
 	double			ratio; // between 0.0 and 1.0
-	t_color_256		color; // R G B 0-255 no alpha for bonus
+	t_vec3			color; // R G B 0-255 no alpha for bonus
 }					t_light;
 
 typedef enum e_material_type
@@ -125,8 +125,7 @@ typedef struct s_sphere
 
 typedef struct s_plane
 {
-	t_vec3			position;
-	t_vec3			orientation;
+	t_ray			plane;
 	t_material		material;
 }					t_plane;
 
@@ -172,15 +171,12 @@ typedef struct s_gui
 typedef struct s_scene
 {
 	t_camera		*camera;
-	t_light			*light;
-	// t_ambient_light	*ambient_light;
-
-	t_dynamic_array		spheres;
-	// t_plane			*all_planes;
-	// t_cylinder		*all_cylinders;
-
-	t_ray			*all_rays; //basic array
-
+	t_ambient_light	*ambient_light;
+	
+	t_dynamic_array	lights;
+	t_dynamic_array	spheres;
+	t_dynamic_array	planes;
+	t_dynamic_array	cylinders;
 }					t_scene;
 
 typedef struct s_data
