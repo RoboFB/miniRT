@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 19:08:12 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/02 19:19:51 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/04 19:23:25 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ bool pars_coordinate_converted(const char **line_pos, t_vec3 *result)
 }
 
 // R; true = success, error = false
-bool pars_coordinate_interval_converted(const char **line_pos, t_vec3 *result, t_interval range)
+bool pars_coordinate_in_range_converted(const char **line_pos, t_vec3 *result, t_interval range)
 {
 	if (!pars_double_in_range_converted(line_pos, &result->x, range))
 		return (false);
@@ -97,3 +97,20 @@ bool pars_color_vec3_converted(const char **line_pos, t_vec3 *result_color)
 	return (true);
 }
 
+// R; true = success, error = false
+bool pars_material_converted(const char **line_pos, t_material *result_material)
+{
+	result_material->type = MATERIAL_LAMBERTIAN;
+	
+	if (!pars_color_vec3_converted(line_pos, &result_material->color))
+		return (false);
+	pars_skip_space(line_pos);
+	if (ft_strncmp(*line_pos, "mir:", 4) == 0)
+	{
+		result_material->type = MATERIAL_REFLECTION;
+		*line_pos += 4;
+		if (!pars_double_in_range_converted(line_pos, &result_material->fuzz, (t_interval){0, 1}))
+			return (false);
+	}
+	return (true);
+}

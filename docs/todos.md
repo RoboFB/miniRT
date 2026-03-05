@@ -46,16 +46,20 @@
 - [ ] Bounding Volume Hierarchies (BVM) (grouping objs)
 
 ### Parsing:
-- [ ] Gabriel: if no arg read form stdin
+- [ ] check: if i need to error if capital letter is not at all in the file 
+- [ ] make it 'Wasserdicht' -> check and refine it 
 
-- [ ] first arg is a path to a *.rt scene file
 
-- [ ] elements: serrated by one ore more: new-lines
-- [ ] types: serrated by one ore more: spaces
-- [ ] Each type of element can be set in any order in the file
-- [ ] Capital letter Elements can be only declared once.
+- [~] Gabriel: if no arg read form stdin
 
-- [ ] a lot of explicit parsing and definitions at Pages 9-11
+- [~] first arg is a path to a *.rt scene file
+
+- [~] elements: serrated by one ore more: new-lines
+- [~] types: serrated by one ore more: spaces
+- [~] Each type of element can be set in any order in the file
+- [~] Capital letter Elements can be only declared once.
+
+- [~] a lot of explicit parsing and definitions at Pages 9-11
 
 
 

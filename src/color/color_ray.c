@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/11 15:20:28 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/05 12:37:42 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,76 +15,101 @@
 // aka ray_color
 t_vec3	ray_to_color(const t_ray *ray, int depth)
 {
-	t_vec3		color;
-	t_sphere	*sphere_loop;
+
 	t_sphere	*sphere_hit;
-	t_norm_ray	hit = {0};
+	t_norm_ray	hit;
+	t_interval ray_boarder;
 	
 	
-	color = BLACK_VEC3; // black for default
 	if (depth-- == 0)
-		return (color);
+		return (BLACK_VEC3);
 	
-	t_interval ray_boarder = {.min = 0.001, .max = HUGE_VAL};
-	sphere_loop = get_scene()->spheres.first;
+	ray_boarder.min = SMALL_DOUBLE;
+	ray_boarder.max = BIG_DOUBLE;
+	ft_bzero(&hit, sizeof(t_norm_ray));
+	sphere_hit = hit_sphere(ray, &ray_boarder, &hit);
+
+	// added here hit_plane, hit_cylinder
+
+	if (sphere_hit == NULL)
+		return (background_color(ray));
+	else if (dot_vec3(ray->direction, hit.r.direction) > 0.0)
+		return (inside_the_obj(&sphere_hit->material, &hit, ray, depth));
+	else
+		return (outside_the_obj(&sphere_hit->material, &hit, ray, depth));
+}
+
+// R: the nearest sphere and updates ray_bound and hit for it or NULL at no hit
+t_sphere *hit_sphere(const t_ray *ray, t_interval *ray_boarder, t_norm_ray *hit)
+{
+	t_sphere	*sphere_hit;
+	t_sphere	*sphere_loop;
+
 	sphere_hit = NULL;
+	sphere_loop = get_scene()->spheres.first;
 	while (sphere_loop != get_scene()->spheres.last)
 	{
-		if (is_hit_sphere(sphere_loop, ray, ray_boarder, &hit)) // hit
+		if (is_hit_sphere(sphere_loop, ray, *ray_boarder, hit)) // hit
 		{
-			ray_boarder.max = hit.length; // update ray boarder to closest hit
+			ray_boarder->max = hit->length; // update ray boarder to closest hit
 			sphere_hit = sphere_loop;
 		}
 		sphere_loop++;
 	}
+	return (sphere_hit);
+}
 
-	if (sphere_hit == NULL)
-	{
-		// BACKGROUND COLORING (not hitting any sphere)
-		t_vec3 norm_direction = normalize_vec3(ray->direction);
-		double a = 0.5*(norm_direction.y + 1.0);
-		
-		color.x = (1.0 - a) *1.0 + (a * 0.5);
-		color.y = (1.0 - a) *1.0 + (a * 0.7);
-		color.z = (1.0 - a) *1.0 + (a * 1.0);
-		return color;
-	}
+t_vec3 background_color(const t_ray *ray)
+{
+	t_vec3 color;
 
-	t_ray scattered = {0};
+	t_vec3 norm_direction = normalize_vec3(ray->direction);
+	double a = 0.5*(norm_direction.y + 1.0);
 	
-	if (dot_vec3(ray->direction, hit.r.direction) > 0.0)
-	{// ray is inside the sphere
-		hit.r.direction = inverse_vec3(hit.r.direction);
-
-		if (sphere_hit->material.type == MATERIAL_DIELECTRIC)
-		{
-			double ri = sphere_hit->material.refraction_index;
-			if (scatter_dielectric(ray, &hit, &scattered, ri))
-				color = mul_vec3(ray_to_color(&scattered, depth), WHITE_VEC3);
-		}
-	}
-	else
-	{// ray is outside the sphere and hits the sphere
-		if (sphere_hit->material.type == MATERIAL_LAMBERTIAN)
-		{
-			if (scatter_lambertian(&hit, &scattered))
-				color = mul_vec3(ray_to_color(&scattered, depth), sphere_hit->material.color);
-		}
-		else if (sphere_hit->material.type == MATERIAL_METAL)
-		{
-			if (scatter_metal(ray, &hit, &scattered, &sphere_hit->material))
-				color = mul_vec3(ray_to_color(&scattered, depth), sphere_hit->material.color);
-		}
-		else if (sphere_hit->material.type == MATERIAL_DIELECTRIC)
-		{
-			double ri = (1.0/sphere_hit->material.refraction_index);
-			if (scatter_dielectric(ray, &hit, &scattered, ri))
-				color = mul_vec3(ray_to_color(&scattered, depth), WHITE_VEC3);
-		}
-	}
-	
+	color.x = (1.0 - a) *1.0 + (a * 0.5);
+	color.y = (1.0 - a) *1.0 + (a * 0.7);
+	color.z = (1.0 - a) *1.0 + (a * 1.0);
 	return (color);
+	// return get_scene()->ambient_light->color; //altnative options
+	// return BLACK_VEC3; //altnative options
 }
 
 
+t_vec3 outside_the_obj(const t_material *material, const t_norm_ray *hit, const t_ray *ray, int depth)
+{
+	t_ray scattered = {0};
 
+	if (material->type & MATERIAL_LAMBERTIAN)
+	{
+		if (scatter_lambertian(hit, &scattered))
+			return (mul_vec3(ray_to_color(&scattered, depth), material->color));
+	}
+	else if (material->type & MATERIAL_REFLECTION)
+	{
+		if (scatter_metal(ray, hit, &scattered, material))
+			return (mul_vec3(ray_to_color(&scattered, depth), material->color));
+	}
+	else if (material->type & MATERIAL_DIELECTRIC)
+	{
+		double ri = (1.0/material->refraction_index);
+		if (scatter_dielectric(ray, hit, &scattered, ri))
+			return (mul_vec3(ray_to_color(&scattered, depth), WHITE_VEC3));
+	}
+	return (BLACK_VEC3);
+}
+
+// not so importance mostly for dielectric materials(galas)
+t_vec3 inside_the_obj(const t_material *material, t_norm_ray *hit, const t_ray *ray, int depth)
+{
+	t_ray scattered = {0};
+
+	hit->r.direction = inverse_vec3(hit->r.direction);
+
+	if (material->type & MATERIAL_DIELECTRIC)
+	{
+		double ri = material->refraction_index;
+		if (scatter_dielectric(ray, hit, &scattered, ri))
+			return (mul_vec3(ray_to_color(&scattered, depth), WHITE_VEC3));
+	}
+	return (BLACK_VEC3);
+}

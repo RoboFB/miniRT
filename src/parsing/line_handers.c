@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:54:04 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/03 20:18:04 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/04 19:14:50 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ bool pars_camera(t_scene *scene, const char **line)
 	already_parsed = true;
 	if (!pars_coordinate_converted(line, &scene->camera->ray.r.origin))
 		return (false);
-	if (!pars_coordinate_interval_converted(line, &scene->camera->ray.r.direction, range_direction))
+	if (!pars_coordinate_in_range_converted(line, &scene->camera->ray.r.direction, range_direction))
 		return (false);
 	if (!pars_double_in_range_converted(line, &scene->camera->fov, range_fov))
 		return (false);
@@ -66,16 +66,14 @@ bool pars_light(t_scene *scene, const char **line)
 bool pars_sphere(t_scene *scene, const char **line)
 {
 	t_sphere temp_sphere = {0};
-	const static t_interval range_diameter = {0.001, BIG_DOUBLE};
-	
-	temp_sphere.material.type = MATERIAL_LAMBERTIAN; // set as default,
+	const static t_interval range_diameter = {0.0, BIG_DOUBLE};
 	
 	if (!pars_coordinate_converted(line, &temp_sphere.center))
 		return (false);
 	if (!pars_double_in_range_converted(line, &temp_sphere.radius, range_diameter))
 		return (false);
 	temp_sphere.radius *= 0.5; // convert diameter to radius
-	if (!pars_color_vec3_converted(line, &temp_sphere.material.color))
+	if (!pars_material_converted(line, &temp_sphere.material))
 		return (false);
 	if (dynamic_array_add_back_perror(&scene->spheres, &temp_sphere) == -1)
 		return (false);
@@ -89,9 +87,9 @@ bool pars_plane(t_scene *scene, const char **line)
 	
 	if (!pars_coordinate_converted(line, &temp_plane.plane.origin))
 		return (false);
-	if (!pars_coordinate_interval_converted(line, &temp_plane.plane.direction, range_direction))
+	if (!pars_coordinate_in_range_converted(line, &temp_plane.plane.direction, range_direction))
 		return (false);
-	if (!pars_color_vec3_converted(line, &temp_plane.material.color))
+	if (!pars_material_converted(line, &temp_plane.material))
 		return (false);
 	if (dynamic_array_add_back_perror(&scene->planes, &temp_plane) == -1)
 		return (false);
@@ -102,12 +100,12 @@ bool pars_cylinder(t_scene *scene, const char **line)
 {
 	t_cylinder temp_cylinder = {0};
 	const static t_interval range_direction = {-1.0, 1.0};
-	const static t_interval range_diameter = {0.001, BIG_DOUBLE};
+	const static t_interval range_diameter = {0.0, BIG_DOUBLE};
 	
 
 	if (!pars_coordinate_converted(line, &temp_cylinder.cylinder.r.origin))
 		return (false);
-	if (!pars_coordinate_interval_converted(line, &temp_cylinder.cylinder.r.direction, range_direction))
+	if (!pars_coordinate_in_range_converted(line, &temp_cylinder.cylinder.r.direction, range_direction))
 		return (false);
 
 	if (!pars_double_in_range_converted(line, &temp_cylinder.radius, range_diameter))
@@ -117,7 +115,7 @@ bool pars_cylinder(t_scene *scene, const char **line)
 	if (!pars_atof_converted(line, &temp_cylinder.cylinder.length))
 		return (false);
 
-	if (!pars_color_vec3_converted(line, &temp_cylinder.material.color))
+	if (!pars_material_converted(line, &temp_cylinder.material))
 		return (false);
 	if (dynamic_array_add_back_perror(&scene->cylinders, &temp_cylinder) == -1)
 		return (false);

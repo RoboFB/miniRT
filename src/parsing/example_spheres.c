@@ -26,7 +26,7 @@ void	example_purple_spheres(t_dynamic_array *spheres)
 		.center = (t_vec3){0.0, -100.5, -1.0},
 		.radius = 100.0,
 		.material = (t_material){
-			.type = MATERIAL_METAL,
+			.type = MATERIAL_REFLECTION,
 			.color = (t_vec3){0.7, 0.7, 0.7},
 			.fuzz = 0.01,
 		},
@@ -89,7 +89,7 @@ void example_first_spheres(t_dynamic_array *spheres)
 		.center = (t_vec3){1.0, 0.0, -1.0},
 		.radius = 0.5,
 		.material = (t_material){
-			.type = MATERIAL_METAL,
+			.type = MATERIAL_REFLECTION,
 			.color = (t_vec3){0.8, 0.6, 0.2},
 			.fuzz = 1,
 		},

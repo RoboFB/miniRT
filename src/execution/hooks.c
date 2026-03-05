@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:03:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/03 13:49:32 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/05 16:29:16 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,61 @@ void	init_hooks(t_gui *gui)
 void	hook_key(mlx_key_data_t key_data, void *gui_void)
 {
 	t_gui	*gui = gui_void;
-
+	
 	if (key_data.action == MLX_PRESS)
 	{
 		if (key_data.key == MLX_KEY_ESCAPE)
 			mlx_close_window(gui->mlx);
-		if (key_data.key == MLX_KEY_SPACE)
+		if (key_data.key == MLX_KEY_I)
 		{
 			gui->statistics.type++;
 			if (gui->statistics.type >= STATS_MAX)
 				gui->statistics.type = STATS_RAYS_SEC;
 		}
+		move_camera_pos(key_data, gui, get_scene()->camera);
+		move_camera_ang(key_data, gui, get_scene()->camera);
 	}
 	return ;
+}
+
+void	move_camera_pos(mlx_key_data_t key_data, t_gui *gui, t_camera *camera)
+{
+	if (key_data.key == MLX_KEY_W)
+		camera->ray.r.origin.z -= 1;
+	if (key_data.key == MLX_KEY_S)
+		camera->ray.r.origin.z += 1;
+
+	if (key_data.key == MLX_KEY_A)
+		camera->ray.r.origin.x -= 1;
+	if (key_data.key == MLX_KEY_D)
+		camera->ray.r.origin.x += 1;
+
+	if (key_data.key == MLX_KEY_SPACE)
+		camera->ray.r.origin.y += 1;
+	if (key_data.key == MLX_KEY_LEFT_SHIFT)
+		camera->ray.r.origin.y -= 1;
+	
+	calculate_camera(gui->img, camera);
+}
+
+void	move_camera_ang(mlx_key_data_t key_data, t_gui *gui, t_camera *camera)
+{
+	if (key_data.key == MLX_KEY_UP)
+		camera->ray.r.direction.z -= 1;
+	if (key_data.key == MLX_KEY_DOWN)
+		camera->ray.r.direction.z += 1;
+
+	if (key_data.key == MLX_KEY_LEFT)
+		camera->ray.r.direction.x -= 1;
+	if (key_data.key == MLX_KEY_RIGHT)
+		camera->ray.r.direction.x += 1;
+
+	if (key_data.key == MLX_KEY_SPACE)
+		camera->ray.r.direction.y += 1;
+	if (key_data.key == MLX_KEY_LEFT_SHIFT)
+		camera->ray.r.direction.y -= 1;
+	
+	calculate_camera(gui->img, camera);
 }
 
 // // Scroll hook function, called on mouse scroll

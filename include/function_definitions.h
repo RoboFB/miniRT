@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/03 18:11:08 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/04 19:14:50 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 # define FUNCTION_DEFINITIONS_H
 // start
 t_vec3			ray_to_color(const t_ray *ray, int depth);
+t_sphere		*hit_sphere(const t_ray *ray, t_interval *ray_boarder,
+					t_norm_ray *hit);
+t_vec3			background_color(const t_ray *ray);
+t_vec3			outside_the_obj(const t_material *material,
+					const t_norm_ray *hit, const t_ray *ray, int depth);
+t_vec3			inside_the_obj(const t_material *material, t_norm_ray *hit,
+					const t_ray *ray, int depth);
 void			img_draw_vec3(uint8_t *pixel, const t_vec3 *color_linear);
 void			img_draw_256(uint8_t *pixel, const t_color_256 *color);
 void			img_fill_256(mlx_image_t *img, const t_color_256 *color);
@@ -58,6 +65,10 @@ void			free_scene(t_scene *scene);
 void			free_data(void);
 void			init_hooks(t_gui *gui);
 void			hook_key(mlx_key_data_t key_data, void *gui_void);
+void			move_camera_pos(mlx_key_data_t key_data, t_gui *gui,
+					t_camera *camera);
+void			move_camera_ang(mlx_key_data_t key_data, t_gui *gui,
+					t_camera *camera);
 void			hook_resize(int32_t width, int32_t height, void *gui_void);
 void			init_gui_exit(t_gui *gui);
 void			init_scene_exit(t_scene *scene);
@@ -74,6 +85,8 @@ void			sample_rays(uint32_t x, uint32_t y, mlx_image_t *img,
 t_vec3			get_pix_pos_base(t_camera *camera, uint32_t x, uint32_t y);
 t_ray			final_ray(const t_vec3 *base, t_camera *camera);
 void			draw_stats(const char *string, t_gui *gui);
+void			try_delete_stats(mlx_t *mlx, mlx_image_t **img_1,
+					mlx_image_t **img_2);
 void			update_stats(t_gui *gui, t_camera *camera);
 int				get_time_ms(struct timeval *anchor);
 long			get_time_us(struct timeval *anchor);
@@ -98,7 +111,7 @@ int				open_correct_file(int argc, char const *argv[],
 void			pars_scene_exit(t_scene *scene, int argc, char const *argv[]);
 bool			pars_coordinate_converted(const char **line_pos,
 					t_vec3 *result);
-bool			pars_coordinate_interval_converted(const char **line_pos,
+bool			pars_coordinate_in_range_converted(const char **line_pos,
 					t_vec3 *result, t_interval range);
 bool			pars_double_in_range_converted(const char **line_pos,
 					double *result, t_interval range);
@@ -108,6 +121,8 @@ bool			pars_color_256_converted(const char **line_pos,
 					t_color_256 *result_color);
 bool			pars_color_vec3_converted(const char **line_pos,
 					t_vec3 *result_color);
+bool			pars_material_converted(const char **line_pos,
+					t_material *result_material);
 bool			is_hit_sphere(const t_sphere *sph, const t_ray *ray,
 					const t_interval ray_boarder, t_norm_ray *hit);
 t_vec3			get_random_on_hemisphere(const t_vec3 *hit_direction_normal);

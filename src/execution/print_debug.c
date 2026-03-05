@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:06:59 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/17 15:51:35 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/04 19:11:41 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void debug_material(const t_material *material)
 		printf("Material: NONE\n");
 	else if (material->type == MATERIAL_LAMBERTIAN)
 		printf("Material: LAMBERTIAN\n");
-	else if (material->type == MATERIAL_METAL)
+	else if (material->type == MATERIAL_REFLECTION)
 		printf("Material: METAL\n");
 	else if (material->type == MATERIAL_DIELECTRIC)
 		printf("Material: DIELECTRIC\n");

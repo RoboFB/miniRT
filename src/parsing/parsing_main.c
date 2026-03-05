@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 19:06:31 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/03 19:13:33 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/04 18:19:22 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ bool parse_line(t_scene *scene, const char **line_pos)
 	{
 		if (ft_strncmp(*line_pos, parser_entries[pos].name, ft_strlen(parser_entries[pos].name)) == 0)
 		{
-			*line_pos += ft_strlen(parser_entries[pos].name) + 1;
+			*line_pos += ft_strlen(parser_entries[pos].name);
 			return (parser_entries[pos].func(scene, line_pos));
 		}
 		pos++;
@@ -97,7 +97,7 @@ void	pars_scene_exit(t_scene *scene, int argc, char const *argv[])
 		const char *line_pos = line;
 		if (!parse_line(scene, &line_pos))
 		{
-			ft_printf("%s:%d:%d: parsing error at: '%c' in line: %s\n", file_name, line_count, line_pos-line, *line_pos, line);
+			ft_printf("%s:%d:%d: parsing error at: '%c' in line: \n%s", file_name, line_count, line_pos-line+1, *line_pos, line);
 			run = false;
 		}
 		free(line);

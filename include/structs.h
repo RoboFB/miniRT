@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/03 20:10:27 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/05 11:44:02 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ typedef struct s_light
 typedef enum e_material_type
 {
 	MATERIAL_NONE			= 0b00000000,
-	MATERIAL_LAMBERTIAN		= 0b00000001,
-	MATERIAL_METAL			= 0b00000010,
+	MATERIAL_LAMBERTIAN		= 0b00000001, //like normal obj 
+	MATERIAL_REFLECTION		= 0b00000010, //like metal
 	MATERIAL_DIELECTRIC		= 0b00000100, //like glass
 	MATERIAL_ALL			= 0b11111111,
 }					t_material_type;
@@ -110,7 +110,7 @@ typedef enum e_material_type
 typedef struct s_material
 {
 	t_material_type	type;
-	t_vec3			color; // R G B 0.0 to 1.0
+	t_vec3			color; // RGB 0.0 to 1.0
 	double			fuzz; // between 0.0 and 1.0 for metal
 	double			refraction_index; // for dielectric
 

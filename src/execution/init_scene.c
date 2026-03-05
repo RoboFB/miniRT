@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:56:59 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/03 17:58:18 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/05 13:54:16 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void calculate_camera(mlx_image_t *img, t_camera *camera)
 	camera->ray.length = 1.0; // focal length
 	// camera->fov = 90.0;
 	camera->max_deep_rays = 16;
-	camera->anti_aliasing_samples = 16; // no *2 in main hock
+	// camera->anti_aliasing_samples = 32; // no *2 in main hock
+	camera->anti_aliasing_samples = 4; // no *2 in main hock
 
 	
 	double scale = tan(degrees_to_radians(camera->fov) * 0.5);
