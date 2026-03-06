@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:03:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/05 16:29:16 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/06 13:57:38 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,45 @@ void	hook_key(mlx_key_data_t key_data, void *gui_void)
 	}
 	return ;
 }
+/* 
+movement cords:
+
+        *                            *
+      *                            * -
+    *                            * z
+  *           -x+              * +
+*----------------------------*
+|                            | 
+|                            | +
+|                            | y     *
+|     *                      | -   *
+|   *                        |   *
+| *                          | *
+*----------------------------*
+
+breite x 
+hohe y
+tife z
+
+*/
+
+
 
 void	move_camera_pos(mlx_key_data_t key_data, t_gui *gui, t_camera *camera)
 {
-	if (key_data.key == MLX_KEY_W)
+	if (key_data.key == MLX_KEY_W) // forword in 
 		camera->ray.r.origin.z -= 1;
-	if (key_data.key == MLX_KEY_S)
+	if (key_data.key == MLX_KEY_S) // back out
 		camera->ray.r.origin.z += 1;
 
-	if (key_data.key == MLX_KEY_A)
+	if (key_data.key == MLX_KEY_A) // left
 		camera->ray.r.origin.x -= 1;
-	if (key_data.key == MLX_KEY_D)
+	if (key_data.key == MLX_KEY_D) // right
 		camera->ray.r.origin.x += 1;
 
-	if (key_data.key == MLX_KEY_SPACE)
+	if (key_data.key == MLX_KEY_SPACE) // up
 		camera->ray.r.origin.y += 1;
-	if (key_data.key == MLX_KEY_LEFT_SHIFT)
+	if (key_data.key == MLX_KEY_LEFT_SHIFT) // down
 		camera->ray.r.origin.y -= 1;
 	
 	calculate_camera(gui->img, camera);
@@ -90,10 +113,10 @@ void	move_camera_ang(mlx_key_data_t key_data, t_gui *gui, t_camera *camera)
 	if (key_data.key == MLX_KEY_RIGHT)
 		camera->ray.r.direction.x += 1;
 
-	if (key_data.key == MLX_KEY_SPACE)
-		camera->ray.r.direction.y += 1;
-	if (key_data.key == MLX_KEY_LEFT_SHIFT)
-		camera->ray.r.direction.y -= 1;
+	// if (key_data.key == MLX_KEY_SPACE)
+	// 	camera->ray.r.direction.y += 1;
+	// if (key_data.key == MLX_KEY_LEFT_SHIFT)
+	// 	camera->ray.r.direction.y -= 1;
 	
 	calculate_camera(gui->img, camera);
 }

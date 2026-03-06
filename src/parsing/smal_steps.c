@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 19:08:12 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/04 19:23:25 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/06 15:01:09 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ bool pars_color_vec3_converted(const char **line_pos, t_vec3 *result_color)
 // R; true = success, error = false
 bool pars_material_converted(const char **line_pos, t_material *result_material)
 {
-	result_material->type = MATERIAL_LAMBERTIAN;
+	result_material->type = MATERIAL_PHONG;
 	
 	if (!pars_color_vec3_converted(line_pos, &result_material->color))
 		return (false);

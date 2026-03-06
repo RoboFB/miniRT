@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/05 11:44:02 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/06 15:02:01 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,10 @@ typedef struct s_light
 typedef enum e_material_type
 {
 	MATERIAL_NONE			= 0b00000000,
-	MATERIAL_LAMBERTIAN		= 0b00000001, //like normal obj 
-	MATERIAL_REFLECTION		= 0b00000010, //like metal
-	MATERIAL_DIELECTRIC		= 0b00000100, //like glass
+	MATERIAL_PHONG			= 0b00000001, // default phone light model
+	MATERIAL_LAMBERTIAN		= 0b00000010, //like normal obj with path dracing
+	MATERIAL_REFLECTION		= 0b00000100, //like metal
+	MATERIAL_DIELECTRIC		= 0b00001000, //like glass
 	MATERIAL_ALL			= 0b11111111,
 }					t_material_type;
 

@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 13:04:03 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/09 18:15:09 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/06 15:05:10 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ bool	is_interval_in_vec3(const t_vec3 value, const t_vec3 min, const t_vec3 max)
 }
 
 
-// if in +-0.0001
+// if in +- SMALL_DOUBLE
 bool	is_near_zero(const double value)
 {
-	return (value > -0.0001 && value < 0.0001);
+	return (value > -SMALL_DOUBLE && value < SMALL_DOUBLE);
 }
 
 // all x,y,z are near zero

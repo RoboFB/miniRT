@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:18:52 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/12 12:14:30 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/06 16:07:16 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,3 +73,4 @@ t_vec3 refract_vec3(const t_vec3* unit_vector, const t_vec3 *normal, double etai
 	t_vec3 r_out_parallel = mul_one_vec3(*normal, -sqrt(fabs(1.0 - length_squared_vec3(r_out_perp))));
 	return add_vec3(r_out_perp, r_out_parallel);
 }
+

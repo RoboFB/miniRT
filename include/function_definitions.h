@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/04 19:14:50 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/06 16:00:03 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 # define FUNCTION_DEFINITIONS_H
 // start
 t_vec3			ray_to_color(const t_ray *ray, int depth);
-t_sphere		*hit_sphere(const t_ray *ray, t_interval *ray_boarder,
+t_sphere		*nearest_hit_sphere(const t_ray *ray, t_interval *ray_boarder,
 					t_norm_ray *hit);
 t_vec3			background_color(const t_ray *ray);
 t_vec3			outside_the_obj(const t_material *material,
 					const t_norm_ray *hit, const t_ray *ray, int depth);
 t_vec3			inside_the_obj(const t_material *material, t_norm_ray *hit,
 					const t_ray *ray, int depth);
+t_vec3			phone_color(const t_material *material, const t_norm_ray *hit,
+					const t_ray *ray);
 void			img_draw_vec3(uint8_t *pixel, const t_vec3 *color_linear);
 void			img_draw_256(uint8_t *pixel, const t_color_256 *color);
 void			img_fill_256(mlx_image_t *img, const t_color_256 *color);
@@ -155,6 +157,10 @@ void			add_one_vec3_p(t_vec3 *a, const double add);
 void			sub_one_vec3_p(t_vec3 *a, const double subtract);
 void			mul_one_vec3_p(t_vec3 *a, const double multiply);
 void			div_one_vec3_p(t_vec3 *a, const double divide);
+double			clamp(double value, t_interval interval);
+void			clamp_p(double *value, t_interval interval);
+t_vec3			clamp_vec3(t_vec3 value, t_interval interval);
+void			clamp_vec3_p(t_vec3 *value, t_interval interval);
 double			combine_vec3(const t_vec3 a);
 double			dot_vec3(const t_vec3 a, const t_vec3 b);
 double			length_squared_vec3(const t_vec3 a);
