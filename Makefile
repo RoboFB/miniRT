@@ -6,7 +6,7 @@
 #    By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/26 11:27:55 by rgohrig           #+#    #+#              #
-#    Updated: 2026/03/02 17:13:27 by rgohrig          ###   ########.fr        #
+#    Updated: 2026/03/10 16:42:19 by rgohrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,11 +23,16 @@ NAME :=				miniRT
 COMPILER :=			cc
 
 DEBUG_FLAGS:=		-fsanitize=address,undefined
-FAST_FLAGS :=		-march=native -O3 # Ofast is more extreme than O3 alters math stuff
-CFLAGS :=			-Wall -Werror -Wextra -Wdouble-promotion -g3 $(FAST_FLAGS)
-LINKER_FLAGS :=		-ffast-math -flto -Wpadded # is Wpadded used here ?
+PROFILE_FLAGS :=	-pg
+FAST_FLAGS :=		-march=native -O3 -flto # Ofast is more extreme than O3 alters math stuff
+LINKER_FLAGS :=		-ffast-math
 COMPILE_FLAGS :=	-MMD -MP # MMD & MD for dependencies
 LIBMLX_FLAGS :=		-ldl -lglfw -pthread -lm
+
+CFLAGS :=			-Wall -Werror -Wextra -Wdouble-promotion  -g3 $(FAST_FLAGS) $(LINKER_FLAGS) $(COMPILE_FLAGS)
+
+# todo: -Wpadded add at the end for testing to CFLAGS but after that remove it because it brakes with mlx42
+
 
 # -ffast -flto ARE LINKER FLAGS
 
@@ -70,7 +75,7 @@ all: stop rust-helper-for-c $(LIBFT) $(LIBMLX) $(NAME) #TODO: rm at end rust-hel
 
 
 $(LIBFT):
-	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) CFLAGS="$(CFLAGS)"
+	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) CFLAGS="$(filter-out -flto,$(CFLAGS))"
 
 
 $(LIBMLX):
@@ -88,12 +93,12 @@ $(DIR_OBJ):
 # Compilation
 $(DIR_OBJ)/%.o : $(DIR_SRC)/%.c | $(DIR_OBJ)
 	@mkdir -p $(dir $@)
-	@$(COMPILER) $(CFLAGS) $(COMPILE_FLAGS) $(HEADERS) -o $@ -c $<
+	@$(COMPILER) $(CFLAGS) $(HEADERS) -o $@ -c $<
 	@echo 🎇 $@
 
 # Linking
 $(NAME): $(OBJ)
-	@$(COMPILER) $(CFLAGS) $(LINKER_FLAGS) -o $@ $^ $(LIBS)
+	@$(COMPILER) $(CFLAGS) -o $@ $^ $(LIBS)
 	@echo "\n   🎇🎇🎇 $@   ($(CFLAGS))\n"
 
 # ----------------------------- Dependencies -----------------------------------
@@ -134,6 +139,14 @@ debug:
 	@echo "\n   🐞🐞🐞 DEBUG $(NAME)   ($(CFLAGS))\n"
 	@./miniRT
 
+
+profile: CFLAGS += $(PROFILE_FLAGS)
+# profile: CFLAGS := $(filter-out $(FAST_FLAGS),$(CFLAGS))
+profile:
+	@$(COMPILER) $(CFLAGS) $(COMPILE_FLAGS) $(LINKER_FLAGS) $(HEADERS) -o $(NAME) $(addprefix $(DIR_SRC)/,$(SRC)) $(LIBS)
+	@echo "\n   📊📊📊 PROFILE $(NAME)   ($(CFLAGS))\n"
+	
+
 # ----------------------------- Lazy Robin -------------------------------------
 
 # temporary Rule to update the header file
@@ -142,4 +155,4 @@ rust-helper-for-c:
 
 # ----------------------------- Phony ------------------------------------------
 
-.PHONY: all clean fclean re debug stop rust-helper-for-c
+.PHONY: all clean fclean re debug profile stop rust-helper-for-c

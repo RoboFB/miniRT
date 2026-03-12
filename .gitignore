@@ -17,6 +17,7 @@ obj/
 *.out
 *.a
 *.o
+*.d
 
 # miniRT
 miniRT
