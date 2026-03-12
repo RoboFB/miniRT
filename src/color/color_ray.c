@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/06 17:47:58 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/09 17:13:11 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,13 +146,14 @@ t_vec3 phone_color(const t_material *material, const t_norm_ray *hit, const t_ra
 		
 		if (nearest_hit_sphere(&light_ray, &light_ray_boarder, &(t_norm_ray){0}) == NULL)
 		{
-			// 
-			t_vec3 light_color = mul_one_vec3(light->color, light->ratio);
-			add_vec3_p(&color, light_color);
-
+			// not math like coreckt but 
+			// t_vec3 light_color = mul_one_vec3(light->color, light->ratio);
+			// add_vec3_p(&color, light_color);
+			
 			// diffuse light
-			double lightIntensity = fmax(dot_vec3(NormVec, SunDirectionObjSpc), 0.0);
-			t_vec3 diffuse = 0.9 * lightIntensity * lightColor * textureColor;
+			double diffuse_intensity = fmax(dot_vec3(hit->r.direction, light_ray.direction), 0.0);
+            t_vec3 light_contrib = mul_one_vec3(light->color, light->ratio * diffuse_intensity);
+            add_vec3_p(&color, light_contrib);
 
 			
 		}
