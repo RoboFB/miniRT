@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 12:20:24 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/16 11:09:05 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/12 12:36:02 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,7 @@ void sample_rays(uint32_t x, uint32_t y, mlx_image_t *img, t_camera *camera)
 
 	while (count < camera->anti_aliasing_samples)
 	{
-
 		tmp_ray = final_ray(&pixel_pos, camera);
-		// tmp_ray = center_ray;
 		add_vec3_p(&color, ray_to_color(&tmp_ray, camera->max_deep_rays));
 		count++;
 	}
@@ -74,13 +72,14 @@ void sample_rays(uint32_t x, uint32_t y, mlx_image_t *img, t_camera *camera)
 }
 
 
-
+// get pixel pos ray
 t_vec3	get_pix_pos_base(t_camera *camera, uint32_t x, uint32_t y)
 {
 	t_vec3 pixel_pos;
 
-	pixel_pos = sub_vec3(camera->corner_upper_left, mul_one_vec3(camera->delta_u, (double)x));
-	sub_vec3_p(&pixel_pos, mul_one_vec3(camera->delta_v, (double)y));
+	pixel_pos = camera->corner_upper_left;
+	add_vec3_p(&pixel_pos, mul_one_vec3(camera->delta_u, (double)x));
+	add_vec3_p(&pixel_pos, mul_one_vec3(camera->delta_v, (double)y));
 	
 	if (x == 0 && y == 0)
 		debug_vec3("top left    ", &pixel_pos);
@@ -90,15 +89,14 @@ t_vec3	get_pix_pos_base(t_camera *camera, uint32_t x, uint32_t y)
 	return pixel_pos;
 }
 
-// supersampling random
+// sub sampling random
 t_ray	final_ray(const t_vec3 *base, t_camera *camera)
 {
 	t_ray	new;
 
-	new.direction = *base;
-	sub_vec3_p(&new.direction, camera->ray.r.origin);
-	sub_vec3_p(&new.direction, mul_one_vec3(camera->delta_u, (get_random())));
-	sub_vec3_p(&new.direction, mul_one_vec3(camera->delta_v, (get_random())));
+	new.direction = sub_vec3(*base, camera->ray.r.origin);
+	add_vec3_p(&new.direction, mul_one_vec3(camera->delta_u, get_random()*0.5));
+	add_vec3_p(&new.direction, mul_one_vec3(camera->delta_v, get_random()*0.5));
 
 	new.origin = camera->ray.r.origin;
 	return (new);

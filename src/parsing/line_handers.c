@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:54:04 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/04 19:14:50 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/11 12:06:56 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ bool pars_camera(t_scene *scene, const char **line)
 		return (false);
 	if (!pars_double_in_range_converted(line, &scene->camera->fov, range_fov))
 		return (false);
+	scene->camera->ray.r.direction = normalize_vec3(scene->camera->ray.r.direction);// make sure the input is normal dont care at the moment about lost length
 	return (true);
 
 }

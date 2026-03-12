@@ -137,6 +137,7 @@ t_vec3			square_vec3(const t_vec3 a);
 t_vec3			cross_vec3(const t_vec3 a, const t_vec3 b);
 t_vec3			fabs_vec3(const t_vec3 *a);
 t_vec3			normalize_vec3(const t_vec3 a);
+void			normalize_vec3_p(t_vec3 *a);
 t_vec3			get_pos_on_ray(const t_ray *ray, const double length);
 t_vec3			reflect_vec3(const t_vec3 vector, const t_vec3 normal);
 t_vec3			refract_vec3(const t_vec3 *unit_vector, const t_vec3 *normal,

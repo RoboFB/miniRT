@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:18:52 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/06 16:07:16 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/12 12:21:29 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_vec3	square_vec3(const t_vec3 a)
 	return (mul_vec3(a, a));
 }
 
+// a b sequence important
 t_vec3 cross_vec3(const t_vec3 a, const t_vec3 b)
 {
 	t_vec3 result;
@@ -53,6 +54,17 @@ t_vec3 normalize_vec3(const t_vec3 a)
 	if (length == 0.0)
 		return (a);
 	return (div_one_vec3(a, length));
+}
+
+// convert some vector form length x to length 1 useing imaginary 0,0,0 point
+void normalize_vec3_p(t_vec3 *a)
+{
+	double length;
+
+	length = length_vec3(*a);
+	if (length == 0.0)
+		return ;
+	div_one_vec3_p(a, length);
 }
 
 // origin + direction * t

@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:06:59 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/04 19:11:41 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/11 11:57:31 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	debug_vec3(const char *msg, const t_vec3 *v)
 {
 	if (DEBUG_RT == 0)
 		return ;
-	printf("%s: (x%f, y%f, z%f)\n", msg, v->x, v->y, v->z);
+	printf("%s: (x%.3f, y%.3f, z%.3f)\n", msg, v->x, v->y, v->z);
 }
 
 void	debug_ray(const char *msg, const t_ray *ray)

@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:03:15 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/06 13:57:38 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/12 12:23:50 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ void	move_camera_pos(mlx_key_data_t key_data, t_gui *gui, t_camera *camera)
 		camera->ray.r.origin.y += 1;
 	if (key_data.key == MLX_KEY_LEFT_SHIFT) // down
 		camera->ray.r.origin.y -= 1;
-	
 	calculate_camera(gui->img, camera);
 }
 
@@ -118,6 +117,7 @@ void	move_camera_ang(mlx_key_data_t key_data, t_gui *gui, t_camera *camera)
 	// if (key_data.key == MLX_KEY_LEFT_SHIFT)
 	// 	camera->ray.r.direction.y -= 1;
 	
+	normalize_vec3_p(&camera->ray.r.direction);
 	calculate_camera(gui->img, camera);
 }
 
