@@ -33,6 +33,7 @@ bool			scatter_metal(const t_ray *r_in, const t_norm_ray *hit,
 double			reflectance(double cosine, double refraction_idx);
 bool			scatter_dielectric(const t_ray *r_in, const t_norm_ray *hit,
 					t_ray *scattered, double ri);
+bool			is_in_shadow(const t_norm_ray *hit, const t_light *light);
 void			*calloc_perror(size_t count, size_t size);
 void			*calloc_perror_exit(size_t count, size_t size);
 void			ft_realloc_perror(void **change_ptr, size_t old, size_t new,
