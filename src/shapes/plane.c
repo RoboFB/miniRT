@@ -47,3 +47,24 @@ bool	is_hit_plane(const t_plane *pl, const t_ray *ray,
 	hit->r.direction = pl->plane.direction;
 	return (true);
 }
+
+//eie naechste Plane und aktualisiert ray_boarder und hit, oder NULL same logic that you applied for  sphere
+t_plane	*nearest_hit_plane(const t_ray *ray, t_interval *ray_boarder,
+		t_norm_ray *hit)
+{
+	t_plane	*plane_hit;
+	t_plane	*plane_loop;
+
+	plane_hit = NULL;
+	plane_loop = get_scene()->planes.first;
+	while (plane_loop != get_scene()->planes.last)
+	{
+		if (is_hit_plane(plane_loop, ray, *ray_boarder, hit))
+		{
+			ray_boarder->max = hit->length;
+			plane_hit = plane_loop;
+		}
+		plane_loop++;
+	}
+	return (plane_hit);
+}

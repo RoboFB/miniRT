@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color_ray.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: ileon <ileon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/09 17:13:11 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/19 13:49:53 by ileon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,48 +19,32 @@
 // aka ray_color
 t_vec3	ray_to_color(const t_ray *ray, int depth)
 {
+	t_norm_ray		hit;
+	t_interval		ray_boarder;
+	t_material		*hit_material;
+	t_sphere		*sphere_hit;
+	t_plane			*plane_hit;
 
-	t_sphere	*sphere_hit;
-	t_norm_ray	hit;
-	t_interval ray_boarder;
-	
-	
 	if (depth-- == 0)
 		return (BLACK_VEC3);
-	
-	ray_boarder.min = SMALL_DOUBLE;
-	ray_boarder.max = BIG_DOUBLE;
+	ray_boarder = (t_interval){SMALL_DOUBLE, BIG_DOUBLE};
 	ft_bzero(&hit, sizeof(t_norm_ray));
+	hit_material = NULL;
 	sphere_hit = nearest_hit_sphere(ray, &ray_boarder, &hit);
+	if (sphere_hit)
+		hit_material = &sphere_hit->material;
+	plane_hit = nearest_hit_plane(ray, &ray_boarder, &hit);
+	if (plane_hit)
+		hit_material = &plane_hit->material;
 
-	// added here hit_plane, hit_cylinder
+	// added here hit_cylinder
 
-	if (sphere_hit == NULL)
+	if (hit_material == NULL)
 		return (background_color(ray));
 	else if (dot_vec3(ray->direction, hit.r.direction) > 0.0)
-		return (inside_the_obj(&sphere_hit->material, &hit, ray, depth));
+		return (inside_the_obj(hit_material, &hit, ray, depth));
 	else
-		return (outside_the_obj(&sphere_hit->material, &hit, ray, depth));
-}
-
-// R: the nearest sphere and updates ray_bound and hit for it or NULL at no hit
-t_sphere *nearest_hit_sphere(const t_ray *ray, t_interval *ray_boarder, t_norm_ray *hit)
-{
-	t_sphere	*sphere_hit;
-	t_sphere	*sphere_loop;
-
-	sphere_hit = NULL;
-	sphere_loop = get_scene()->spheres.first;
-	while (sphere_loop != get_scene()->spheres.last)
-	{
-		if (is_hit_sphere(sphere_loop, ray, *ray_boarder, hit)) // hit
-		{
-			ray_boarder->max = hit->length; // update ray boarder to closest hit
-			sphere_hit = sphere_loop;
-		}
-		sphere_loop++;
-	}
-	return (sphere_hit);
+		return (outside_the_obj(hit_material, &hit, ray, depth));
 }
 
 t_vec3 background_color(const t_ray *ray)

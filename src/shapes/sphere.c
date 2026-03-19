@@ -48,7 +48,26 @@ bool	is_hit_sphere(const t_sphere *sph, const t_ray *ray, const t_interval ray_b
 	return (true);
 }
 
+// R: die naechste Sphere und aktualisiert ray_boarder und hit, oder NULL
+t_sphere	*nearest_hit_sphere(const t_ray *ray, t_interval *ray_boarder,
+			t_norm_ray *hit)
+{
+	t_sphere	*sphere_hit;
+	t_sphere	*sphere_loop;
 
+	sphere_hit = NULL;
+	sphere_loop = get_scene()->spheres.first;
+	while (sphere_loop != get_scene()->spheres.last)
+	{
+		if (is_hit_sphere(sphere_loop, ray, *ray_boarder, hit))
+		{
+			ray_boarder->max = hit->length;
+			sphere_hit = sphere_loop;
+		}
+		sphere_loop++;
+	}
+	return (sphere_hit);
+}
 
 t_vec3 get_random_on_hemisphere(const t_vec3 *hit_direction_normal)
 {
