@@ -125,12 +125,15 @@ bool			pars_color_vec3_converted(const char **line_pos,
 					t_vec3 *result_color);
 bool			pars_material_converted(const char **line_pos,
 					t_material *result_material);
+bool			is_hit_plane(const t_plane *pl, const t_ray *ray,
+					const t_interval ray_boarder, t_norm_ray *hit);
 bool			is_hit_sphere(const t_sphere *sph, const t_ray *ray,
 					const t_interval ray_boarder, t_norm_ray *hit);
 t_vec3			get_random_on_hemisphere(const t_vec3 *hit_direction_normal);
 void			test_r3(void);
 void			test_random(void);
 void			test_dynamic_array(void);
+void			test_hit_plane(void);
 int				test_caller(int argc, char const *argv[]);
 t_vec3			inverse_vec3(const t_vec3 a);
 t_vec3			square_vec3(const t_vec3 a);
