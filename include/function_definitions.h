@@ -14,8 +14,6 @@
 # define FUNCTION_DEFINITIONS_H
 // start
 t_vec3			ray_to_color(const t_ray *ray, int depth);
-t_sphere		*nearest_hit_sphere(const t_ray *ray, t_interval *ray_boarder,
-					t_norm_ray *hit);
 t_vec3			background_color(const t_ray *ray);
 t_vec3			outside_the_obj(const t_material *material,
 					const t_norm_ray *hit, const t_ray *ray, int depth);
@@ -127,8 +125,12 @@ bool			pars_material_converted(const char **line_pos,
 					t_material *result_material);
 bool			is_hit_plane(const t_plane *pl, const t_ray *ray,
 					const t_interval ray_boarder, t_norm_ray *hit);
+t_plane			*nearest_hit_plane(const t_ray *ray, t_interval *ray_boarder,
+					t_norm_ray *hit);
 bool			is_hit_sphere(const t_sphere *sph, const t_ray *ray,
 					const t_interval ray_boarder, t_norm_ray *hit);
+t_sphere		*nearest_hit_sphere(const t_ray *ray, t_interval *ray_boarder,
+					t_norm_ray *hit);
 t_vec3			get_random_on_hemisphere(const t_vec3 *hit_direction_normal);
 void			test_r3(void);
 void			test_random(void);
