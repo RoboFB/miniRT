@@ -15,7 +15,7 @@
 bool pars_ambient_light(t_scene *scene, const char **line)
 {
 	static bool already_parsed = false;
-	const static t_interval range_ration = {0.0, 1.0};
+	static const t_interval range_ration = {0.0, 1.0};
 	
 	if (already_parsed)
 		return (false);
@@ -31,8 +31,8 @@ bool pars_ambient_light(t_scene *scene, const char **line)
 bool pars_camera(t_scene *scene, const char **line)
 {
 	static bool already_parsed = false;
-	const static t_interval range_fov = {0.0, 180.0};
-	const static t_interval range_direction = {-1.0, 1.0};
+	static const t_interval range_fov = {0.0, 180.0};
+	static const t_interval range_direction = {-1.0, 1.0};
 
 	if (already_parsed)
 		return (false);
@@ -51,7 +51,7 @@ bool pars_camera(t_scene *scene, const char **line)
 bool pars_light(t_scene *scene, const char **line)
 {
 	t_light temp_light = {0};
-	const static t_interval range_ration = {0.0, 1.0};
+	static const t_interval range_ration = {0.0, 1.0};
 
 	if (!pars_coordinate_converted(line, &temp_light.position))
 		return (false);
@@ -67,7 +67,7 @@ bool pars_light(t_scene *scene, const char **line)
 bool pars_sphere(t_scene *scene, const char **line)
 {
 	t_sphere temp_sphere = {0};
-	const static t_interval range_diameter = {0.0, BIG_DOUBLE};
+	static const t_interval range_diameter = {0.0, BIG_DOUBLE};
 	
 	if (!pars_coordinate_converted(line, &temp_sphere.center))
 		return (false);
@@ -84,7 +84,7 @@ bool pars_sphere(t_scene *scene, const char **line)
 bool pars_plane(t_scene *scene, const char **line)
 {
 	t_plane temp_plane = {0};
-	const static t_interval range_direction = {-1.0, 1.0};
+	static const t_interval range_direction = {-1.0, 1.0};
 	
 	if (!pars_coordinate_converted(line, &temp_plane.plane.origin))
 		return (false);
@@ -100,8 +100,8 @@ bool pars_plane(t_scene *scene, const char **line)
 bool pars_cylinder(t_scene *scene, const char **line)
 {
 	t_cylinder temp_cylinder = {0};
-	const static t_interval range_direction = {-1.0, 1.0};
-	const static t_interval range_diameter = {0.0, BIG_DOUBLE};
+	static const t_interval range_direction = {-1.0, 1.0};
+	static const t_interval range_diameter = {0.0, BIG_DOUBLE};
 	
 
 	if (!pars_coordinate_converted(line, &temp_cylinder.cylinder.r.origin))
