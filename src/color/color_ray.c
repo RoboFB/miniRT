@@ -116,6 +116,7 @@ t_vec3	phone_color(const t_material *material, const t_norm_ray *hit,
 	t_vec3	color;
 	t_light	*light;
 	double	diffuse;
+	t_vec3	light_dir;
 
 	(void)ray;
 	color = mul_one_vec3(get_scene()->ambient_light->color,
@@ -125,8 +126,10 @@ t_vec3	phone_color(const t_material *material, const t_norm_ray *hit,
 	{
 		if (!is_in_shadow(hit, light))
 		{
+			light_dir = normalize_vec3(sub_vec3(light->position,
+						hit->r.origin));
 			diffuse = fmax(dot_vec3(hit->r.direction,
-						light->position), 0.0);
+						light_dir), 0.0);
 			add_vec3_p(&color, mul_one_vec3(light->color,
 						light->ratio * diffuse));
 		}
