@@ -90,6 +90,7 @@ bool pars_plane(t_scene *scene, const char **line)
 		return (false);
 	if (!pars_coordinate_in_range_converted(line, &temp_plane.plane.direction, range_direction))
 		return (false);
+	temp_plane.plane.direction = normalize_vec3(temp_plane.plane.direction);
 	if (!pars_material_converted(line, &temp_plane.material))
 		return (false);
 	if (dynamic_array_add_back_perror(&scene->planes, &temp_plane) == -1)
