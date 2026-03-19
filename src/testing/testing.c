@@ -6,7 +6,7 @@
 /*   By: ileon <ileon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 18:51:47 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/19 13:39:33 by ileon            ###   ########.fr       */
+/*   Updated: 2026/03/19 13:45:07 by ileon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,7 @@ void	test_hit_plane(void)
 	
 	// Test 10: Ray fast parallel (streifender Winkel) -> trifft trotzdem
 	// Bodenebene bei y=-2, Ray-Richtung (1, -0.001, 0) -> sehr flach
-	// t = -2 / -0.001 = 2000, Hit weit weg bei (2000, -2, 0)
+	// t = -2 / -0.001 = 2000, Hit weit weg bei (2000, -2, 0).
 	pl.plane.origin = (t_vec3){0, -2, 0};
 	pl.plane.direction = (t_vec3){0, 1, 0};
 	ray = (t_ray){{0, 0, 0}, {1, -0.001, 0}};
