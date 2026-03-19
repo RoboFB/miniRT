@@ -6,7 +6,7 @@
 /*   By: ileon <ileon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/19 13:49:53 by ileon            ###   ########.fr       */
+/*   Updated: 2026/03/19 14:01:06 by ileon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,49 +106,33 @@ t_vec3 inside_the_obj(const t_material *material, t_norm_ray *hit, const t_ray *
 	return (BLACK_VEC3);
 }
 
-t_vec3 phone_color(const t_material *material, const t_norm_ray *hit, const t_ray *ray)
+// Phong-Beleuchtung: Ambient + Diffuse pro Licht mit Schatten-Test.
+// Fuer jedes Licht: is_in_shadow prueft ob Sphere/Plane im Weg liegt.
+// Diffuse = max(dot(normale, licht_richtung), 0) * licht_farbe * ratio.
+// Am Ende wird die Material-Farbe aufmultipliziert.
+t_vec3	phone_color(const t_material *material, const t_norm_ray *hit,
+		const t_ray *ray)
 {
-	(void)hit;
-	(void)ray;
-
 	t_vec3	color;
-	t_scene * const scene = &get_data()->scene;
-	t_dynamic_array lights = scene->lights;
+	t_light	*light;
+	double	diffuse;
 
-	// ambient light
-	color = mul_one_vec3(scene->ambient_light->color, scene->ambient_light->ratio);
-
-	
-	t_light	*light = lights.first;
-	while (light != lights.last)
+	(void)ray;
+	color = mul_one_vec3(get_scene()->ambient_light->color,
+			get_scene()->ambient_light->ratio);
+	light = get_scene()->lights.first;
+	while (light != get_scene()->lights.last)
 	{
-		t_ray light_ray;
-		light_ray.origin = hit->r.origin;
-		light_ray.direction = light->position;
-
-		t_interval light_ray_boarder = {SMALL_DOUBLE, BIG_DOUBLE};// maybe remove big and use the length between light pos and hit pos
-		
-		if (nearest_hit_sphere(&light_ray, &light_ray_boarder, &(t_norm_ray){0}) == NULL)
+		if (!is_in_shadow(hit, light))
 		{
-			// not math like coreckt but 
-			// t_vec3 light_color = mul_one_vec3(light->color, light->ratio);
-			// add_vec3_p(&color, light_color);
-			
-			// diffuse light
-			double diffuse_intensity = fmax(dot_vec3(hit->r.direction, light_ray.direction), 0.0);
-            t_vec3 light_contrib = mul_one_vec3(light->color, light->ratio * diffuse_intensity);
-            add_vec3_p(&color, light_contrib);
-
-			
+			diffuse = fmax(dot_vec3(hit->r.direction,
+						light->position), 0.0);
+			add_vec3_p(&color, mul_one_vec3(light->color,
+						light->ratio * diffuse));
 		}
-		
 		light++;
 	}
-	
-
 	clamp_vec3_p(&color, (t_interval){0.0, 1.0});
-	
-	
-	mul_vec3_p(&color, material->color); // add matiral color at the end
-	return color;
+	mul_vec3_p(&color, material->color);
+	return (color);
 }
