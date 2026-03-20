@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color_ray.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ileon <ileon@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/19 14:01:06 by ileon            ###   ########.fr       */
+/*   Updated: 2026/03/20 13:25:08 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,11 @@ t_vec3 inside_the_obj(const t_material *material, t_norm_ray *hit, const t_ray *
 	t_ray scattered = {0};
 
 	hit->r.direction = inverse_vec3(hit->r.direction);
-
+	
+	if (material->type & MATERIAL_PHONG)
+	{
+		return (phone_color(material, hit, ray));
+	}
 	if (material->type & MATERIAL_DIELECTRIC)
 	{
 		double ri = material->refraction_index;
