@@ -14,8 +14,6 @@
 # define FUNCTION_DEFINITIONS_H
 // start
 t_vec3			ray_to_color(const t_ray *ray, int depth);
-t_sphere		*nearest_hit_sphere(const t_ray *ray, t_interval *ray_boarder,
-					t_norm_ray *hit);
 t_vec3			background_color(const t_ray *ray);
 t_vec3			outside_the_obj(const t_material *material,
 					const t_norm_ray *hit, const t_ray *ray, int depth);
@@ -35,6 +33,7 @@ bool			scatter_metal(const t_ray *r_in, const t_norm_ray *hit,
 double			reflectance(double cosine, double refraction_idx);
 bool			scatter_dielectric(const t_ray *r_in, const t_norm_ray *hit,
 					t_ray *scattered, double ri);
+bool			is_in_shadow(const t_norm_ray *hit, const t_light *light);
 void			*calloc_perror(size_t count, size_t size);
 void			*calloc_perror_exit(size_t count, size_t size);
 void			ft_realloc_perror(void **change_ptr, size_t old, size_t new,
@@ -125,12 +124,19 @@ bool			pars_color_vec3_converted(const char **line_pos,
 					t_vec3 *result_color);
 bool			pars_material_converted(const char **line_pos,
 					t_material *result_material);
+bool			is_hit_plane(const t_plane *pl, const t_ray *ray,
+					const t_interval ray_boarder, t_norm_ray *hit);
+t_plane			*nearest_hit_plane(const t_ray *ray, t_interval *ray_boarder,
+					t_norm_ray *hit);
 bool			is_hit_sphere(const t_sphere *sph, const t_ray *ray,
 					const t_interval ray_boarder, t_norm_ray *hit);
+t_sphere		*nearest_hit_sphere(const t_ray *ray, t_interval *ray_boarder,
+					t_norm_ray *hit);
 t_vec3			get_random_on_hemisphere(const t_vec3 *hit_direction_normal);
 void			test_r3(void);
 void			test_random(void);
 void			test_dynamic_array(void);
+void			test_hit_plane(void);
 int				test_caller(int argc, char const *argv[]);
 t_vec3			inverse_vec3(const t_vec3 a);
 t_vec3			square_vec3(const t_vec3 a);
