@@ -22,23 +22,12 @@ t_vec3	ray_to_color(const t_ray *ray, int depth)
 	t_norm_ray		hit;
 	t_interval		ray_boarder;
 	t_material		*hit_material;
-	t_sphere		*sphere_hit;
-	t_plane			*plane_hit;
 
 	if (depth-- == 0)
 		return (BLACK_VEC3);
 	ray_boarder = (t_interval){SMALL_DOUBLE, BIG_DOUBLE};
 	ft_bzero(&hit, sizeof(t_norm_ray));
-	hit_material = NULL;
-	plane_hit = nearest_hit_plane(ray, &ray_boarder, &hit);
-	if (plane_hit)
-		hit_material = &plane_hit->material;
-	sphere_hit = nearest_hit_sphere(ray, &ray_boarder, &hit);
-	if (sphere_hit)
-		hit_material = &sphere_hit->material;
-
-	// added here hit_cylinder
-
+	hit_material = nearest_hit_all(ray, &ray_boarder, &hit);
 	if (hit_material == NULL)
 		return (background_color(ray));
 	else if (dot_vec3(ray->direction, hit.r.direction) > 0.0)

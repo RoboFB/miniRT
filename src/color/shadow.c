@@ -27,9 +27,5 @@ bool	is_in_shadow(const t_norm_ray *hit, const t_light *light)
 	to_light = sub_vec3(light->position, hit->r.origin);
 	light_ray = (t_ray){hit->r.origin, normalize_vec3(to_light)};
 	boarder = (t_interval){SMALL_DOUBLE, length_vec3(to_light)};
-	if (nearest_hit_sphere(&light_ray, &boarder, &(t_norm_ray){0}) != NULL)
-		return (true);
-	if (nearest_hit_plane(&light_ray, &boarder, &(t_norm_ray){0}) != NULL)
-		return (true);
-	return (false);
+	return (nearest_hit_all(&light_ray, &boarder, &(t_norm_ray){0}) != NULL);
 }
