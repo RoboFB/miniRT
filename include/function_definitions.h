@@ -124,6 +124,8 @@ bool			pars_color_vec3_converted(const char **line_pos,
 					t_vec3 *result_color);
 bool			pars_material_converted(const char **line_pos,
 					t_material *result_material);
+t_material		*nearest_hit_all(const t_ray *ray, t_interval *ray_boarder,
+					t_norm_ray *hit);
 bool			is_hit_plane(const t_plane *pl, const t_ray *ray,
 					const t_interval ray_boarder, t_norm_ray *hit);
 t_plane			*nearest_hit_plane(const t_ray *ray, t_interval *ray_boarder,
