@@ -30,12 +30,12 @@ t_vec3	ray_to_color(const t_ray *ray, int depth)
 	ray_boarder = (t_interval){SMALL_DOUBLE, BIG_DOUBLE};
 	ft_bzero(&hit, sizeof(t_norm_ray));
 	hit_material = NULL;
-	sphere_hit = nearest_hit_sphere(ray, &ray_boarder, &hit);
-	if (sphere_hit)
-		hit_material = &sphere_hit->material;
 	plane_hit = nearest_hit_plane(ray, &ray_boarder, &hit);
 	if (plane_hit)
 		hit_material = &plane_hit->material;
+	sphere_hit = nearest_hit_sphere(ray, &ray_boarder, &hit);
+	if (sphere_hit)
+		hit_material = &sphere_hit->material;
 
 	// added here hit_cylinder
 
