@@ -12,12 +12,12 @@
 
 #include "mini_rt.h"
 
-// Prueft ob der Punkt hit->r.origin im Schatten eines Lichts liegt.
-// Schickt einen Shadow-Ray vom Hit-Punkt in Richtung Licht und testet
-// ob eine Sphere oder Plane dazwischen liegt.
-// boarder.max = Distanz zum Licht, damit Objekte hinter dem Licht
-// keinen falschen Schatten werfen.
-// true = im Schatten, false = beleuchtet
+// Checks if hit->r.origin is in shadow of a light source.
+// Sends a shadow ray from the hit point toward the light and tests
+// if any sphere or plane lies in between.
+// boarder.max = distance to light, so objects behind the light
+// do not cast false shadows.
+// Returns true if in shadow, false if lit.
 bool	is_in_shadow(const t_norm_ray *hit, const t_light *light)
 {
 	t_ray		light_ray;

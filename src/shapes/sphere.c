@@ -48,7 +48,7 @@ bool	is_hit_sphere(const t_sphere *sph, const t_ray *ray, const t_interval ray_b
 	return (true);
 }
 
-// R: die naechste Sphere und aktualisiert ray_boarder und hit, oder NULL
+// Returns the nearest sphere hit and updates ray_boarder and hit, or NULL.
 t_sphere	*nearest_hit_sphere(const t_ray *ray, t_interval *ray_boarder,
 			t_norm_ray *hit)
 {

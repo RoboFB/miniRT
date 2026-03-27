@@ -12,22 +12,22 @@
 
 #include "mini_rt.h"
 
-// Ray-Plane Schnitttest.
-// Beispiel: eine Bodenebene bei y=-2 mit Normale nach oben (0,1,0)
+// Ray-plane intersection test.
+// Example: a ground plane at y=-2 with upward normal (0,1,0)
 //   pl 0,-2,0  0,1,0  0,255,0
-// Ein Ray nach unten trifft sie, ein horizontaler Ray nicht.
+// A downward ray hits it; a horizontal ray does not.
 //
-// Mathe: ein Punkt P liegt auf der Ebene wenn dot(P - plane.origin, normal) = 0
-// Ray einsetzen P(t) = ray.origin + t * ray.dir und nach t aufloesen:
+// Math: a point P lies on the plane if dot(P - plane.origin, normal) = 0
+// Substituting the ray P(t) = ray.origin + t * ray.dir and solving for t:
 //   t = dot(plane.origin - ray.origin, normal) / dot(ray.dir, normal)
 //
 // denom = dot(ray.dir, normal):
-//   ~0 heisst der Ray ist parallel zur Ebene -> kein Hit
-//   >0 heisst der Ray trifft von unten (gleiche Seite wie Normale)
-//   <0 heisst der Ray trifft von oben (gegenueber der Normale)
+//   ~0 means the ray is parallel to the plane -> no hit
+//   >0 means the ray hits from below (same side as the normal)
+//   <0 means the ray hits from above (opposite side of the normal)
 //
-// Anders als Spheres (quadratisch, 0/1/2 Hits) haben Planes immer
-// genau 0 oder 1 Hit, und die Normale ist ueberall gleich.
+// Unlike spheres (quadratic, 0/1/2 hits), planes always have
+// exactly 0 or 1 hit, and the normal is the same everywhere.
 bool	is_hit_plane(const t_plane *pl, const t_ray *ray,
 		const t_interval ray_boarder, t_norm_ray *hit)
 {
@@ -48,7 +48,7 @@ bool	is_hit_plane(const t_plane *pl, const t_ray *ray,
 	return (true);
 }
 
-//eie naechste Plane und aktualisiert ray_boarder und hit, oder NULL same logic that you applied for  sphere
+// Returns the nearest plane hit and updates ray_boarder and hit, or NULL.
 t_plane	*nearest_hit_plane(const t_ray *ray, t_interval *ray_boarder,
 		t_norm_ray *hit)
 {

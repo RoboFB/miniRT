@@ -106,10 +106,10 @@ t_vec3 inside_the_obj(const t_material *material, t_norm_ray *hit, const t_ray *
 	return (BLACK_VEC3);
 }
 
-// Phong-Beleuchtung: Ambient + Diffuse pro Licht mit Schatten-Test.
-// Fuer jedes Licht: is_in_shadow prueft ob Sphere/Plane im Weg liegt.
-// Diffuse = max(dot(normale, licht_richtung), 0) * licht_farbe * ratio.
-// Am Ende wird die Material-Farbe aufmultipliziert.
+// Phong lighting: ambient + diffuse per light with shadow test.
+// For each light: is_in_shadow checks if any object blocks the light.
+// Diffuse = max(dot(normal, light_dir), 0) * light_color * ratio.
+// Final color is multiplied by the material color.
 t_vec3	phone_color(const t_material *material, const t_norm_ray *hit,
 		const t_ray *ray)
 {
