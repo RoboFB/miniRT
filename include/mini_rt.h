@@ -49,6 +49,8 @@ typedef enum e_rt_defaults
 	WIDTH_DEFAULT = 800,
 	HEIGHT_DEFAULT = 600,
 	DEBUG_RT = 1,
+	MAX_DEEP_RAYS = 16,
+	ANTI_ALIASING_SAMPLES = 32,
 }	t_rt_defaults;
 
 #endif

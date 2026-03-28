@@ -73,8 +73,8 @@ void	calculate_camera(mlx_image_t *img, t_camera *camera)
 	t_vec3	viewport_v;
 
 	camera->ray.length = 1.0;
-	camera->max_deep_rays = 16;
-	camera->anti_aliasing_samples = 32;
+	camera->max_deep_rays = MAX_DEEP_RAYS;
+	camera->anti_aliasing_samples = ANTI_ALIASING_SAMPLES;
 	calc_viewport(img, camera, &viewport_u, &viewport_v);
 	camera->delta_u = div_one_vec3(viewport_u, (double)(img->width));
 	camera->delta_v = div_one_vec3(viewport_v, (double)(img->height));
