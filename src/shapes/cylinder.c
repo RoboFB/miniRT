@@ -55,11 +55,11 @@ static bool	hit_cy_tube(const t_cylinder *cy, const t_ray *ray,
 	if (!init_cy_tube(cy, ray, &bottom, &data) || data.a < SMALL_DOUBLE)
 		return (false);
 	disc = sqrt(data.half_b * data.half_b - data.a * data.c);
-	root = (data.half_b - disc) / data.a;
+	root = (-data.half_b - disc) / data.a;
 	m = data.wv + root * data.dv;
 	if (root <= b.min || root >= b.max || m < 0 || m > cy->cylinder.length)
 	{
-		root = (data.half_b + disc) / data.a;
+		root = (-data.half_b + disc) / data.a;
 		m = data.wv + root * data.dv;
 		if (root <= b.min || root >= b.max || m < 0 || m > cy->cylinder.length)
 			return (false);
