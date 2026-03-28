@@ -137,6 +137,17 @@ typedef struct s_cylinder
 	t_material		material;
 }					t_cylinder;
 
+// Precomputed quadratic coefficients for ray-cylinder tube intersection.
+// Separates the heavy math from the root-finding logic.
+typedef struct s_cy_data
+{
+	double			a;
+	double			half_b;
+	double			c;
+	double			dv;
+	double			wv;
+}					t_cy_data;
+
 
 typedef enum e_stats_type
 {
