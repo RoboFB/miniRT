@@ -80,9 +80,14 @@ $(LIBFT):
 
 
 $(LIBMLX):
-	@git submodule update --init --recursive
+	@if [ ! -f $(LIBMLX_DIR)/CMakeLists.txt ]; then \
+		echo "   📥 MLX42 not found, cloning..."; \
+		git clone git@github.com:codam-coding-college/MLX42.git $(LIBMLX_DIR); \
+	else \
+		git submodule update --init --recursive; \
+	fi
 # 	@cmake -DDEBUG=1 $(LIBMLX_DIR) -B $(LIBMLX_DIR)/build > /dev/null && make -C $(LIBMLX_DIR)/build -j4 > /dev/null
-	@cmake -DDEBUG=1 $(LIBMLX_DIR) -B $(LIBMLX_DIR)/build && make -C $(LIBMLX_DIR)/build -j4 
+	@cmake -DDEBUG=1 $(LIBMLX_DIR) -B $(LIBMLX_DIR)/build && make -C $(LIBMLX_DIR)/build -j4
 	@echo "   🛠️ 🛠️ 🛠️  MLX42 compiled"
 
 #  -DDEBUG=1 at cmake for debug infos # -DGLFW_FETCH=0 purpose ?
