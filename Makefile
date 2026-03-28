@@ -46,10 +46,10 @@ SRC :=			color/color_ray.c color/draw_pixel.c color/full_img.c \
 				execution/statistics.c execution/time.c parsing/atof.c \
 				parsing/example_spheres.c parsing/line_handers.c parsing/parsing_main.c \
 				parsing/smal_steps.c shapes/cylinder.c shapes/hit_all.c shapes/plane.c \
-				shapes/sphere.c testing/testing.c vectors_math/advanced.c \
-				vectors_math/basic.c vectors_math/basic_pointer.c vectors_math/clamp.c \
-				vectors_math/combine.c vectors_math/compare.c vectors_math/convert_to.c \
-				vectors_math/intervals.c
+				shapes/sphere.c testing/test_cylinder.c testing/testing.c \
+				vectors_math/advanced.c vectors_math/basic.c vectors_math/basic_pointer.c \
+				vectors_math/clamp.c vectors_math/combine.c vectors_math/compare.c \
+				vectors_math/convert_to.c vectors_math/intervals.c
 
 DIR_OBJ :=		obj
 OBJ :=			$(SRC:%.c=$(DIR_OBJ)/%.o)

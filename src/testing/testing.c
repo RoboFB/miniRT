@@ -288,5 +288,10 @@ int test_caller(int argc, char const *argv[])
 		test_hit_plane();
 		return (1);
 	}
+	if (ft_strncmp(argv[2], "hit_cylinder", 13) == 0)
+	{
+		test_hit_cylinder();
+		return (1);
+	}
 	return (0);
 }
