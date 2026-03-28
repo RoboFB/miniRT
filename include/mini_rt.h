@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/04 18:10:57 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/28 09:00:00 by ileon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,32 +30,25 @@
 # include "structs.h"
 # include "function_definitions.h"
 
-#ifndef M_PI
-	# define M_PI		3.14159265358979323846	/* pi */
-#endif
+# ifndef M_PI
+#  define M_PI		3.14159265358979323846
+# endif
 
-// own implementation of HUGE_VAL
-#ifndef BIG_DOUBLE
-	# define BIG_DOUBLE	1e300	
-#endif
+# ifndef BIG_DOUBLE
+#  define BIG_DOUBLE	1e300
+# endif
 
-# define SMALL_DOUBLE	0.0001	
+# define SMALL_DOUBLE	0.0001
 
-# define RANGE_POSITIVE ((t_interval){.min = SMALL_DOUBLE, .max = BIG_DOUBLE})
+extern const t_color_256	g_black;
+extern const t_color_256	g_white;
 
-// colors         rgba in memory
-# define BLUE_256  ((t_color_256){.value = 0xFFFF0000})
-# define BLAKE_256 ((t_color_256){.a = 255})
-# define WHITE_256 ((t_color_256){.r = 255, .g = 255, .b = 255, .a = 255})
-
-#define BLACK_VEC3 ((t_vec3){0.0, 0.0, 0.0})
-#define WHITE_VEC3 ((t_vec3){1.0, 1.0, 1.0})
-
-# define BPP 4 // bytes per pixel
-# define WIDTH_DEFAULT 800
-# define HEIGHT_DEFAULT 600
-
-# define DEBUG_RT 1 // 0 = off, 1 = on
-
+typedef enum e_rt_defaults
+{
+	BPP = 4,
+	WIDTH_DEFAULT = 800,
+	HEIGHT_DEFAULT = 600,
+	DEBUG_RT = 1,
+}	t_rt_defaults;
 
 #endif

@@ -1,36 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   globals.c                                          :+:      :+:    :+:   */
+/*   basic_pointer_scalar.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/27 18:51:34 by rgohrig           #+#    #+#             */
+/*   Created: 2026/02/02 11:03:36 by rgohrig           #+#    #+#             */
 /*   Updated: 2026/03/28 09:00:00 by ileon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-const t_color_256	g_black = {.a = 255};
-const t_color_256	g_white = {.r = 255, .g = 255, .b = 255, .a = 255};
-
-/* Returns a pointer to the global t_data singleton. */
-t_data	*get_data(void)
+void	add_one_vec3_p(t_vec3 *a, const double add)
 {
-	static t_data	data;
-
-	return (&data);
+	a->x += add;
+	a->y += add;
+	a->z += add;
 }
 
-/* Returns a pointer to the global t_gui singleton. */
-t_gui	*get_gui(void)
+void	sub_one_vec3_p(t_vec3 *a, const double subtract)
 {
-	return (&get_data()->gui);
+	a->x -= subtract;
+	a->y -= subtract;
+	a->z -= subtract;
 }
 
-/* Returns a pointer to the global t_scene singleton. */
-t_scene	*get_scene(void)
+void	mul_one_vec3_p(t_vec3 *a, const double multiply)
 {
-	return (&get_data()->scene);
+	a->x *= multiply;
+	a->y *= multiply;
+	a->z *= multiply;
+}
+
+void	div_one_vec3_p(t_vec3 *a, const double divide)
+{
+	a->x /= divide;
+	a->y /= divide;
+	a->z /= divide;
 }

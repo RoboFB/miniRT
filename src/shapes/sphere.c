@@ -3,54 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: ileon <ileon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/28 13:02:59 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/12 12:14:30 by rgohrig          ###   ########.fr       */
+/*   Created: 2026/02/02 11:03:36 by rgohrig           #+#    #+#             */
+/*   Updated: 2026/03/28 09:00:00 by ileon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "mini_rt.h"
+#include "mini_rt.h"
 
-
-
-// r: if true hit     only update hit if in range of boarder
-bool	is_hit_sphere(const t_sphere *sph, const t_ray *ray, const t_interval ray_boarder, t_norm_ray *hit)
+/* Tests whether a ray hits a sphere within the given interval. */
+bool	is_hit_sphere(const t_sphere *sph, const t_ray *ray,
+		const t_interval ray_boarder, t_norm_ray *hit)
 {
-	t_vec3 oc = sub_vec3(sph->center, ray->origin);
-	double a = length_squared_vec3(ray->direction);
-	double h = dot_vec3(ray->direction, oc);
-	double c = length_squared_vec3(oc) - sph->radius*sph->radius;
-	double discriminant_squad = (h*h) - (a*c);
-	// printf("discriminant: %f, a;%f, b;%f, c;%f\n", discriminant, a, b, c);	
-	// debug_decimal("22 discriminant", discriminant);
+	t_vec3	oc;
+	double	a;
+	double	h;
+	double	disc;
+	double	root;
 
-	if (discriminant_squad < 0)
+	oc = sub_vec3(sph->center, ray->origin);
+	a = length_squared_vec3(ray->direction);
+	h = dot_vec3(ray->direction, oc);
+	disc = h * h - a * (dot_vec3(oc, oc) - sph->radius * sph->radius);
+	if (disc < 0)
 		return (false);
-
-	double discriminant = sqrt(discriminant_squad);
-	
-
-	double root = (h - discriminant) / a;
+	disc = sqrt(disc);
+	root = (h - disc) / a;
 	if (root <= ray_boarder.min || ray_boarder.max <= root)
 	{
-		root = (h + discriminant) / a;
+		root = (h + disc) / a;
 		if (root <= ray_boarder.min || ray_boarder.max <= root)
-			return false;
+			return (false);
 	}
-
-	hit->length = root;// is length factor of a norm ray
-	hit->r.origin = get_pos_on_ray(ray, hit->length);// hit point rec.p
-	hit->r.direction = div_one_vec3(sub_vec3(hit->r.origin, sph->center), sph->radius);// rec.normal
-	// printf("l:%.3f,", length_vec3(hit->r.direction));
-	// printf("%.3f\n",hit->length);
-
+	hit->length = root;
+	hit->r.origin = get_pos_on_ray(ray, hit->length);
+	hit->r.direction = div_one_vec3(sub_vec3(hit->r.origin, sph->center),
+			sph->radius);
 	return (true);
 }
 
-// Returns the nearest sphere hit and updates ray_boarder and hit, or NULL.
+/* Finds the nearest sphere hit across all spheres in the scene. */
 t_sphere	*nearest_hit_sphere(const t_ray *ray, t_interval *ray_boarder,
-			t_norm_ray *hit)
+		t_norm_ray *hit)
 {
 	t_sphere	*sphere_hit;
 	t_sphere	*sphere_loop;
@@ -69,15 +64,13 @@ t_sphere	*nearest_hit_sphere(const t_ray *ray, t_interval *ray_boarder,
 	return (sphere_hit);
 }
 
-t_vec3 get_random_on_hemisphere(const t_vec3 *hit_direction_normal)
+/* Returns a random unit vector in the hemisphere of the given normal. */
+t_vec3	get_random_on_hemisphere(const t_vec3 *hit_direction_normal)
 {
-	t_vec3 new;
-	
+	t_vec3	new;
+
 	new = get_random_unit_vector();
-	if (dot_vec3(new, *hit_direction_normal) > 0.0) // In the same hemisphere as the normal
+	if (dot_vec3(new, *hit_direction_normal) > 0.0)
 		return (new);
-	else
-		return (inverse_vec3(new));
+	return (inverse_vec3(new));
 }
-
-

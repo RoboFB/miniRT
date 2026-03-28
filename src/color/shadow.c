@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shadow.c                                          :+:      :+:    :+:   */
+/*   shadow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ileon <ileon@student.42heilbronn.de>       +#+  +:+       +#+        */
+/*   By: ileon <ileon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/19 00:00:00 by ileon             #+#    #+#             */
-/*   Updated: 2026/03/19 00:00:00 by ileon            ###   ########.fr       */
+/*   Created: 2026/02/02 11:03:36 by rgohrig           #+#    #+#             */
+/*   Updated: 2026/03/28 09:13:12 by ileon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-// Checks if hit->r.origin is in shadow of a light source.
-// Sends a shadow ray from the hit point toward the light and tests
-// if any sphere or plane lies in between.
-// boarder.max = distance to light, so objects behind the light
-// do not cast false shadows.
-// Returns true if in shadow, false if lit.
+/* Returns true if the hit point is occluded from the given light source. */
 bool	is_in_shadow(const t_norm_ray *hit, const t_light *light)
 {
 	t_ray		light_ray;

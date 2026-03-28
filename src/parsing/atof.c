@@ -6,12 +6,13 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 15:28:53 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/03 19:08:20 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/28 09:00:00 by ileon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
+/* Advances the string pointer past any leading whitespace. */
 void	pars_skip_space(char const **pp_pos)
 {
 	char const	*position;
@@ -21,9 +22,9 @@ void	pars_skip_space(char const **pp_pos)
 		|| *position == '\r' || *position == '\t' || *position == '\v')
 		position++;
 	*pp_pos = position;
-	return ;
 }
 
+/* Reads an optional leading minus sign; returns -1.0 or 1.0. */
 static double	h_get_negative(char const **pp_pos)
 {
 	char const	*position;
@@ -42,6 +43,7 @@ static double	h_get_negative(char const **pp_pos)
 	return (out);
 }
 
+/* Reads the integer and optional decimal part of a float into *num. */
 static int	h_get_base_num(char const **pp_pos, double *num)
 {
 	char const	*position;
@@ -69,6 +71,7 @@ static int	h_get_base_num(char const **pp_pos, double *num)
 	return (0);
 }
 
+/* Reads an optional exponent suffix (e.g. e-3) and returns the multiplier. */
 static double	h_get_exp(char const **pp_pos)
 {
 	char const	*position;
@@ -98,11 +101,10 @@ static double	h_get_exp(char const **pp_pos)
 	return (exp * negative);
 }
 
-// convert string to double, should be safe, but not completely strict at end
-// Input: str | Output: num | R: true(OK) false(Error)
+/* Parses a float from the string, advancing the pointer; false on failure. */
 bool	pars_atof_converted(char const **str_pos, double *num)
 {
-	double		negative;
+	double	negative;
 
 	*num = 0.0;
 	pars_skip_space(str_pos);
@@ -115,58 +117,5 @@ bool	pars_atof_converted(char const **str_pos, double *num)
 	if (!isfinite(*num) || *num == 0.0)
 		return (false);
 	*num *= negative;
-	return (true);
-}
-
-// convert and skip comma
-bool	pars_comma_skipped(char const **str_pos)
-{
-	if (**str_pos == ',')
-	{
-		(*str_pos)++;
-		return (true);
-	}
-	else
-	{
-		return (false);
-	}
-}
-
-/*
-- 12345 . 4242 x10 - 33
--		Sign of mantissa   -/+
-12345	Location of decimal point
-4242	Mantissa
-x10		Base
--		Sine of exponent
-33		Exponent
-*/
-
-// R: true(OK) false(Error)
-bool	pars_atoi_converted(const char **str_pos, int *result)
-{
-	long int	num;
-	int			negative;
-
-	num = 0;
-	negative = 1;
-	if (!str_pos || !*str_pos || !**str_pos)
-		return (false);
-	pars_skip_space(str_pos);
-	if (**str_pos == '-')
-	{
-		negative = -1;
-		(*str_pos)++;
-	}
-	if (!ft_isdigit(**str_pos))
-		return (false);
-	while (ft_isdigit(**str_pos))
-	{
-		num = num * 10 + (**str_pos - '0') * negative;
-		if (num < INT_MIN || num > INT_MAX)
-			return (false);
-		(*str_pos)++;
-	}
-	*result = (int)num;
 	return (true);
 }

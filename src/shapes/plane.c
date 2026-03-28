@@ -3,31 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ileon <lihrig@student.42heilbronn.de>                +#+  +:+       +#+        */
+/*   By: ileon <ileon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/28 13:02:59 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/19 13:27:06 by ileon            ###   ########.fr       */
+/*   Created: 2026/02/02 11:03:36 by rgohrig           #+#    #+#             */
+/*   Updated: 2026/03/28 09:12:29 by ileon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-// Ray-plane intersection test.
-// Example: a ground plane at y=-2 with upward normal (0,1,0)
-//   pl 0,-2,0  0,1,0  0,255,0
-// A downward ray hits it; a horizontal ray does not.
-//
-// Math: a point P lies on the plane if dot(P - plane.origin, normal) = 0
-// Substituting the ray P(t) = ray.origin + t * ray.dir and solving for t:
-//   t = dot(plane.origin - ray.origin, normal) / dot(ray.dir, normal)
-//
-// denom = dot(ray.dir, normal):
-//   ~0 means the ray is parallel to the plane -> no hit
-//   >0 means the ray hits from below (same side as the normal)
-//   <0 means the ray hits from above (opposite side of the normal)
-//
-// Unlike spheres (quadratic, 0/1/2 hits), planes always have
-// exactly 0 or 1 hit, and the normal is the same everywhere.
+/* Tests whether a ray hits an infinite plane within the given interval. */
 bool	is_hit_plane(const t_plane *pl, const t_ray *ray,
 		const t_interval ray_boarder, t_norm_ray *hit)
 {
@@ -48,7 +33,7 @@ bool	is_hit_plane(const t_plane *pl, const t_ray *ray,
 	return (true);
 }
 
-// Returns the nearest plane hit and updates ray_boarder and hit, or NULL.
+/* Finds the nearest plane hit across all planes in the scene. */
 t_plane	*nearest_hit_plane(const t_ray *ray, t_interval *ray_boarder,
 		t_norm_ray *hit)
 {

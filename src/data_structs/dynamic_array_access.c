@@ -1,36 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   globals.c                                          :+:      :+:    :+:   */
+/*   dynamic_array_access.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/27 18:51:34 by rgohrig           #+#    #+#             */
+/*   Created: 2025/05/30 12:47:59 by rgohrig           #+#    #+#             */
 /*   Updated: 2026/03/28 09:00:00 by ileon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-const t_color_256	g_black = {.a = 255};
-const t_color_256	g_white = {.r = 255, .g = 255, .b = 255, .a = 255};
-
-/* Returns a pointer to the global t_data singleton. */
-t_data	*get_data(void)
+/* Returns a pointer to the element at the given index. */
+void	*dynamic_array_get(t_dynamic_array *array, size_t idx)
 {
-	static t_data	data;
-
-	return (&data);
+	if (idx > array->elements_used)
+		msg_exit("dynamic_array: idx out of bound");
+	return (array->first + (idx * array->elements_size));
 }
 
-/* Returns a pointer to the global t_gui singleton. */
-t_gui	*get_gui(void)
+/* Returns a pointer to the last element in the array. */
+void	*dynamic_array_get_last(t_dynamic_array *array)
 {
-	return (&get_data()->gui);
+	return (array->last);
 }
 
-/* Returns a pointer to the global t_scene singleton. */
-t_scene	*get_scene(void)
+/* Returns a pointer to the first element in the array. */
+void	*dynamic_array_get_first(t_dynamic_array *array)
 {
-	return (&get_data()->scene);
+	return (array->first);
 }

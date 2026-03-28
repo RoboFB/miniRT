@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   hit_all.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ileon <ileon@student.42heilbronn.de>       +#+  +:+       +#+        */
+/*   By: ileon <ileon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/27 00:00:00 by ileon             #+#    #+#             */
-/*   Updated: 2026/03/27 00:00:00 by ileon            ###   ########.fr       */
+/*   Created: 2026/02/02 11:03:36 by rgohrig           #+#    #+#             */
+/*   Updated: 2026/03/28 09:12:37 by ileon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-// Tests all objects in the scene and returns the material of the nearest hit.
-// Planes, spheres, and cylinders share ray_boarder so the closest hit wins.
-// Returns NULL if no object was hit.
+/* Returns the material of the closest shape hit (sphere, plane, cylinder). */
 t_material	*nearest_hit_all(const t_ray *ray, t_interval *ray_boarder,
 		t_norm_ray *hit)
 {

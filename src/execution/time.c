@@ -6,12 +6,13 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 15:17:05 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/16 14:36:59 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/28 09:00:00 by ileon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
+/* Returns milliseconds elapsed since the anchor; updates the anchor. */
 int	get_time_ms(struct timeval *anchor)
 {
 	struct timeval	curr;
@@ -21,6 +22,7 @@ int	get_time_ms(struct timeval *anchor)
 		+ (curr.tv_usec - anchor->tv_usec) / 1000);
 }
 
+/* Returns microseconds elapsed since the anchor; updates the anchor. */
 long	get_time_us(struct timeval *anchor)
 {
 	struct timeval	curr;
@@ -30,6 +32,7 @@ long	get_time_us(struct timeval *anchor)
 		+ (curr.tv_usec - anchor->tv_usec));
 }
 
+/* Returns seconds elapsed since the anchor; updates the anchor. */
 double	get_time_s(struct timeval *anchor)
 {
 	struct timeval	curr;
@@ -39,12 +42,8 @@ double	get_time_s(struct timeval *anchor)
 		+ (curr.tv_usec - anchor->tv_usec) / 1000.0 / 1000.0);
 }
 
-
+/* Resets the render-time anchor in the GUI to the current time. */
 void	reset_render_time(t_gui *gui)
 {
-		gettimeofday(&gui->statistics.time_before_render, NULL);
+	gettimeofday(&gui->statistics.time_before_render, NULL);
 }
-
-
-
-

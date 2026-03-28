@@ -6,14 +6,14 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 17:30:08 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/03 18:07:45 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/28 09:00:00 by ileon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "mini_rt.h"
+#include "mini_rt.h"
 
-// R: (Ok)*new pointer  (Error) NULL + printed perror msg
-void *calloc_perror(size_t count, size_t size)
+/* Allocates zeroed memory; returns NULL and prints perror on failure. */
+void	*calloc_perror(size_t count, size_t size)
 {
 	void	*ptr;
 
@@ -23,36 +23,27 @@ void *calloc_perror(size_t count, size_t size)
 		perror("Malloc error in calloc_perror");
 		return (NULL);
 	}
-	else
-	{
-		return (ptr);
-	}
+	return (ptr);
 }
 
-// R: (Ok)*new pointer  (Error) exit
-void *calloc_perror_exit(size_t count, size_t size)
+/* Allocates zeroed memory; exits the program on allocation failure. */
+void	*calloc_perror_exit(size_t count, size_t size)
 {
 	void	*ptr;
 
 	ptr = ft_calloc(count, size);
 	if (ptr == NULL)
-	{
 		perror_exit("Malloc error in calloc_perror_exit");
-		return (NULL);
-	}
-	else
-	{
-		return (ptr);
-	}
+	return (ptr);
 }
 
-// R: (OK)*new_ptr (Error) NULL + printed perror msg
-// sets to zero and copy ptr to new-ptr cuts if new is smaller
-void	ft_realloc_perror(void **change_ptr, size_t old, size_t new, size_t size)
+/* Reallocates a buffer to a new size, preserving old data; perror on err. */
+void	ft_realloc_perror(void **change_ptr, size_t old, size_t new,
+		size_t size)
 {
 	void	*new_ptr;
 
-	if (change_ptr == NULL || old == 0 || new == 0 || size == 0 || old == new)
+	if (!change_ptr || old == 0 || new == 0 || size == 0 || old == new)
 		return ;
 	new_ptr = calloc_perror(new, size);
 	if (new_ptr == NULL)
@@ -67,10 +58,11 @@ void	ft_realloc_perror(void **change_ptr, size_t old, size_t new, size_t size)
 		ft_memcpy(new_ptr, *change_ptr, new * size);
 	free(*change_ptr);
 	*change_ptr = new_ptr;
-	return ;
 }
 
-int	ft_realloc_perror_2(void **change_first, void **change_last, size_t *elements_count, size_t size)
+/* Reallocates a dynamic array buffer, updating first/last pointers. */
+int	ft_realloc_perror_2(void **change_first, void **change_last,
+		size_t *elements_count, size_t size)
 {
 	size_t	new_count;
 

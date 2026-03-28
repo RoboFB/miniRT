@@ -3,19 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ileon <ileon@student.42heilbronn.de>       +#+  +:+       +#+        */
+/*   By: ileon <ileon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/28 00:00:00 by ileon             #+#    #+#             */
-/*   Updated: 2026/03/28 00:00:00 by ileon            ###   ########.fr       */
+/*   Created: 2026/02/02 11:03:36 by rgohrig           #+#    #+#             */
+/*   Updated: 2026/03/28 09:00:00 by ileon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-// Precomputes the quadratic coefficients for a ray vs infinite cylinder test.
-// Projects ray direction and offset vector onto the plane perpendicular to
-// the cylinder axis, then fills the t_cy_data struct.
-// Returns false if discriminant < 0 (no intersection possible).
+/* Initializes tube-intersection data in cylinder-local space. */
 static bool	init_cy_tube(const t_cylinder *cy, const t_ray *ray,
 		t_vec3 *bottom, t_cy_data *data)
 {
@@ -39,10 +36,7 @@ static bool	init_cy_tube(const t_cylinder *cy, const t_ray *ray,
 	return (disc >= 0);
 }
 
-// Tests the lateral (tube) surface of a finite cylinder.
-// Solves the quadratic, tries the near root first, then the far root.
-// Height check: m = projection of hit point onto the axis from the bottom.
-// Valid range: 0 <= m <= height. Normal points outward from the axis.
+/* Tests ray vs. the infinite tube of the cylinder and fills the hit record. */
 static bool	hit_cy_tube(const t_cylinder *cy, const t_ray *ray,
 		t_interval b, t_norm_ray *hit)
 {
@@ -66,17 +60,13 @@ static bool	hit_cy_tube(const t_cylinder *cy, const t_ray *ray,
 	}
 	hit->length = root;
 	hit->r.origin = get_pos_on_ray(ray, root);
-	hit->r.direction = div_one_vec3(sub_vec3(sub_vec3(hit->r.origin,
-				bottom), mul_one_vec3(cy->cylinder.r.direction, m)),
-			cy->radius);
+	hit->r.direction = sub_vec3(sub_vec3(hit->r.origin, bottom),
+			mul_one_vec3(cy->cylinder.r.direction, m));
+	hit->r.direction = div_one_vec3(hit->r.direction, cy->radius);
 	return (true);
 }
 
-// Tests one cap disc of the cylinder.
-// cap->r.origin  = center of the disc
-// cap->r.direction = outward normal of the disc
-// cap->length    = radius of the disc
-// Updates boarder->max on a valid hit so the next cap test is bounded.
+/* Tests ray intersection against one cylinder end cap within the interval. */
 static bool	hit_cy_single_cap(const t_ray *ray, t_interval *boarder,
 		t_norm_ray *hit, const t_norm_ray *cap)
 {
@@ -101,9 +91,7 @@ static bool	hit_cy_single_cap(const t_ray *ray, t_interval *boarder,
 	return (true);
 }
 
-// Finds the nearest intersection of a ray with a cylinder (tube + both caps).
-// Uses a local boarder so tube and caps compete: the closest hit wins.
-// Cylinder origin = geometric center, length = height, axis must be normalized.
+/* Tests whether a ray hits a cylinder (tube or caps) within the interval. */
 bool	is_hit_cylinder(const t_cylinder *cy, const t_ray *ray,
 		const t_interval ray_boarder, t_norm_ray *hit)
 {
@@ -129,7 +117,7 @@ bool	is_hit_cylinder(const t_cylinder *cy, const t_ray *ray,
 	return (found);
 }
 
-// Returns the nearest cylinder hit and updates ray_boarder and hit, or NULL.
+/* Finds the nearest cylinder hit across all cylinders in the scene. */
 t_cylinder	*nearest_hit_cylinder(const t_ray *ray,
 		t_interval *ray_boarder, t_norm_ray *hit)
 {

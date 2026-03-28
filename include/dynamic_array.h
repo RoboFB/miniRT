@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dynamic_array.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: ileon <ileon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/01/30 17:35:16 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/28 09:14:39 by ileon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 
 # include "MLX42.h"
 
-
 typedef struct s_dynamic_array
 {
 	void		*first;
 	void		*last;
-	size_t		elements_size; // set once at init
+	size_t		elements_size;
 	size_t		elements_used;
 	size_t		elements_capacity;
 }		t_dynamic_array;

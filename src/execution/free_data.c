@@ -6,25 +6,26 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 12:06:53 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/03 18:24:21 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/28 09:00:00 by ileon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-void free_helper(void *address_of_pointer_to_free)
+/* Frees the pointer at the given address and sets it to NULL. */
+void	free_helper(void *address_of_pointer_to_free)
 {
-	void 	**cast_pointer;
+	void	**cast_pointer;
 
 	cast_pointer = (void **)address_of_pointer_to_free;
-	if (cast_pointer 
-		&& *cast_pointer)
+	if (cast_pointer && *cast_pointer)
 	{
 		free(*cast_pointer);
 		*cast_pointer = NULL;
 	}
 }
 
+/* Frees all MLX/GUI resources. */
 void	free_gui(t_gui *gui)
 {
 	if (gui->mlx)
@@ -32,6 +33,7 @@ void	free_gui(t_gui *gui)
 	gui->mlx = NULL;
 }
 
+/* Frees all scene dynamic arrays (shapes, lights). */
 void	free_scene(t_scene *scene)
 {
 	free_helper(&scene->camera);
@@ -42,6 +44,7 @@ void	free_scene(t_scene *scene)
 	dynamic_array_free(&scene->cylinders);
 }
 
+/* Frees all global program data (scene and GUI). */
 void	free_data(void)
 {
 	free_gui(&get_data()->gui);
