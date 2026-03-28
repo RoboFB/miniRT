@@ -140,6 +140,7 @@ t_sphere		*nearest_hit_sphere(const t_ray *ray, t_interval *ray_boarder,
 					t_norm_ray *hit);
 t_vec3			get_random_on_hemisphere(const t_vec3 *hit_direction_normal);
 void			test_hit_cylinder(void);
+void			test_hit_cylinder_ext(void);
 void			test_r3(void);
 void			test_random(void);
 void			test_dynamic_array(void);
