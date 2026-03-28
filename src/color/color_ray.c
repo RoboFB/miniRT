@@ -56,7 +56,7 @@ t_vec3	outside_the_obj(const t_material *material, const t_norm_ray *hit,
 	scattered = (t_ray){0};
 	ri = 0;
 	if (material->type & MATERIAL_PHONG)
-		return (phone_color(material, hit, ray));
+		return (phong_color(material, hit, ray));
 	if ((material->type & MATERIAL_LAMBERTIAN)
 		&& scatter_lambertian(hit, &scattered))
 		return (mul_vec3(ray_to_color(&scattered, depth), material->color));
@@ -82,7 +82,7 @@ t_vec3	inside_the_obj(const t_material *material, t_norm_ray *hit,
 	scattered = (t_ray){0};
 	hit->r.direction = inverse_vec3(hit->r.direction);
 	if (material->type & MATERIAL_PHONG)
-		return (phone_color(material, hit, ray));
+		return (phong_color(material, hit, ray));
 	if (material->type & MATERIAL_DIELECTRIC)
 	{
 		if (scatter_dielectric(ray, hit, &scattered,
@@ -94,7 +94,7 @@ t_vec3	inside_the_obj(const t_material *material, t_norm_ray *hit,
 }
 
 /* Computes Phong shading: ambient, diffuse, and specular contributions. */
-t_vec3	phone_color(const t_material *material, const t_norm_ray *hit,
+t_vec3	phong_color(const t_material *material, const t_norm_ray *hit,
 		const t_ray *ray)
 {
 	t_vec3	color;

@@ -19,7 +19,7 @@ t_vec3			outside_the_obj(const t_material *material,
 					const t_norm_ray *hit, const t_ray *ray, int depth);
 t_vec3			inside_the_obj(const t_material *material, t_norm_ray *hit,
 					const t_ray *ray, int depth);
-t_vec3			phone_color(const t_material *material, const t_norm_ray *hit,
+t_vec3			phong_color(const t_material *material, const t_norm_ray *hit,
 					const t_ray *ray);
 void			img_draw_vec3(uint8_t *pixel, const t_vec3 *color_linear);
 void			img_draw_256(uint8_t *pixel, const t_color_256 *color);
