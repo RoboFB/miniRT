@@ -42,14 +42,14 @@ SRC :=			color/color_ray.c color/draw_pixel.c color/full_img.c \
 				color/materials.c color/shadow.c data_structs/allocs.c \
 				data_structs/dynamic_array.c data_structs/dynamic_array_access.c \
 				data_structs/globals.c data_structs/random.c execution/error.c \
-				execution/file_handeling.c execution/free_data.c execution/hooks.c \
-				execution/hooks_camera.c execution/init_gui.c execution/init_scene.c \
-				execution/main.c execution/print_debug.c execution/render.c \
-				execution/statistics.c execution/time.c parsing/atof.c parsing/atoi.c \
-				parsing/example_spheres.c parsing/example_spheres_2.c \
-				parsing/line_handers.c parsing/line_handers_shapes.c parsing/parsing_main.c \
-				parsing/smal_steps.c parsing/smal_steps_color.c shapes/cylinder.c \
-				shapes/hit_all.c shapes/plane.c shapes/sphere.c testing/test_cylinder.c \
+				execution/free_data.c execution/hooks.c execution/hooks_camera.c \
+				execution/init_gui.c execution/init_scene.c execution/main.c \
+				execution/print_debug.c execution/render.c execution/statistics.c \
+				execution/time.c parsing/atof.c parsing/atoi.c parsing/example_spheres.c \
+				parsing/example_spheres_2.c parsing/line_handers.c \
+				parsing/line_handers_shapes.c parsing/parsing_main.c parsing/smal_steps.c \
+				parsing/smal_steps_color.c shapes/cylinder.c shapes/hit_all.c \
+				shapes/plane.c shapes/sphere.c testing/test_cylinder.c \
 				testing/test_cylinder_ext.c testing/test_plane.c testing/testing.c \
 				testing/testing_main.c vectors_math/advanced.c vectors_math/advanced_ray.c \
 				vectors_math/basic.c vectors_math/basic_pointer.c \
