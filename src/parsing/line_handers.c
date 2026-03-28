@@ -109,7 +109,8 @@ bool pars_cylinder(t_scene *scene, const char **line)
 		return (false);
 	if (!pars_coordinate_in_range_converted(line, &temp_cylinder.cylinder.r.direction, range_direction))
 		return (false);
-
+	temp_cylinder.cylinder.r.direction = normalize_vec3(
+		temp_cylinder.cylinder.r.direction);
 	if (!pars_double_in_range_converted(line, &temp_cylinder.radius, range_diameter))
 		return (false);
 	temp_cylinder.radius *= 0.5; // convert diameter to radius
