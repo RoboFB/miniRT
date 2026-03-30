@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   random.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ileon <ileon@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 16:01:22 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/28 12:14:09 by ileon            ###   ########.fr       */
+/*   Updated: 2026/03/30 14:57:10 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-/* Returns a pseudo-random double in [0, 1) using xorshift64. */
+/* 0.000005 to 0.999998  -> use of x.xxx ok not more precise 
+Returns a pseudo-random double in [0, 1) using xorshift64. */
 double	get_random(void)
 {
 	static unsigned int		seed;

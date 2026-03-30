@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dynamic_array.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ileon <ileon@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/28 12:15:21 by ileon            ###   ########.fr       */
+/*   Updated: 2026/03/30 12:01:16 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "MLX42.h"
 
+// needs one init before use (elements_size)
 typedef struct s_dynamic_array
 {
 	void		*first;
