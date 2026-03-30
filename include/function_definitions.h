@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function_definitions.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: ileon <ileon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/06 16:00:03 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/28 12:15:27 by ileon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_vec3			outside_the_obj(const t_material *material,
 					const t_norm_ray *hit, const t_ray *ray, int depth);
 t_vec3			inside_the_obj(const t_material *material, t_norm_ray *hit,
 					const t_ray *ray, int depth);
-t_vec3			phone_color(const t_material *material, const t_norm_ray *hit,
+t_vec3			phong_color(const t_material *material, const t_norm_ray *hit,
 					const t_ray *ray);
 void			img_draw_vec3(uint8_t *pixel, const t_vec3 *color_linear);
 void			img_draw_256(uint8_t *pixel, const t_color_256 *color);
@@ -45,10 +45,10 @@ void			dynamic_array_add_back_exit(t_dynamic_array *array,
 					const void *item);
 int				dynamic_array_add_back_perror(t_dynamic_array *array,
 					const void *item);
+void			dynamic_array_free(t_dynamic_array *array);
 void			*dynamic_array_get(t_dynamic_array *array, size_t idx);
 void			*dynamic_array_get_last(t_dynamic_array *array);
 void			*dynamic_array_get_first(t_dynamic_array *array);
-void			dynamic_array_free(t_dynamic_array *array);
 t_data			*get_data(void);
 t_gui			*get_gui(void);
 t_scene			*get_scene(void);
@@ -66,11 +66,11 @@ void			free_scene(t_scene *scene);
 void			free_data(void);
 void			init_hooks(t_gui *gui);
 void			hook_key(mlx_key_data_t key_data, void *gui_void);
+void			hook_resize(int32_t width, int32_t height, void *gui_void);
 void			move_camera_pos(mlx_key_data_t key_data, t_gui *gui,
 					t_camera *camera);
 void			move_camera_ang(mlx_key_data_t key_data, t_gui *gui,
 					t_camera *camera);
-void			hook_resize(int32_t width, int32_t height, void *gui_void);
 void			init_gui_exit(t_gui *gui);
 void			init_scene_exit(t_scene *scene);
 void			calculate_camera(mlx_image_t *img, t_camera *camera);
@@ -98,8 +98,8 @@ bool			pars_atof_converted(char const **str_pos, double *num);
 bool			pars_comma_skipped(char const **str_pos);
 bool			pars_atoi_converted(const char **str_pos, int *result);
 void			example_purple_spheres(t_dynamic_array *spheres);
-void			example_first_spheres(t_dynamic_array *spheres);
 void			example_fov_spheres(t_dynamic_array *spheres);
+void			example_first_spheres(t_dynamic_array *spheres);
 bool			pars_ambient_light(t_scene *scene, const char **line);
 bool			pars_camera(t_scene *scene, const char **line);
 bool			pars_light(t_scene *scene, const char **line);
@@ -119,11 +119,15 @@ bool			pars_double_in_range_converted(const char **line_pos,
 bool			pars_int8_in_range_converted(const char **line_pos,
 					uint8_t *result);
 bool			pars_color_256_converted(const char **line_pos,
-					t_color_256 *result_color);
+					t_color_256 *result);
 bool			pars_color_vec3_converted(const char **line_pos,
 					t_vec3 *result_color);
 bool			pars_material_converted(const char **line_pos,
 					t_material *result_material);
+bool			is_hit_cylinder(const t_cylinder *cy, const t_ray *ray,
+					const t_interval ray_boarder, t_norm_ray *hit);
+t_cylinder		*nearest_hit_cylinder(const t_ray *ray, t_interval *ray_boarder,
+					t_norm_ray *hit);
 t_material		*nearest_hit_all(const t_ray *ray, t_interval *ray_boarder,
 					t_norm_ray *hit);
 bool			is_hit_plane(const t_plane *pl, const t_ray *ray,
@@ -135,10 +139,12 @@ bool			is_hit_sphere(const t_sphere *sph, const t_ray *ray,
 t_sphere		*nearest_hit_sphere(const t_ray *ray, t_interval *ray_boarder,
 					t_norm_ray *hit);
 t_vec3			get_random_on_hemisphere(const t_vec3 *hit_direction_normal);
+void			test_hit_cylinder(void);
+void			test_hit_cylinder_ext(void);
+void			test_hit_plane(void);
 void			test_r3(void);
 void			test_random(void);
 void			test_dynamic_array(void);
-void			test_hit_plane(void);
 int				test_caller(int argc, char const *argv[]);
 t_vec3			inverse_vec3(const t_vec3 a);
 t_vec3			square_vec3(const t_vec3 a);
@@ -154,10 +160,6 @@ t_vec3			add_vec3(t_vec3 a, const t_vec3 b);
 t_vec3			sub_vec3(t_vec3 a, const t_vec3 b);
 t_vec3			mul_vec3(t_vec3 a, const t_vec3 b);
 t_vec3			div_vec3(t_vec3 a, const t_vec3 b);
-t_vec3			add_one_vec3(t_vec3 a, const double add);
-t_vec3			sub_one_vec3(t_vec3 a, const double subtract);
-t_vec3			mul_one_vec3(t_vec3 a, const double multiply);
-t_vec3			div_one_vec3(t_vec3 a, const double divide);
 void			add_vec3_p(t_vec3 *a, const t_vec3 b);
 void			sub_vec3_p(t_vec3 *a, const t_vec3 b);
 void			mul_vec3_p(t_vec3 *a, const t_vec3 b);
@@ -166,6 +168,10 @@ void			add_one_vec3_p(t_vec3 *a, const double add);
 void			sub_one_vec3_p(t_vec3 *a, const double subtract);
 void			mul_one_vec3_p(t_vec3 *a, const double multiply);
 void			div_one_vec3_p(t_vec3 *a, const double divide);
+t_vec3			add_one_vec3(t_vec3 a, const double add);
+t_vec3			sub_one_vec3(t_vec3 a, const double subtract);
+t_vec3			mul_one_vec3(t_vec3 a, const double multiply);
+t_vec3			div_one_vec3(t_vec3 a, const double divide);
 double			clamp(double value, t_interval interval);
 void			clamp_p(double *value, t_interval interval);
 t_vec3			clamp_vec3(t_vec3 value, t_interval interval);

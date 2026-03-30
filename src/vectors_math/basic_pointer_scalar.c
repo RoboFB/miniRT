@@ -1,32 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert_to.c                                       :+:      :+:    :+:   */
+/*   basic_pointer_scalar.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ileon <ileon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/02 11:05:46 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/28 12:08:21 by ileon            ###   ########.fr       */
+/*   Created: 2026/02/02 11:03:36 by rgohrig           #+#    #+#             */
+/*   Updated: 2026/03/28 12:09:28 by ileon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-double	degrees_to_radians(const double degrees)
+void	add_one_vec3_p(t_vec3 *a, const double add)
 {
-	return (degrees * (M_PI / 180.0));
+	a->x += add;
+	a->y += add;
+	a->z += add;
 }
 
-double	linear_to_gamma(const double linear_color_part)
+void	sub_one_vec3_p(t_vec3 *a, const double subtract)
 {
-	if (linear_color_part > 0)
-		return (sqrt(linear_color_part));
-	return (0);
+	a->x -= subtract;
+	a->y -= subtract;
+	a->z -= subtract;
 }
 
-void	color_256_to_vec3(t_color_256 *in, t_vec3 *out)
+void	mul_one_vec3_p(t_vec3 *a, const double multiply)
 {
-	out->x = (double)in->r / 255.0;
-	out->y = (double)in->g / 255.0;
-	out->z = (double)in->b / 255.0;
+	a->x *= multiply;
+	a->y *= multiply;
+	a->z *= multiply;
+}
+
+void	div_one_vec3_p(t_vec3 *a, const double divide)
+{
+	a->x /= divide;
+	a->y /= divide;
+	a->z /= divide;
 }

@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:04:46 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/09 18:02:36 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/30 12:41:37 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ double	dot_vec3(const t_vec3 a, const t_vec3 b)
 }
 
 // squared length of vector from 0,0,0 to a returns: (length * length)
-double length_squared_vec3(const t_vec3 a)
+double	length_squared_vec3(const t_vec3 a)
 {
 	return (combine_vec3(square_vec3(a)));
 }
 
 // length of vector from 0,0,0 to a
-double length_vec3(const t_vec3 a)
+double	length_vec3(const t_vec3 a)
 {
 	return (sqrt(length_squared_vec3(a)));
 }

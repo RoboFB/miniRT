@@ -3,123 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   line_handers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: ileon <ileon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:54:04 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/11 12:06:56 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/28 12:11:33 by ileon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_rt.h"
 
-bool pars_ambient_light(t_scene *scene, const char **line)
+/* Parses and sets scene ambient light (intensity and color). */
+bool	pars_ambient_light(t_scene *scene, const char **line)
 {
-	static bool already_parsed = false;
-	static const t_interval range_ration = {0.0, 1.0};
-	
+	static bool	already_parsed;
+
 	if (already_parsed)
 		return (false);
 	already_parsed = true;
-	
-	if (!pars_double_in_range_converted(line, &scene->ambient_light->ratio, range_ration))
+	if (!pars_double_in_range_converted(line, &scene->ambient_light->ratio,
+			(t_interval){0.0, 1.0}))
 		return (false);
 	if (!pars_color_vec3_converted(line, &scene->ambient_light->color))
 		return (false);
 	return (true);
 }
 
-bool pars_camera(t_scene *scene, const char **line)
+/* Parses and sets scene camera (position, direction, FOV). */
+bool	pars_camera(t_scene *scene, const char **line)
 {
-	static bool already_parsed = false;
-	static const t_interval range_fov = {0.0, 180.0};
-	static const t_interval range_direction = {-1.0, 1.0};
+	static bool	already_parsed;
 
 	if (already_parsed)
 		return (false);
 	already_parsed = true;
 	if (!pars_coordinate_converted(line, &scene->camera->ray.r.origin))
 		return (false);
-	if (!pars_coordinate_in_range_converted(line, &scene->camera->ray.r.direction, range_direction))
+	if (!pars_coordinate_in_range_converted(line,
+			&scene->camera->ray.r.direction, (t_interval){-1.0, 1.0}))
 		return (false);
-	if (!pars_double_in_range_converted(line, &scene->camera->fov, range_fov))
+	if (!pars_double_in_range_converted(line, &scene->camera->fov,
+			(t_interval){0.0, 180.0}))
 		return (false);
-	scene->camera->ray.r.direction = normalize_vec3(scene->camera->ray.r.direction);// make sure the input is normal dont care at the moment about lost length
+	scene->camera->ray.r.direction = normalize_vec3(
+			scene->camera->ray.r.direction);
 	return (true);
-
 }
 
-bool pars_light(t_scene *scene, const char **line)
+/* Parses and adds a point light to the scene (position, intensity, color). */
+bool	pars_light(t_scene *scene, const char **line)
 {
-	t_light temp_light = {0};
-	static const t_interval range_ration = {0.0, 1.0};
+	t_light	temp_light;
 
+	ft_bzero(&temp_light, sizeof(t_light));
 	if (!pars_coordinate_converted(line, &temp_light.position))
 		return (false);
-	if (!pars_double_in_range_converted(line, &temp_light.ratio, range_ration))
+	if (!pars_double_in_range_converted(line, &temp_light.ratio,
+			(t_interval){0.0, 1.0}))
 		return (false);
 	if (!pars_color_vec3_converted(line, &temp_light.color))
 		return (false);
 	if (dynamic_array_add_back_perror(&scene->lights, &temp_light) == -1)
-		return (false);
-	return (true);
-}
-
-bool pars_sphere(t_scene *scene, const char **line)
-{
-	t_sphere temp_sphere = {0};
-	static const t_interval range_diameter = {0.0, BIG_DOUBLE};
-	
-	if (!pars_coordinate_converted(line, &temp_sphere.center))
-		return (false);
-	if (!pars_double_in_range_converted(line, &temp_sphere.radius, range_diameter))
-		return (false);
-	temp_sphere.radius *= 0.5; // convert diameter to radius
-	if (!pars_material_converted(line, &temp_sphere.material))
-		return (false);
-	if (dynamic_array_add_back_perror(&scene->spheres, &temp_sphere) == -1)
-		return (false);
-	return (true);
-}
-
-bool pars_plane(t_scene *scene, const char **line)
-{
-	t_plane temp_plane = {0};
-	static const t_interval range_direction = {-1.0, 1.0};
-	
-	if (!pars_coordinate_converted(line, &temp_plane.plane.origin))
-		return (false);
-	if (!pars_coordinate_in_range_converted(line, &temp_plane.plane.direction, range_direction))
-		return (false);
-	temp_plane.plane.direction = normalize_vec3(temp_plane.plane.direction);
-	if (!pars_material_converted(line, &temp_plane.material))
-		return (false);
-	if (dynamic_array_add_back_perror(&scene->planes, &temp_plane) == -1)
-		return (false);
-	return (true);
-}
-
-bool pars_cylinder(t_scene *scene, const char **line)
-{
-	t_cylinder temp_cylinder = {0};
-	static const t_interval range_direction = {-1.0, 1.0};
-	static const t_interval range_diameter = {0.0, BIG_DOUBLE};
-	
-
-	if (!pars_coordinate_converted(line, &temp_cylinder.cylinder.r.origin))
-		return (false);
-	if (!pars_coordinate_in_range_converted(line, &temp_cylinder.cylinder.r.direction, range_direction))
-		return (false);
-
-	if (!pars_double_in_range_converted(line, &temp_cylinder.radius, range_diameter))
-		return (false);
-	temp_cylinder.radius *= 0.5; // convert diameter to radius
-
-	if (!pars_atof_converted(line, &temp_cylinder.cylinder.length))
-		return (false);
-
-	if (!pars_material_converted(line, &temp_cylinder.material))
-		return (false);
-	if (dynamic_array_add_back_perror(&scene->cylinders, &temp_cylinder) == -1)
 		return (false);
 	return (true);
 }
