@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/31 11:45:30 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/31 12:35:39 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,20 @@ t_vec3	outside_the_obj(const t_material *material, const t_norm_ray *hit,
 
 	scattered = (t_ray){0};
 	ri = 0;
-	if (material->type & MATERIAL_PHONG)
+	if (material->type == MATERIAL_PHONG)
 		return (phong_color(material, hit, ray));
-	if ((material->type & MATERIAL_LAMBERTIAN)
+	if ((material->type == MATERIAL_LAMBERTIAN)
 		&& scatter_lambertian(hit, &scattered))
 		return (mul_vec3(ray_to_color(&scattered, depth), material->color));
-	if ((material->type & MATERIAL_REFLECTION)
+	if ((material->type == MATERIAL_REFLECTION)
 		&& scatter_metal(ray, hit, &scattered, material))
 		return (mul_vec3(ray_to_color(&scattered, depth), material->color));
-	if (material->type & MATERIAL_DIELECTRIC)
+	if (material->type == MATERIAL_DIELECTRIC)
 	{
 		ri = 1.0 / material->refraction_index;
 		if (scatter_dielectric(ray, hit, &scattered, ri))
 			return (mul_vec3(ray_to_color(&scattered, depth),
-					(t_vec3){1.0, 1.0, 1.0}));
+					material->color));
 	}
 	return ((t_vec3){0});
 }
@@ -66,14 +66,14 @@ t_vec3	inside_the_obj(const t_material *material, t_norm_ray *hit,
 
 	scattered = (t_ray){0};
 	hit->r.direction = inverse_vec3(hit->r.direction);
-	if (material->type & MATERIAL_PHONG)
+	if (material->type == MATERIAL_PHONG)
 		return (phong_color(material, hit, ray));
-	if (material->type & MATERIAL_DIELECTRIC)
+	if (material->type == MATERIAL_DIELECTRIC)
 	{
 		if (scatter_dielectric(ray, hit, &scattered,
 				material->refraction_index))
 			return (mul_vec3(ray_to_color(&scattered, depth),
-					(t_vec3){1.0, 1.0, 1.0}));
+					material->color));
 	}
 	return ((t_vec3){0});
 }

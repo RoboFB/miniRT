@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ileon <ileon@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:31:06 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/28 12:15:37 by ileon            ###   ########.fr       */
+/*   Updated: 2026/03/31 12:54:35 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_ambient_light
 {
 	double			ratio;
 	t_vec3			color;
+	bool			already_parsed;
 }					t_ambient_light;
 
 typedef struct s_camera
@@ -79,6 +80,7 @@ typedef struct s_camera
 	t_vec3			corner_upper_left;
 	int32_t			max_deep_rays;
 	uint32_t		anti_aliasing_samples;
+	bool			already_parsed;
 }					t_camera;
 
 typedef struct s_light

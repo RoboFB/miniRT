@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_handers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ileon <ileon@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:54:04 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/28 12:11:33 by ileon            ###   ########.fr       */
+/*   Updated: 2026/03/31 12:56:19 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 /* Parses and sets scene ambient light (intensity and color). */
 bool	pars_ambient_light(t_scene *scene, const char **line)
 {
-	static bool	already_parsed;
-
-	if (already_parsed)
+	if (scene->ambient_light->already_parsed)
 		return (false);
-	already_parsed = true;
+	scene->ambient_light->already_parsed = true;
 	if (!pars_double_in_range_converted(line, &scene->ambient_light->ratio,
 			(t_interval){0.0, 1.0}))
 		return (false);
@@ -31,11 +29,9 @@ bool	pars_ambient_light(t_scene *scene, const char **line)
 /* Parses and sets scene camera (position, direction, FOV). */
 bool	pars_camera(t_scene *scene, const char **line)
 {
-	static bool	already_parsed;
-
-	if (already_parsed)
+	if (scene->camera->already_parsed)
 		return (false);
-	already_parsed = true;
+	scene->camera->already_parsed = true;
 	if (!pars_coordinate_converted(line, &scene->camera->ray.r.origin))
 		return (false);
 	if (!pars_coordinate_in_range_converted(line,

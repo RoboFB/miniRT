@@ -13,8 +13,9 @@
 #ifndef FUNCTION_DEFINITIONS_H
 # define FUNCTION_DEFINITIONS_H
 // start
+t_vec3			background_color_nice(const t_ray *ray);
+t_vec3			background_color_subject(void);
 t_vec3			ray_to_color(const t_ray *ray, int depth);
-t_vec3			background_color(const t_ray *ray);
 t_vec3			outside_the_obj(const t_material *material,
 					const t_norm_ray *hit, const t_ray *ray, int depth);
 t_vec3			inside_the_obj(const t_material *material, t_norm_ray *hit,
