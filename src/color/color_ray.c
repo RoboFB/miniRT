@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/31 12:35:39 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/31 14:50:46 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,12 @@ t_vec3	inside_the_obj(const t_material *material, t_norm_ray *hit,
 	hit->r.direction = inverse_vec3(hit->r.direction);
 	if (material->type == MATERIAL_PHONG)
 		return (phong_color(material, hit, ray));
+	if ((material->type == MATERIAL_LAMBERTIAN)
+		&& scatter_lambertian(hit, &scattered))
+		return (mul_vec3(ray_to_color(&scattered, depth), material->color));
+	if ((material->type == MATERIAL_REFLECTION)
+		&& scatter_metal(ray, hit, &scattered, material))
+		return (mul_vec3(ray_to_color(&scattered, depth), material->color));
 	if (material->type == MATERIAL_DIELECTRIC)
 	{
 		if (scatter_dielectric(ray, hit, &scattered,
