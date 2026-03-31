@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:52:13 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/31 11:39:30 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/03/31 11:45:30 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,6 @@ t_vec3	ray_to_color(const t_ray *ray, int depth)
 	if (dot_vec3(ray->direction, hit.r.direction) > 0.0)
 		return (inside_the_obj(hit_material, &hit, ray, depth));
 	return (outside_the_obj(hit_material, &hit, ray, depth));
-}
-
-/* Returns a sky-gradient background color based on ray direction. */
-t_vec3	background_color_nice(const t_ray *ray)
-{
-	t_vec3	color;
-	t_vec3	norm_direction;
-	double	a;
-
-	norm_direction = normalize_vec3(ray->direction);
-	a = 0.5 * (norm_direction.y + 1.0);
-	color.x = (1.0 - a) * 1.0 + (a * 0.5);
-	color.y = (1.0 - a) * 1.0 + (a * 0.7);
-	color.z = (1.0 - a) * 1.0 + (a * 1.0);
-	return (color);
-}
-
-t_vec3	background_color_subject(void)
-{
-	return ((t_vec3){0});
 }
 
 /* Scatters a ray off a surface by material type and returns its color. */
