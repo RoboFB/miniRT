@@ -76,7 +76,7 @@ DEPENDENCIES := $(OBJ:.o=.d)
 # ----------------------------- NORMAL -----------------------------------------
 
 # default Rule
-all: stop rust-helper-for-c $(LIBFT) $(LIBMLX) $(NAME) #TODO: rm at end rust-helper-for-c
+all: stop $(LIBFT) $(LIBMLX) $(NAME)
 
 
 
@@ -91,11 +91,8 @@ $(LIBMLX):
 	else \
 		git submodule update --init --recursive; \
 	fi
-# 	@cmake -DDEBUG=1 $(LIBMLX_DIR) -B $(LIBMLX_DIR)/build > /dev/null && make -C $(LIBMLX_DIR)/build -j4 > /dev/null
-	@cmake -DDEBUG=1 $(LIBMLX_DIR) -B $(LIBMLX_DIR)/build && make -C $(LIBMLX_DIR)/build -j4
+	@cmake $(LIBMLX_DIR) -B $(LIBMLX_DIR)/build > /dev/null && make -C $(LIBMLX_DIR)/build -j4 > /dev/null
 	@echo "   🛠️ 🛠️ 🛠️  MLX42 compiled"
-
-#  -DDEBUG=1 at cmake for debug infos # -DGLFW_FETCH=0 purpose ?
 
 
 $(DIR_OBJ):
@@ -139,10 +136,6 @@ re:
 
 # ----------------------------- Debug ------------------------------------------
 
-# debug: fclean
-# debug: CFLAGS += $(DEBUG_FLAGS)
-# debug: all
-
 debug: CFLAGS += $(DEBUG_FLAGS)
 debug: CFLAGS := $(filter-out $(FAST_FLAGS),$(CFLAGS))
 debug:
@@ -158,12 +151,6 @@ profile:
 	@echo "\n   📊📊📊 PROFILE $(NAME)   ($(CFLAGS))\n"
 	
 
-# ----------------------------- Lazy Robin -------------------------------------
-
-# temporary Rule to update the header file
-rust-helper-for-c:
-	@rust-helper-for-c || echo "Error: rust-helper-for-c -> skipped, ask robin about it"
-
 # ----------------------------- Phony ------------------------------------------
 
-.PHONY: all clean fclean re debug profile stop rust-helper-for-c
+.PHONY: all clean fclean re debug profile stop
