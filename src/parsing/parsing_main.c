@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ileon <ileon@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 19:06:31 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/28 12:11:29 by ileon            ###   ########.fr       */
+/*   Updated: 2026/03/31 13:38:53 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,14 @@ static bool	parse_all_lines(t_scene *scene, int fd, const char *filename)
 		{
 			ft_printf("%s:%d:%d: parsing error at: '%c' in:\n%s",
 				filename, line_count, line_pos - line + 1, *line_pos, line);
-			free(line);
-			return (false);
+			return (free(line), false);
 		}
 		free(line);
 	}
+	if (!scene->camera->already_parsed || !scene->ambient_light->already_parsed
+		|| scene->lights.elements_used == 0)
+		return (ft_printf("%s: missing required elements "
+				"(camera, ambient light or light point)\n", filename), false);
 	return (true);
 }
 

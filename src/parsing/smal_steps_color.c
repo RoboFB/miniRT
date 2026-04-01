@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   smal_steps_color.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ileon <ileon@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 19:08:12 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/03/28 12:11:19 by ileon            ###   ########.fr       */
+/*   Updated: 2026/03/31 12:59:05 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,14 @@ bool	pars_material_converted(const char **line_pos,
 		*line_pos += 4;
 		if (!pars_double_in_range_converted(line_pos, &result_material->fuzz,
 				(t_interval){0, 1}))
+			return (false);
+	}
+	if (ft_strncmp(*line_pos, "ref:", 4) == 0)
+	{
+		result_material->type = MATERIAL_DIELECTRIC;
+		*line_pos += 4;
+		if (!pars_double_in_range_converted(line_pos,
+				&result_material->refraction_index, (t_interval){0, 10000}))
 			return (false);
 	}
 	return (true);

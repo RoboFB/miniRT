@@ -38,8 +38,8 @@ CFLAGS :=			-Wall -Werror -Wextra -Wdouble-promotion  -g3 $(FAST_FLAGS) $(LINKER
 # -ffast -flto ARE LINKER FLAGS
 
 DIR_SRC :=		src
-SRC :=			color/color_ray.c color/draw_pixel.c color/full_img.c \
-				color/materials.c color/shadow.c data_structs/allocs.c \
+SRC :=			color/background_color.c color/color_ray.c color/draw_pixel.c \
+				color/full_img.c color/materials.c color/shadow.c data_structs/allocs.c \
 				data_structs/dynamic_array.c data_structs/dynamic_array_access.c \
 				data_structs/globals.c data_structs/random.c execution/error.c \
 				execution/free_data.c execution/hooks.c execution/hooks_camera.c \
