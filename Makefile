@@ -45,8 +45,7 @@ SRC :=			color/background_color.c color/color_ray.c color/draw_pixel.c \
 				execution/free_data.c execution/hooks.c execution/hooks_camera.c \
 				execution/init_gui.c execution/init_scene.c execution/main.c \
 				execution/print_debug.c execution/render.c execution/statistics.c \
-				execution/time.c parsing/atof.c parsing/atoi.c parsing/example_spheres.c \
-				parsing/example_spheres_2.c parsing/line_handers.c \
+				execution/time.c parsing/atof.c parsing/atoi.c parsing/line_handers.c \
 				parsing/line_handers_shapes.c parsing/parsing_main.c parsing/smal_steps.c \
 				parsing/smal_steps_color.c shapes/cylinder.c shapes/hit_all.c \
 				shapes/plane.c shapes/sphere.c testing/test_cylinder.c \
