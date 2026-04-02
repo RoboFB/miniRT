@@ -6,11 +6,11 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:18:25 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/16 17:19:32 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/04/02 12:48:24 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "libft.h"
+#include "libft.h"
 
 int	ft_isspace(int c)
 {

@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 16:53:27 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/13 20:23:41 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/04/02 12:48:59 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ char	*ft_strjoin_3(char const *s1, char const *s2, char const *s3)
 	return (join);
 }
 
-char	*ft_strjoin_4(char const *s1, char const *s2, char const *s3, char const *s4)
+char	*ft_strjoin_4(char const *s1, char const *s2,
+	char const *s3, char const *s4)
 {
 	char	*join;
 	size_t	s1_len;

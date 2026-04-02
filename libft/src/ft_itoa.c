@@ -6,7 +6,7 @@
 /*   By: rgohrig <rgohrig@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 16:53:04 by rgohrig           #+#    #+#             */
-/*   Updated: 2026/02/13 18:53:47 by rgohrig          ###   ########.fr       */
+/*   Updated: 2026/04/02 12:48:41 by rgohrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ char	*ft_itoa(int n)
 	return (str);
 }
 
-// R: returns a static string reference only, read it overwrite in the next call!
+// R: returns a static string reference only, 
+// read it overwrite in the next call!
 const char	*ft_itoa_static(int n)
 {
 	int			len;
