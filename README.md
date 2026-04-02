@@ -105,16 +105,11 @@ cy  50,0,20  0,0,1  14.2  21.42  10,0,255
 
 ## Resources
 
-**Ray tracing theory:**
-- [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html) — P. Shirley (primary reference for this project)
-- [_Scratchapixel_](https://www.scratchapixel.com/) — in-depth articles on ray/sphere, ray/plane, ray/cylinder intersection math
-- [Phong reflection model — Wikipedia](https://en.wikipedia.org/wiki/Phong_reflection_model)
-
 **MiniLibX / MLX42:**
 - [MLX42 GitHub](https://github.com/codam-coding-college/MLX42) — the graphics library used
 
 **AI usage:**
-AI (Claude) was used during this project for the following tasks:
+AI was used during this project for the following tasks:
 - Explaining mathematical concepts (quadratic formula derivation for cylinder intersection, Phong shading components)
 - Reviewing PR comments and checking whether they were technically correct
 - Generating boilerplate code (Makefile cleanup, README structure)
