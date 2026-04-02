@@ -45,8 +45,7 @@ SRC :=			color/background_color.c color/color_ray.c color/draw_pixel.c \
 				execution/free_data.c execution/hooks.c execution/hooks_camera.c \
 				execution/init_gui.c execution/init_scene.c execution/main.c \
 				execution/print_debug.c execution/render.c execution/statistics.c \
-				execution/time.c parsing/atof.c parsing/atoi.c parsing/example_spheres.c \
-				parsing/example_spheres_2.c parsing/line_handers.c \
+				execution/time.c parsing/atof.c parsing/atoi.c parsing/line_handers.c \
 				parsing/line_handers_shapes.c parsing/parsing_main.c parsing/smal_steps.c \
 				parsing/smal_steps_color.c shapes/cylinder.c shapes/hit_all.c \
 				shapes/plane.c shapes/sphere.c testing/test_cylinder.c \
@@ -77,7 +76,7 @@ DEPENDENCIES := $(OBJ:.o=.d)
 # ----------------------------- NORMAL -----------------------------------------
 
 # default Rule
-all: stop rust-helper-for-c $(LIBFT) $(LIBMLX) $(NAME) #TODO: rm at end rust-helper-for-c
+all: stop $(LIBFT) $(LIBMLX) $(NAME)
 
 
 
@@ -92,11 +91,8 @@ $(LIBMLX):
 	else \
 		git submodule update --init --recursive; \
 	fi
-# 	@cmake -DDEBUG=1 $(LIBMLX_DIR) -B $(LIBMLX_DIR)/build > /dev/null && make -C $(LIBMLX_DIR)/build -j4 > /dev/null
-	@cmake -DDEBUG=1 $(LIBMLX_DIR) -B $(LIBMLX_DIR)/build && make -C $(LIBMLX_DIR)/build -j4
+	@cmake $(LIBMLX_DIR) -B $(LIBMLX_DIR)/build > /dev/null && make -C $(LIBMLX_DIR)/build -j4 > /dev/null
 	@echo "   🛠️ 🛠️ 🛠️  MLX42 compiled"
-
-#  -DDEBUG=1 at cmake for debug infos # -DGLFW_FETCH=0 purpose ?
 
 
 $(DIR_OBJ):
@@ -140,10 +136,6 @@ re:
 
 # ----------------------------- Debug ------------------------------------------
 
-# debug: fclean
-# debug: CFLAGS += $(DEBUG_FLAGS)
-# debug: all
-
 debug: CFLAGS += $(DEBUG_FLAGS)
 debug: CFLAGS := $(filter-out $(FAST_FLAGS),$(CFLAGS))
 debug:
@@ -159,12 +151,6 @@ profile:
 	@echo "\n   📊📊📊 PROFILE $(NAME)   ($(CFLAGS))\n"
 	
 
-# ----------------------------- Lazy Robin -------------------------------------
-
-# temporary Rule to update the header file
-rust-helper-for-c:
-	@rust-helper-for-c || echo "Error: rust-helper-for-c -> skipped, ask robin about it"
-
 # ----------------------------- Phony ------------------------------------------
 
-.PHONY: all clean fclean re debug profile stop rust-helper-for-c
+.PHONY: all clean fclean re debug profile stop
